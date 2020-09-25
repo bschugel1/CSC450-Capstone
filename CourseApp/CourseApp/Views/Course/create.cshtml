@@ -1,0 +1,68 @@
+﻿@model CourseCreateVM
+
+<div class="container">
+    <div asp-validation-summary="All"></div>
+    <form asp-action="create" name="create" method="post">
+        <div class="form-group row">
+                <div class="col-sm-3">
+                    <label asp-for="Name"></label>
+                </div>
+            <div class="col-sm-9">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <label asp-for="Code"></label>
+            </div>
+            <div class="col-sm-9">
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <label asp-for="Subject"></label>
+            </div>
+            <div class="col-sm-9">
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <label asp-for="Description"></label>
+            </div>
+            <div class="col-sm-9">
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <label asp-for="CloudId"></label>
+            </div>
+            <div class="col-sm-9">
+                <input asp-for="CloudId" class="form-control" />
+                <span asp-validation-for="CloudId"></span>
+            </div>
+        </div>
+
+        <div class="">
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+
+    </form>
+
+
+
+</div>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src ="~/js/form-validation.js"></script>
