@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@setup
+    - uses: actions/checkout@master
 
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'coursecloud'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_694bb9fd14c4473ab50521c96b933a41 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_ef75fc9360cd411ba62eff4f6a23f47b }}
         package: ${{env.DOTNET_ROOT}}/myapp 
