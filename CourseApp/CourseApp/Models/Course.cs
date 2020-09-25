@@ -14,5 +14,10 @@ namespace CourseAppCloud.Models
         public string Subject { get; set; }
         public string CourseId { get; set; }
         public string Description { get; set; }
+
+
+
+
+
     }
 }
