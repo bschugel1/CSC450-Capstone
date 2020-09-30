@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using CourseApp.Models;
 using CourseApp.ViewModels;
 using Microsoft.Extensions.Logging;
+using System;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -70,24 +71,46 @@ namespace CourseApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginVM model)
+        public async Task<IActionResult> Login(LoginVM model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
-            {4
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+            {
+                var signedUser = await _userManager.FindByEmailAsync(model.Email);
+
+                if (Object.ReferenceEquals(null, signedUser))
+                {
+
+                    return RedirectToAction(nameof(HomeController.Login), "Home");
+                }
+                var result = await _signInManager.PasswordSignInAsync(signedUser.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+              
                 if (result.Succeeded)
                 {
                    _logger.LogInformation(1, "User logged in.");
-                    return RedirectToLocal();
+                    return RedirectToLocal(returnUrl);
                 }           
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
+                    
+                    return RedirectToAction(nameof(HomeController.Login), "Home");
                 }
             }
             return View(model);
+        }
+
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
     }

@@ -24,7 +24,7 @@ namespace CourseApp.Controllers
             return View();
         }
 
-        public IActionResult SignIn()
+        public IActionResult Login()
         {
             return View();
         }

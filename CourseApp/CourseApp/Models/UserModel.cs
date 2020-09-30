@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,14 +8,13 @@ namespace CourseApp.Models
     [Table("User")]
     public class UserModel : IdentityUser<long>
     {
-        [Key]
-        public long Id { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
 
-        public string Password { get; set; }
-
+        public static implicit operator IdentityUser(UserModel v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

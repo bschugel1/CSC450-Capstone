@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Identity;
 
 namespace CourseApp
 {
@@ -32,8 +33,8 @@ namespace CourseApp
             services.AddIdentity<UserModel, RoleModel>(opt =>
             {
                 opt.Password.RequiredLength = 7;
-                opt.Password.RequireDigit = false;
-                opt.Password.RequireUppercase = false;
+                opt.Password.RequireDigit = true;
+                opt.Password.RequireUppercase = true;
             })
              .AddEntityFrameworkStores<ApplicationContext>();
 
