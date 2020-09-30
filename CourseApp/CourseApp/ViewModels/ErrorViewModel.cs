@@ -1,6 +1,4 @@
-using System;
-
-namespace CourseAppCloud.Models
+namespace CourseApp.ViewModels
 {
     public class ErrorViewModel
     {
