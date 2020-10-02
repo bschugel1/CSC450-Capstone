@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using CourseAppCloud.Models;
+using CourseApp.ViewModels;
 
-namespace CourseAppCloud.Controllers
+namespace CourseApp.Controllers
 {
     public class HomeController : Controller
     {
@@ -28,7 +24,7 @@ namespace CourseAppCloud.Controllers
             return View();
         }
 
-        public IActionResult SignIn()
+        public IActionResult Login()
         {
             return View();
         }

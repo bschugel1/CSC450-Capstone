@@ -1,17 +1,16 @@
-﻿using CourseAppCloud.DAL;
-using CourseAppCloud.Models.ViewModels;
+﻿using CourseApp.DAL;
+using CourseApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 
-namespace CourseAppCloud.Controllers
+namespace CourseApp.Controllers
 {
     public class CourseController : Controller
     {
-        private readonly CourseContext _context;
+        private readonly ApplicationContext _context;
 
 
-        public CourseController(CourseContext context)
+        public CourseController(ApplicationContext context)
         {
             _context = context;
 
