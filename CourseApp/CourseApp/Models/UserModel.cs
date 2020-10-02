@@ -12,6 +12,14 @@ namespace CourseApp.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+
+
+
+       // public int Status { get; set; }
+
+
+
+
         public static implicit operator IdentityUser(UserModel v)
         {
             throw new NotImplementedException();
