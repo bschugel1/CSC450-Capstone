@@ -6,6 +6,7 @@ using CourseApp.Models;
 using CourseApp.ViewModels;
 using Microsoft.Extensions.Logging;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -61,6 +62,7 @@ namespace CourseApp.Controllers
         }
 
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
         {         
@@ -68,20 +70,20 @@ namespace CourseApp.Controllers
         }
 
 
-
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM model, string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
+           ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 var signedUser = await _userManager.FindByEmailAsync(model.Email);
 
-                if (Object.ReferenceEquals(null, signedUser))
+                if (signedUser == default)
                 {
-
-                    return RedirectToAction(nameof(HomeController.Login), "Home");
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View(model);
                 }
                 var result = await _signInManager.PasswordSignInAsync(signedUser.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
               
@@ -94,11 +96,43 @@ namespace CourseApp.Controllers
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     
-                    return RedirectToAction(nameof(HomeController.Login), "Home");
+                    return View(model);
                 }
             }
             return View(model);
         }
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Logout(string returnUrl = null)
+        {
+            await _signInManager.SignOutAsync();
+
+            if(returnUrl == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToLocal(returnUrl);
+
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> PasswordRecovery(string returnUrl = null)
+        {
+
+
+
+
+
+            return RedirectToLocal(returnUrl);
+        }
+
+
 
 
         private ActionResult RedirectToLocal(string returnUrl)
