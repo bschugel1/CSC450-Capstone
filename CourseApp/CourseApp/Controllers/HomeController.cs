@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using CourseAppCloud.Models;
+using CourseApp.ViewModels;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace CourseAppCloud.Controllers
+namespace CourseApp.Controllers
 {
     public class HomeController : Controller
     {
@@ -28,11 +25,6 @@ namespace CourseAppCloud.Controllers
             return View();
         }
 
-        public IActionResult SignIn()
-        {
-            return View();
-        }
-
         public IActionResult Register()
         {
             return View();
@@ -43,5 +35,13 @@ namespace CourseAppCloud.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        public IActionResult OnGetPartial() =>
+         new PartialViewResult
+         {
+             ViewName = "_CarouselPartial",
+             ViewData = ViewData,
+         };
     }
 }

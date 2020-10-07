@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CourseAppCloud.Models
+namespace CourseApp.Models
 {
-    public class Course
+    [Table("Course")]
+    public class CourseModel
     {
         public Int64 Id { get; set; }
         public Guid CloudId { get; set; }
@@ -14,10 +12,6 @@ namespace CourseAppCloud.Models
         public string Subject { get; set; }
         public string CourseId { get; set; }
         public string Description { get; set; }
-
-
-
-
 
     }
 }

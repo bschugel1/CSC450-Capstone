@@ -1,27 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using System.Configuration;
-using CourseAppCloud.Models;
+using CourseApp.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace CourseAppCloud.DAL
+namespace CourseApp.DAL
 {
-    public class CourseContext : DbContext
+    public class ApplicationContext : IdentityDbContext<UserModel, RoleModel, long>
     {
 
-        public CourseContext(DbContextOptions<CourseContext> options)
+        public ApplicationContext([NotNullAttribute] DbContextOptions<ApplicationContext> options)
         : base(options)
         { }
 
-
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CourseContext>(options => options.UseSqlServer("Data Source=CourseAppCloudDev.db"));
+            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer("Data Source=courseappdb.db"));
         }
 
-        public DbSet<Course> Courses { get; set; }
+      public DbSet<CourseModel> Courses { get; set; }      
        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -30,14 +30,11 @@ namespace CourseAppCloud.DAL
           .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
           .AddJsonFile("appsettings.json")
           .Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("CloudAppDatabase"));
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("CourseAppDB"));
         }    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            foreach (IMutableEntityType entity in modelBuilder.Model.GetEntityTypes())
-            {
-                entity.SetTableName(entity.DisplayName());
-            }
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

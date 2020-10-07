@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CourseAppCloud.Models.ViewModels
+namespace CourseApp.ViewModels
 {
     public class CourseCreateVM
     {

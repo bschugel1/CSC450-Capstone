@@ -5,6 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200930184711_AddIdentityUser.cs" />
+    <Compile Remove="Migrations\20200930184711_AddIdentityUser.Designer.cs" />
+    <Compile Remove="Migrations\20200930190207_AddCourseEntity.cs" />
+    <Compile Remove="Migrations\20200930190207_AddCourseEntity.Designer.cs" />
+    <Compile Remove="Migrations\20200930190302_AddUserIdentity.cs" />
+    <Compile Remove="Migrations\20200930190302_AddUserIdentity.Designer.cs" />
+    <Compile Remove="Migrations\20200930191033_AddUserIdentity.cs" />
+    <Compile Remove="Migrations\20200930191033_AddUserIdentity.Designer.cs" />
+    <Compile Remove="Migrations\CourseContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\content\images\stock\pexels-pixabay-163427.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.7" />
@@ -17,9 +34,5 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Menu\" />
-  </ItemGroup>
-
+  
 </Project>

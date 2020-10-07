@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CourseAppCloud.Migrations
+namespace CourseApp.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class AddCourseEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

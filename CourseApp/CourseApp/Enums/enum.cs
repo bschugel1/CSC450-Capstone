@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CourseAppCloud.Models
+namespace CourseApp.Enums
 {
-    public class AuthenticatedUser
+        public enum ContactStatus
     {
-
-
-
+        Submitted,
+        Approved,
+        Rejected
     }
 }
