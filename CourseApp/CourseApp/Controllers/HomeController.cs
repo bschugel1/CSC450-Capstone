@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CourseApp.ViewModels;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CourseApp.Controllers
 {
@@ -34,5 +35,13 @@ namespace CourseApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        public IActionResult OnGetPartial() =>
+         new PartialViewResult
+         {
+             ViewName = "_CarouselPartial",
+             ViewData = ViewData,
+         };
     }
 }
