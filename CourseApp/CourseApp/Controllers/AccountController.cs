@@ -27,13 +27,13 @@ namespace CourseApp.Controllers
             _signInManager = signInManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
-
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegistrationVM model)
