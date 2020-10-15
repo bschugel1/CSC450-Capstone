@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using SignalRChat.Hubs;
 using System;
 
 namespace CourseApp
@@ -42,6 +43,7 @@ namespace CourseApp
              .AddEntityFrameworkStores<ApplicationContext>();
 
             services.AddRazorPages();
+            services.AddSignalR();
 
             services.AddControllers(config =>
             {
@@ -90,6 +92,7 @@ namespace CourseApp
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chathub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

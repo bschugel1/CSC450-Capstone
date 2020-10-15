@@ -30,6 +30,9 @@
 
                         @if (!User.Identity.IsAuthenticated)
                         {
+                        <li class="nav-item alert-secondary">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Message">Message</a>
+                        </li>
                             <li class="nav-item alert-primary">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login &#47; Register</a>
                             </li>

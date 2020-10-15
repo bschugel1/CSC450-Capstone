@@ -69,6 +69,11 @@ namespace CourseApp.Controllers
                 return View();            
         }
 
+        public IActionResult Message()
+        {
+            return View();
+        }
+
 
         [AllowAnonymous]
         [HttpPost]
