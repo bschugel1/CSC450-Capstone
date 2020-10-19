@@ -31,6 +31,11 @@ namespace CourseApp.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+
             return View();
         }
         [AllowAnonymous]
@@ -38,7 +43,8 @@ namespace CourseApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegistrationVM model)
         {
-            if(!ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -102,7 +108,7 @@ namespace CourseApp.Controllers
             return View(model);
         }
 
-
+        
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Logout(string returnUrl = null)

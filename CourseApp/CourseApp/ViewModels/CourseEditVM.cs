@@ -4,12 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace CourseApp.ViewModels
 {
     public class CourseEditVM
-
     {
-
         [Required]
         public Int64 Id { get; set; }
-        public Guid CloudId { get; set; }
 
         [Required]
         public string Name { get; set; }

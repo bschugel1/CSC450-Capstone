@@ -48,6 +48,7 @@ namespace CourseApp.Controllers
                 };
                 _context.Add(entity);
                 _context.SaveChanges();
+
                 return RedirectToAction(nameof(Index));
             }
             else
