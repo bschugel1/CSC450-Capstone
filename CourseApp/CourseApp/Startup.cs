@@ -44,12 +44,11 @@ namespace CourseApp
             services.AddRazorPages();
 
             services.AddControllers(config =>
-            {
-                // using Microsoft.AspNetCore.Mvc.Authorization;
-                // using Microsoft.AspNetCore.Authorization;
-                //var policy = new AuthorizationPolicyBuilder()
-                //                 .Build();
-                //config.Filters.Add(new AuthorizeFilter(policy));
+            {               
+                var policy = new AuthorizationPolicyBuilder()
+                                 .RequireAuthenticatedUser()
+                                 .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
             });
 
 

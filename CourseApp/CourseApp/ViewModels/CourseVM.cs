@@ -1,18 +1,15 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CourseApp.ViewModels
 {
-    public class CourseEditVM
+    public class CourseVM
     {
-        [Required]
         public Int64 Id { get; set; }
-
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Subject { get; set; }
-
         public string CourseCode { get; set; }
         public string Description { get; set; }
     }
