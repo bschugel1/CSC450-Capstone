@@ -15,15 +15,19 @@ namespace CourseApp.ViewModels
         [EmailAddress]
         public string Email { get; set; }
 
+        [DataType(DataType.PhoneNumber)]
+        [Phone]
+        [DisplayName("Phone Number")]
+        public string PhoneNumber { get; set; }
+
         [Required(ErrorMessage = "Password required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "The two passwords must match!")]
+        [DisplayName("Confirm Password")]
         public string ConfirmPassword { get; set; }
-
-
 
     }
 }
