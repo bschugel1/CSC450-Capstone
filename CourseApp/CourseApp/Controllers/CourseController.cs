@@ -11,6 +11,7 @@ using System.Collections.Generic;
 
 namespace CourseApp.Controllers
 {
+    [Authorize]
     public class CourseController : Controller
     {
         private readonly ApplicationContext _context;
@@ -22,58 +23,17 @@ namespace CourseApp.Controllers
             _mapper = mapper;
         }
 
-
+        [AllowAnonymous]
         public IActionResult Index()
         {
-
-            var model = _context.Courses.Where(x => x.AuthorId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
+            var model = _context.Courses.ToList();
             return View(_mapper.Map<ICollection<CourseVM>>(model));
         }
 
-        [HttpPost]
-        public IActionResult Create(CourseCreateVM model)
+        [AllowAnonymous]
+        public IActionResult Request(long id)
         {
-            if (ModelState.IsValid)
-            {
-                var entity = new CourseModel {
-
-                    Id = 0,
-                    Name = model.Name,
-                    CourseCode = model.CourseCode,
-                    Subject = model.Subject,
-                    Description = model.Description,
-                    AuthorId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
-                                                       
-                };
-                _context.Add(entity);
-                _context.SaveChanges();
-
-                return RedirectToAction(nameof(Index));
-            }
-            else
-            {
-                return View(model);
-            }
-        }
-
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View(new CourseCreateVM());
-        }
-
-        [HttpGet]
-        public IActionResult Error(string id)
-        {
-            return View("Error", id);
-        }
-
-
-        [HttpGet]
-        public IActionResult Edit(long id)
-        {
-            var model = _context.Courses.FirstOrDefault(x => x.Id == id);
+            var model = _context.Courses.Find(id);
 
             if (model == default)
             {
@@ -85,33 +45,20 @@ namespace CourseApp.Controllers
             }
             else
             {
-                return View(_mapper.Map<CourseEditVM>(model));
-            }            
+                return View("course", _mapper.Map<CourseVM>(model));
+            }
+
         }
-        
-        [HttpPost]
-        public IActionResult Edit(CourseEditVM model)
+      
+        public IActionResult Register()
         {
-            if (ModelState.IsValid)
-            {
-                var entity = _context.Courses.FirstOrDefault(x => x.Id == model.Id);
-
-                entity.Name = model.Name;
-                entity.CourseCode = model.CourseCode;
-                entity.Subject = model.Subject;
-                entity.Description = model.Description;
-
-              
-                _context.Update(entity);
-                _context.SaveChanges();
-
-                return RedirectToAction(nameof(Index));
-            }
-            else
-            {
-                return View(model);
-            }
+            return View();
         }
 
+        [HttpGet]
+        public IActionResult Error(string id)
+        {
+            return View("Error", id);
+        }       
     }
 }

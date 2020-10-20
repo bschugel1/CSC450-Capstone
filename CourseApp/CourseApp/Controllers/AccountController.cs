@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CourseApp.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
 
@@ -109,7 +110,6 @@ namespace CourseApp.Controllers
         }
 
         
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Logout(string returnUrl = null)
         {

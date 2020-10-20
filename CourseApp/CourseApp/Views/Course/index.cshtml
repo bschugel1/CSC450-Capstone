@@ -1,11 +1,11 @@
 ﻿@model ICollection<CourseVM>
 
 
-<h1>Authored Courses</h1>
+<h1>Courses</h1>
 
 @foreach (var course in Model)
 {
     <div>
-        <h3>  @course.Name <a asp-action="Edit" asp-controller="Course"  asp-route-id="@course.Id"><i class="fas fa-edit"></i></a> </h3>
+        <h3>  <a asp-action="Request" asp-controller="Course" asp-route-id="@course.Id"> @course.Name </a> </h3>      
     </div>
 }
