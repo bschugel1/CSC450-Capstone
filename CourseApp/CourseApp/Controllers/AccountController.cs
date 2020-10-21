@@ -109,7 +109,6 @@ namespace CourseApp.Controllers
             return View(model);
         }
 
-        
         [HttpGet]
         public async Task<IActionResult> Logout(string returnUrl = null)
         {
@@ -138,7 +137,11 @@ namespace CourseApp.Controllers
             return RedirectToLocal(returnUrl);
         }
 
-
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
 
 
         private ActionResult RedirectToLocal(string returnUrl)

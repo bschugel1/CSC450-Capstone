@@ -31,7 +31,7 @@ namespace CourseApp.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Request(long id)
+        public IActionResult Preview(long id)
         {
             var model = _context.Courses.Find(id);
 
