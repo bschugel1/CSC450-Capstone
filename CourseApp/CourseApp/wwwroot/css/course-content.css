@@ -1,0 +1,35 @@
+﻿body {
+
+
+}
+
+
+.course-header{
+
+
+    background: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(238,238,238,1) 100%);
+    color: black;
+    padding: 2em;
+    border-bottom: solid;
+    border-color: #ccc;
+}
+.course-header div{
+
+    display: inline-block;
+}
+
+.course-header span{
+   color: #1498d5;
+   font-size: 3em;
+   float: right;
+   border-color: #DDD;
+}
+
+.course-body{
+
+
+    font-style: italic;
+
+
+}
