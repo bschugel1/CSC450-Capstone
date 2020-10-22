@@ -6,6 +6,6 @@
 @foreach (var course in Model)
 {
     <div>
-        <h3>  <a asp-action="Request" asp-controller="Course" asp-route-id="@course.Id"> @course.Name </a> </h3>      
+        <h3>  <a asp-action="Preview" asp-controller="Course" asp-route-id="@course.Id"> @course.Name </a> </h3>      
     </div>
 }
