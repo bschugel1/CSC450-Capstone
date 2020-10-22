@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using System;
+using CourseApp.Content;
+using System.Collections.Generic;
 
 namespace CourseApp
 {
@@ -19,6 +21,7 @@ namespace CourseApp
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
