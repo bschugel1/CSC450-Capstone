@@ -7,6 +7,7 @@ using CourseApp.ViewModels;
 using Microsoft.Extensions.Logging;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using CourseApp.DAL;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,14 +16,15 @@ namespace CourseApp.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-
+        private readonly ApplicationContext _context;
         private readonly IMapper _mapper;
         private readonly UserManager<UserModel> _userManager;
         private readonly SignInManager<UserModel> _signInManager;
         private readonly ILogger _logger;
 
-        public AccountController(IMapper mapper, UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, ILoggerFactory loggerFactory)
+        public AccountController(ApplicationContext context, IMapper mapper, UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, ILoggerFactory loggerFactory)
         {
+            _context = context;
             _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
@@ -123,6 +125,16 @@ namespace CourseApp.Controllers
                 return RedirectToLocal(returnUrl);
 
             }
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+
+            return View(_mapper.Map<AccountVM>(user));
         }
 
         [AllowAnonymous]
