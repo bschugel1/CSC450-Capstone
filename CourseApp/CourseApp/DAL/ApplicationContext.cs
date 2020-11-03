@@ -21,8 +21,8 @@ namespace CourseApp.DAL
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer("Data Source=courseappdb.db"));
         }
 
-      public DbSet<CourseModel> Courses { get; set; }      
-       
+      public DbSet<CourseModel> Courses { get; set; }
+      public DbSet <SectionModel> Sections { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,6 +34,11 @@ namespace CourseApp.DAL
         }    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            var sections = modelBuilder.Entity<SectionModel>();
+
+            sections.HasOne<SectionModel>().WithMany().HasForeignKey(x => x.ParentSectionId);
+
             base.OnModelCreating(modelBuilder);
         }
     }

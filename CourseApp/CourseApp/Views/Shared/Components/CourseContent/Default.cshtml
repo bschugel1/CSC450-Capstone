@@ -1,0 +1,57 @@
+﻿@model CourseEditVM
+
+<h3>Sections</h3>
+
+<a asp-action="edit" asp-route-showadd="true" asp-route-id="@Model.Id">
+    Add Course Section
+</a>
+
+
+<ul class="list-unstyled">
+    @foreach (var item in Model.Sections.Where(x => x.ParentSectionId == null))
+    {
+        await renderSection(item, Model.Sections);
+    }
+</ul>
+
+@if (Model.Sections != default && Model.Sections.Count > 10)
+{
+    <div class="container">
+        <button type="submit">Add Course Section</button>
+    </div>
+
+}
+
+@functions{
+
+    private async Task renderSection(SectionModel item, List<SectionModel> sections)
+    {
+        <li class="list-group-item">
+            <strong>@item.Name</strong>
+            <form class="d-inline" asp-action="DeleteSection" asp-controller="Author">
+                <button class="btn btn-link" type="submit">
+                    <i class="fas fa-times"></i>
+                </button><input type="hidden" name="Id" value="@item.Id" />
+                <input type="hidden" name="CourseId" value="@item.CourseId" />
+            </form>
+
+            <a asp-action="edit" asp-route-showadd="true" asp-route-id="@Model.Id"  asp-route-parentid="@item.Id" title="Add Sub-section">
+                <i class="fas fa-plus"></i> Section
+            </a>
+
+            @if (sections.Any(x => x.ParentSectionId == item.Id))
+            {
+                <ul class="list-group">
+                    @foreach (var subitem in sections.Where(x => x.ParentSectionId == item.Id))
+                    {
+                        await renderSection(subitem, sections);
+                    }
+                </ul>
+            }
+
+        </li>
+    }
+
+
+
+}

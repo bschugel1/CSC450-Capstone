@@ -13,6 +13,10 @@
     <Compile Remove="Migrations\20200930190302_AddUserIdentity.Designer.cs" />
     <Compile Remove="Migrations\20200930191033_AddUserIdentity.cs" />
     <Compile Remove="Migrations\20200930191033_AddUserIdentity.Designer.cs" />
+    <Compile Remove="Migrations\20201029202303_AddSectionEntity.cs" />
+    <Compile Remove="Migrations\20201029202303_AddSectionEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201029232553_AddSectionEntity.cs" />
+    <Compile Remove="Migrations\20201029232553_AddSectionEntity.Designer.cs" />
     <Compile Remove="Migrations\CourseContextModelSnapshot.cs" />
   </ItemGroup>
 
