@@ -10,12 +10,12 @@ using AutoMapper;
 
 namespace CourseApp.ViewComponents
 {
-    public class CourseContentViewComponent : ViewComponent
+    public class CourseEditContentViewComponent : ViewComponent
     {
         private readonly ApplicationContext _context;
         private readonly IMapper _mapper;
 
-        public CourseContentViewComponent(ApplicationContext context, IMapper mapper)
+        public CourseEditContentViewComponent(ApplicationContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

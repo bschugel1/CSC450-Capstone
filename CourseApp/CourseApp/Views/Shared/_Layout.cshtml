@@ -37,7 +37,7 @@
                                 <a class="dropdown-header" asp-controller="Course" asp-action="Index">All Courses</a>
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    <a class="dropdown-header" asp-controller="Course" asp-action="Index">My Courses</a>
+                                    <a class="dropdown-header" asp-controller="Course" asp-action="MyCourses">My Courses</a>
                                     <a class="dropdown-header" asp-controller="Author" asp-action="Index">Authored Courses</a>
                                 }
                             </div>

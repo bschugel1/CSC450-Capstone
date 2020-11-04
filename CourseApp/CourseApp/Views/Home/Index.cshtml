@@ -10,12 +10,6 @@
 
 @await Html.PartialAsync("~/Views/Shared/_CarouselPartial.cshtml")
 
-@if (User.Identity.IsAuthenticated)
-{
-    <div>
-        <a asp-action="create" asp-controller="Author" class="btn btn-primary">Register New Course</a>
-    </div>
-}
 
 
 

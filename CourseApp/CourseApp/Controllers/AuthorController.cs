@@ -10,6 +10,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.EntityFrameworkCore;
+using CourseApp.Helpers;
 
 namespace CourseApp.Controllers
 {
@@ -79,6 +80,12 @@ namespace CourseApp.Controllers
         {
             var model = _context.Courses.Include(x => x.Sections).FirstOrDefault(x => x.Id == id);
 
+            if (!User.IsCurrentAuthor(model.AuthorId))
+            {
+               
+                return RedirectToAction("Index", "Home");
+            }
+
             if (model == default)
             {
 
@@ -103,7 +110,13 @@ namespace CourseApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var entity = _context.Courses.FirstOrDefault(x => x.Id == model.Id);
+                var entity = _context.Courses.Include(x => x.Sections).FirstOrDefault(x => x.Id == model.Id);
+
+                if (!User.IsCurrentAuthor(entity.AuthorId))
+                {
+                    ModelState.AddModelError("Form", "You cannot edit this course. You are not the Author!");
+                    return View(model);
+                }
 
                 entity.Name = model.Name;
                 entity.CourseCode = model.CourseCode;
@@ -149,12 +162,21 @@ namespace CourseApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var entity = _context.Sections.FirstOrDefault(x => x.Id == model.Id);
-
-                if (entity == default)
+                if (model.Id > 0)
                 {
 
-                    entity = new SectionModel
+                    var entity = _context.Sections.FirstOrDefault(x => x.Id == model.Id);
+
+                    if (entity != default)
+                    {
+                        entity.Name = model.Name;
+
+                        _context.Update(entity);
+                    }
+                }
+                else
+                {
+                    var entity = new SectionModel
                     {
                         CourseId = model.CourseId,
                         Name = model.Name,
@@ -162,20 +184,9 @@ namespace CourseApp.Controllers
                     };
 
                     _context.Add(entity);
-
-                }
-                else
-                {
-
-                    entity.Name = model.Name;
-
-                    _context.Update(entity);
-
                 }
 
                 _context.SaveChanges();
-
-
                 return RedirectToAction(nameof(Edit), new { id = model.CourseId });
             }
             else
@@ -198,7 +209,6 @@ namespace CourseApp.Controllers
             return RedirectToAction(nameof(Edit), new { id = courseId });
 
         }
-
     }
 }
 

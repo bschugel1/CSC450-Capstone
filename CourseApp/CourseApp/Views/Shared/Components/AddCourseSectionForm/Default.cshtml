@@ -3,8 +3,9 @@
     <h3>Sections</h3>
     <div asp-validation-summary="All"></div>
     <form asp-action="AddSection" name="AddSection" method="post">
-        <input type="hidden" name="CourseId" value="@Model.CourseId" />
-        <input type="hidden" name="ParentSectionId" value="@Model.ParentSectionId" />
+        <input type="hidden" asp-for="CourseId" />
+        <input type="hidden" asp-for="ParentSectionId" />
+        <input type="hidden" Name="Id" value="@Model.Id" />
         <div class="form-group row">
             <div class="col-sm-3">
                 <label asp-for="Name"></label>
@@ -12,6 +13,14 @@
             <div class="col-sm-9">
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name"></span>
+            </div>
+
+            <div class="col-sm-3">
+                <label asp-for="DisplayOrder"></label>
+            </div>
+            <div class="col-sm-9">
+                <input asp-for="DisplayOrder" class="form-control" />
+                <span asp-validation-for="DisplayOrder"></span>
             </div>
         </div>
         <div class="">

@@ -18,6 +18,7 @@ namespace CourseApp.Models
         public string Description { get; set; }
         public UserModel Author { get; set; }
         public string URL { get; }
-        public List<SectionModel> Sections { get; set; } 
+        public ICollection<SectionModel> Sections { get; set; }
+        public ICollection<UserCourseModel> UserCourses { get; set; }
     }
 }

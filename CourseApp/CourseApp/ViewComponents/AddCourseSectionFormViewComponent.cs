@@ -19,6 +19,7 @@ namespace CourseApp.ViewComponents
          public async Task<IViewComponentResult> InvokeAsync(long courseId, long? parentId)
         {
             var model = new SectionCreateVM {
+                Id = 0,
                 CourseId = courseId,
                 ParentSectionId = parentId > 0 ? parentId : null
             };

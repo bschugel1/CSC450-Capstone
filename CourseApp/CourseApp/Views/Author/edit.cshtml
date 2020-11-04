@@ -3,6 +3,7 @@
 
 @{ 
 
+    var currUser = User;
     var showAddForm = ViewData["ShowAddForm"] as bool?;
     var parentSectionId = ViewData["ParentSectionId"] as long?;
 
@@ -81,9 +82,9 @@
 
 }
 
-<vc:course-content max-priority="3" is-done="false" course-id="@Model.Id">
+<vc:course-edit-content max-priority="3" is-done="false" course-id="@Model.Id">
 
-</vc:course-content>
+</vc:course-edit-content>
 
 
 
