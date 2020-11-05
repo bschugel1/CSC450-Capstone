@@ -28,6 +28,7 @@
     <Compile Remove="Migrations\20201104183701_AddUserCourseEntity.cs" />
     <Compile Remove="Migrations\20201104183701_AddUserCourseEntity.Designer.cs" />
     <Compile Remove="Migrations\CourseContextModelSnapshot.cs" />
+    <Compile Remove="Models\UserProfile.cs" />
   </ItemGroup>
 
   <ItemGroup>
