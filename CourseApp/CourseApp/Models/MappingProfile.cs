@@ -18,6 +18,7 @@ namespace CourseApp.Models
             CreateMap<CourseModel, CourseEditVM>().ReverseMap();
             CreateMap<CourseModel, CoursePreviewVM>().ReverseMap();
             CreateMap<CourseModel, CourseVM>().ReverseMap();
+            CreateMap<UserModel, AccountVM>().ReverseMap();
         }
 
     }
