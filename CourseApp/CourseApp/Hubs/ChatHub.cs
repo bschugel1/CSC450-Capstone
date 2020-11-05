@@ -10,5 +10,9 @@ namespace SignalRChat.Hubs
             string username = Context.User.Identity.Name;
             await Clients.All.SendAsync("ReceiveMessage", username, message);
         }
+        public async Task SendDirectMessage(string user, string message)
+        {
+            await Clients.All.SendAsync("ReceiveMessage", user, message);
+        }
     }
 }
