@@ -48,10 +48,11 @@ namespace CourseApp
             })
              .AddEntityFrameworkStores<ApplicationContext>();
 
-
+            services.AddMvc();                
             services.AddRazorPages();
 
-            services.Configure<IdentityOptions>(options => {
+            services.Configure<IdentityOptions>(options =>
+            {
 
                 // Lockout settings.
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -108,7 +109,7 @@ namespace CourseApp
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

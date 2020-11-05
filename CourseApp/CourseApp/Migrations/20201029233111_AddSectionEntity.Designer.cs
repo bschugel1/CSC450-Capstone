@@ -4,14 +4,16 @@ using CourseApp.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CourseApp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20201029233111_AddSectionEntity")]
+    partial class AddSectionEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,9 +89,6 @@ namespace CourseApp.Migrations
                     b.Property<long>("CourseId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -103,21 +102,6 @@ namespace CourseApp.Migrations
                     b.HasIndex("ParentSectionId");
 
                     b.ToTable("Section");
-                });
-
-            modelBuilder.Entity("CourseApp.Models.UserCourseModel", b =>
-                {
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("CourseId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("UserId", "CourseId");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("UserCourse");
                 });
 
             modelBuilder.Entity("CourseApp.Models.UserModel", b =>
@@ -314,21 +298,6 @@ namespace CourseApp.Migrations
                     b.HasOne("CourseApp.Models.SectionModel", null)
                         .WithMany()
                         .HasForeignKey("ParentSectionId");
-                });
-
-            modelBuilder.Entity("CourseApp.Models.UserCourseModel", b =>
-                {
-                    b.HasOne("CourseApp.Models.CourseModel", "Course")
-                        .WithMany("UserCourses")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CourseApp.Models.UserModel", "User")
-                        .WithMany("UserCourses")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>

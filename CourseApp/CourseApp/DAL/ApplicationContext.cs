@@ -21,8 +21,9 @@ namespace CourseApp.DAL
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer("Data Source=courseappdb.db"));
         }
 
-      public DbSet<CourseModel> Courses { get; set; }      
-       
+        public DbSet<CourseModel> Courses { get; set; }
+        public DbSet<SectionModel> Sections { get; set; }
+        public DbSet<UserCourseModel> UserCourses { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,9 +32,27 @@ namespace CourseApp.DAL
           .AddJsonFile("appsettings.json")
           .Build();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("CourseAppDB"));
-        }    
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            var sections = modelBuilder.Entity<SectionModel>();
+
+            sections.HasOne<SectionModel>().WithMany().HasForeignKey(x => x.ParentSectionId);
+
+            var mbUCM = modelBuilder.Entity<UserCourseModel>();
+            mbUCM.HasKey(sc => new { sc.UserId, sc.CourseId });
+
+            mbUCM.HasOne(sc => sc.User)
+            .WithMany(s => s.UserCourses)
+            .HasForeignKey(sc => sc.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            mbUCM.HasOne(sc => sc.Course)
+            .WithMany(c => c.UserCourses)
+            .HasForeignKey(sc => sc.CourseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(modelBuilder);
         }
     }
