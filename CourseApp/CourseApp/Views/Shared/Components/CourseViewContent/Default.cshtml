@@ -1,31 +1,19 @@
 ﻿@model CourseVM
-
+<h3>Sections</h3>
 <ul class="list-unstyled">
     @foreach (var item in Model.Sections.Where(x => x.ParentSectionId == null).OrderBy(x => x.DisplayOrder))
     {
         await renderSection(item, Model.Sections);
     }
 </ul>
-
-
-@if (Model.Sections != default && Model.Sections.Count > 10)
-{
-    <div class="container">
-        <button type="submit">Add Course Section</button>
-    </div>
-
-}
-
 @functions{
 
     private async Task renderSection(SectionModel item, List<SectionModel> sections)
     {
         <li class="list-group-item">
-
             <div class="d-flex justify-content-between">
-                <strong>@item.Name</strong>                
+                <strong>@item.Name</strong>
             </div>
-
             @if (sections.Any(x => x.ParentSectionId == item.Id))
             {
                 <ul class="list-group">
@@ -35,10 +23,6 @@
                     }
                 </ul>
             }
-
         </li>
     }
-
-
-
 }

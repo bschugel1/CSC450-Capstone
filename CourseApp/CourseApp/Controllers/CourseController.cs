@@ -10,6 +10,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseApp.Controllers
 {
@@ -36,26 +37,22 @@ namespace CourseApp.Controllers
         public IActionResult Preview(long id)
         {
             var model = _context.Courses.Find(id);
-
             if (model == default)
             {
                 return RedirectToAction(nameof(Error), new
                 {
                     id = "The requested course was not found!"
-
                 });
             }
             else
             {
                 return View("preview", _mapper.Map<CoursePreviewVM>(model));
             }
-
         }
-
-        public IActionResult Course(long id)
+        [HttpGet]
+        public IActionResult Course(long id, long? parentid)
         {
-            var model = _context.Courses.Find(id);
-
+            var model = _context.Courses.Include(x => x.Sections).FirstOrDefault(x => x.Id == id);
             if (model == default)
             {
                 return RedirectToAction(nameof(Error), new
@@ -65,7 +62,8 @@ namespace CourseApp.Controllers
             }
             else
             {
-                return View("course", _mapper.Map<CourseVM>(model));
+                ViewData["ParentSectionId"] = parentid ?? 0;
+                return View(_mapper.Map<CourseVM>(model));
             }
         }
 
@@ -73,30 +71,21 @@ namespace CourseApp.Controllers
         public IActionResult MyCourses(long id)
         {
             var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-          
             var model = _context.UserCourses.Where(x => x.User.Id == userId);
-
             return View(_mapper.Map<ICollection<CourseVM>>(model.Select(x => x.Course)));
-
-
         }
-
 
         [HttpPost]
         public IActionResult Register(long id)
         {
-
             var entity = new UserCourseModel
             {
-
                 UserId = long.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value),
                 CourseId = id
             };
 
             _context.Add(entity);
             _context.SaveChanges();
-
-
             return RedirectToAction(nameof(MyCourses));
         }
         [HttpGet]

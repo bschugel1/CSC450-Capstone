@@ -13,7 +13,6 @@ namespace CourseApp.ViewComponents
     {
         public AddCourseSectionFormViewComponent()
         {
-
         }
 
          public async Task<IViewComponentResult> InvokeAsync(long courseId, long? parentId)

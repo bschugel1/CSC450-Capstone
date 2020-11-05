@@ -14,12 +14,10 @@ namespace CourseApp.Models
                 .ForMember(d => d.Courses, o => o.MapFrom(s => s.UserCourses.Select(x => x.User)));
             CreateMap<CourseModel, CourseVM>()
               .ForMember(d => d.Users, o => o.MapFrom(s => s.UserCourses.Select(x => x.Course)));
-
             CreateMap<CourseModel, CourseCreateVM>().ReverseMap();
             CreateMap<CourseModel, CourseEditVM>().ReverseMap();
             CreateMap<CourseModel, CoursePreviewVM>().ReverseMap();
             CreateMap<CourseModel, CourseVM>().ReverseMap();
-
         }
 
     }

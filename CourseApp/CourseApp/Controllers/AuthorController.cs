@@ -42,18 +42,15 @@ namespace CourseApp.Controllers
             {
                 var entity = new CourseModel
                 {
-
                     Id = 0,
                     Name = model.Name,
                     CourseCode = model.CourseCode,
                     Subject = model.Subject,
                     Description = model.Description,
                     AuthorId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
-
                 };
                 _context.Add(entity);
                 _context.SaveChanges();
-
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -74,26 +71,20 @@ namespace CourseApp.Controllers
             return View("Error", id);
         }
 
-
         [HttpGet]
         public IActionResult Edit(long id, bool? showadd, long? parentid)
         {
             var model = _context.Courses.Include(x => x.Sections).FirstOrDefault(x => x.Id == id);
-
             if (!User.IsCurrentAuthor(model.AuthorId))
-            {
-               
+            {            
                 return RedirectToAction("Index", "Home");
             }
 
             if (model == default)
             {
-
-
                 return RedirectToAction(nameof(Error), new
                 {
                     id = "The requested course was not found!"
-
                 });
             }
             else
@@ -111,7 +102,6 @@ namespace CourseApp.Controllers
             if (ModelState.IsValid)
             {
                 var entity = _context.Courses.Include(x => x.Sections).FirstOrDefault(x => x.Id == model.Id);
-
                 if (!User.IsCurrentAuthor(entity.AuthorId))
                 {
                     ModelState.AddModelError("Form", "You cannot edit this course. You are not the Author!");
@@ -122,7 +112,6 @@ namespace CourseApp.Controllers
                 entity.CourseCode = model.CourseCode;
                 entity.Subject = model.Subject;
                 entity.Description = model.Description;
-
 
                 _context.Update(entity);
                 _context.SaveChanges();
@@ -144,8 +133,6 @@ namespace CourseApp.Controllers
 
                 entity.Name = model.Name;
 
-
-
                 _context.Update(entity);
                 _context.SaveChanges();
 
@@ -164,9 +151,7 @@ namespace CourseApp.Controllers
             {
                 if (model.Id > 0)
                 {
-
                     var entity = _context.Sections.FirstOrDefault(x => x.Id == model.Id);
-
                     if (entity != default)
                     {
                         entity.Name = model.Name;
@@ -182,7 +167,6 @@ namespace CourseApp.Controllers
                         Name = model.Name,
                         ParentSectionId = model.ParentSectionId
                     };
-
                     _context.Add(entity);
                 }
 
@@ -199,15 +183,12 @@ namespace CourseApp.Controllers
         public IActionResult DeleteSection(long id, long courseId)
         {
             var entity = _context.Sections.FirstOrDefault(x => x.Id == id);
-
             if (entity != default)
             {
                 _context.Remove(entity);
                 _context.SaveChanges();
             }
-
             return RedirectToAction(nameof(Edit), new { id = courseId });
-
         }
     }
 }
