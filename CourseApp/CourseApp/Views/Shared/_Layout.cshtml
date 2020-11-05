@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 <body>
-    <header>        
+    <header>
         <div class="container">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <a href="@Url.Action("Index", "Home")">
-                    <img  id="site-logo" class="navbar-brand img-responsive" src="~/content/images/site/logo_transparent_background_nav.png" title="core" alt=""/>
+                    <img id="site-logo" class="navbar-brand img-responsive" src="~/content/images/site/logo_transparent_background_nav.png" title="core" alt="" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -64,8 +64,8 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <h6 class="dropdown-header">@User.Identity.Name</h6>
-                                        <a class="dropdown-item nav-link text-dark" href="#">Account Profile</a>
-                                        <a class="dropdown-item nav-link text-dark" href="#">Edit Account</a>
+                                        <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Account Profile</a>
+                                        <a class="dropdown-item nav-link text-dark" asp-controller="Course" asp-action="MyCourses">My Courses</a>
                                         <a class="dropdown-item  nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout </a>
                                     </div>
 
