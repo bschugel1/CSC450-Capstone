@@ -21,7 +21,7 @@ namespace CourseApp.Controllers
             return View();
         }
         [AllowAnonymous]
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }

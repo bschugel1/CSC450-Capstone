@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CourseApp.Content
+namespace CourseApp.Models
 {
-    interface ISegmentItem
+    public class UserProfile
     {
-        public long Id { get; set; }
+        public string About { get; set; }
     }
 }

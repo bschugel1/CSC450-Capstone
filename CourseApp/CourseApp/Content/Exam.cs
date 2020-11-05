@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CourseApp.Content
 {
-    public class Exam : ISegmentItem
+    public class Exam
     {
 
         public long Id { get; set; }

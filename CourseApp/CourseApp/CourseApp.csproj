@@ -13,7 +13,22 @@
     <Compile Remove="Migrations\20200930190302_AddUserIdentity.Designer.cs" />
     <Compile Remove="Migrations\20200930191033_AddUserIdentity.cs" />
     <Compile Remove="Migrations\20200930191033_AddUserIdentity.Designer.cs" />
+    <Compile Remove="Migrations\20201029202303_AddSectionEntity.cs" />
+    <Compile Remove="Migrations\20201029202303_AddSectionEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201029232553_AddSectionEntity.cs" />
+    <Compile Remove="Migrations\20201029232553_AddSectionEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201103195706_AddStudentEntity.cs" />
+    <Compile Remove="Migrations\20201103195706_AddStudentEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201104173120_AddUserCourseEntity.cs" />
+    <Compile Remove="Migrations\20201104173120_AddUserCourseEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201104183415_AddUserCourseEntityAndSectionDisplayOrder.cs" />
+    <Compile Remove="Migrations\20201104183415_AddUserCourseEntityAndSectionDisplayOrder.Designer.cs" />
+    <Compile Remove="Migrations\20201104183447_AddUserCourseEntity.cs" />
+    <Compile Remove="Migrations\20201104183447_AddUserCourseEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201104183701_AddUserCourseEntity.cs" />
+    <Compile Remove="Migrations\20201104183701_AddUserCourseEntity.Designer.cs" />
     <Compile Remove="Migrations\CourseContextModelSnapshot.cs" />
+    <Compile Remove="Models\UserProfile.cs" />
   </ItemGroup>
 
   <ItemGroup>

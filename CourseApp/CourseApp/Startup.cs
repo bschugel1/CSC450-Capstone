@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using SignalRChat.Hubs;
 using System;
 using CourseApp.Content;
 using System.Collections.Generic;
@@ -48,10 +49,12 @@ namespace CourseApp
             })
              .AddEntityFrameworkStores<ApplicationContext>();
 
-
+            services.AddMvc();                
             services.AddRazorPages();
+            services.AddSignalR();
 
-            services.Configure<IdentityOptions>(options => {
+            services.Configure<IdentityOptions>(options =>
+            {
 
                 // Lockout settings.
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -108,9 +111,10 @@ namespace CourseApp
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chathub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

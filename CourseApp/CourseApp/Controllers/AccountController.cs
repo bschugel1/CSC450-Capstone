@@ -7,6 +7,7 @@ using CourseApp.ViewModels;
 using Microsoft.Extensions.Logging;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using CourseApp.DAL;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,14 +16,15 @@ namespace CourseApp.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-
+        private readonly ApplicationContext _context;
         private readonly IMapper _mapper;
         private readonly UserManager<UserModel> _userManager;
         private readonly SignInManager<UserModel> _signInManager;
         private readonly ILogger _logger;
 
-        public AccountController(IMapper mapper, UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, ILoggerFactory loggerFactory)
+        public AccountController(ApplicationContext context, IMapper mapper, UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, ILoggerFactory loggerFactory)
         {
+            _context = context;
             _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
@@ -44,15 +46,12 @@ namespace CourseApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegistrationVM model)
         {
-
             if (!ModelState.IsValid)
-            {
                 return View(model);
-            }
-
+            
             var user = _mapper.Map<UserModel>(model);
-
             var result = await _userManager.CreateAsync(user, model.Password);
+
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
@@ -76,13 +75,19 @@ namespace CourseApp.Controllers
                 return View();            
         }
 
+        public IActionResult Message()
+        {
+            return View();
+        }
+
 
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM model, string returnUrl = null)
         {
-           ViewData["ReturnUrl"] = returnUrl;
+            ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
                 var signedUser = await _userManager.FindByEmailAsync(model.Email);
@@ -125,15 +130,20 @@ namespace CourseApp.Controllers
             }
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+
+            return View(_mapper.Map<AccountVM>(user));
+        }
+
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> PasswordRecovery(string returnUrl = null)
         {
-
-
-
-
-
             return RedirectToLocal(returnUrl);
         }
 
