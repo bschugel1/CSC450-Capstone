@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CourseApp.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
 
@@ -27,18 +28,24 @@ namespace CourseApp.Controllers
             _signInManager = signInManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+
             return View();
         }
-
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegistrationVM model)
         {
-            if(!ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -107,8 +114,6 @@ namespace CourseApp.Controllers
             return View(model);
         }
 
-
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Logout(string returnUrl = null)
         {
@@ -137,7 +142,11 @@ namespace CourseApp.Controllers
             return RedirectToLocal(returnUrl);
         }
 
-
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
 
 
         private ActionResult RedirectToLocal(string returnUrl)

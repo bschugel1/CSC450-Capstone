@@ -7,12 +7,15 @@
     <title>@ViewData["Title"] - CourseApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 <body>
-    <header>
+    <header>        
         <div class="container">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CourseAppCloud</a>
+                <a href="@Url.Action("Index", "Home")">
+                    <img  id="site-logo" class="navbar-brand img-responsive" src="~/content/images/site/logo_transparent_background_nav.png" title="core" alt=""/>
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,8 +26,23 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home <span class="sr-only"></span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
+                        <li class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Courses
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-header" asp-controller="Course" asp-action="Index">Featured Courses</a>
+                                <a class="dropdown-header" asp-controller="Course" asp-action="Index">All Courses</a>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <a class="dropdown-header" asp-controller="Course" asp-action="MyCourses">My Courses</a>
+                                    <a class="dropdown-header" asp-controller="Author" asp-action="Index">Authored Courses</a>
+                                }
+                            </div>
+                        </li>
+
                     </ul>
                     <ul class="navbar-nav">
 
@@ -68,7 +86,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - CourseAppCloud - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - CourseApp - <a asp-area="" asp-controller="Home" asp-action="About">About</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

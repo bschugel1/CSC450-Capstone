@@ -1,24 +1,20 @@
 ﻿using CourseApp.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CourseApp.ViewModels
 {
-    public class CourseEditVM
+    public class CourseVM
     {
-        [Required]
         public Int64 Id { get; set; }
-
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Subject { get; set; }
-
         public string CourseCode { get; set; }
         public string Description { get; set; }
         public long AuthorId { get; set; }
-
-        public List<SectionModel> Sections { get; set; } 
+        public ICollection<UserVM> Users { get; set; }
+        public List<SectionModel> Sections { get; set; }
     }
 }

@@ -1,0 +1,30 @@
+﻿@model CourseVM
+@using CourseApp.ViewComponents
+
+@{ 
+    var parentSectionId = ViewData["ParentSectionId"] as long?;
+}
+<head>
+    <link rel="stylesheet" href="~/css/course-content.css" />
+</head>
+<h1>
+</h1>
+<div>
+    <div class="course-header">
+        <div class="course-container">
+            <h1>@Model.Name</h1>
+            <span>@Model.Subject</span>
+        </div>
+    </div>
+
+    <div class="course-body">
+
+        <div class="course-container">
+            <p>@Model.Description</p>
+
+        </div>
+    </div>
+</div>
+
+<vc:course-view-content max-priority="3" is-done="false" course-id="@Model.Id">
+</vc:course-view-content>

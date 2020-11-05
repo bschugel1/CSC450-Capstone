@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using SignalRChat.Hubs;
 using System;
+using CourseApp.Content;
+using System.Collections.Generic;
 
 namespace CourseApp
 {
@@ -20,6 +22,7 @@ namespace CourseApp
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -36,23 +39,42 @@ namespace CourseApp
 
             services.AddIdentity<UserModel, RoleModel>(opt =>
             {
-                opt.Password.RequiredLength = 7;
+                // Password settings.
                 opt.Password.RequireDigit = true;
+                opt.Password.RequireLowercase = true;
+                opt.Password.RequireNonAlphanumeric = true;
                 opt.Password.RequireUppercase = true;
+                opt.Password.RequiredLength = 6;
+                opt.Password.RequiredUniqueChars = 1;
             })
              .AddEntityFrameworkStores<ApplicationContext>();
 
+            services.AddMvc();                
             services.AddRazorPages();
             services.AddSignalR();
 
-            services.AddControllers(config =>
+            services.Configure<IdentityOptions>(options =>
             {
-                // using Microsoft.AspNetCore.Mvc.Authorization;
-                // using Microsoft.AspNetCore.Authorization;
-                //var policy = new AuthorizationPolicyBuilder()
-                //                 .Build();
-                //config.Filters.Add(new AuthorizeFilter(policy));
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true;
+
             });
+
+            //services.AddControllers(config =>
+            //{               
+            //    var policy = new AuthorizationPolicyBuilder()
+            //                     .RequireAuthenticatedUser()
+            //                     .Build();
+            //    config.Filters.Add(new AuthorizeFilter(policy));
+            //});
 
 
 
@@ -60,7 +82,7 @@ namespace CourseApp
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
 
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
@@ -87,8 +109,8 @@ namespace CourseApp
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

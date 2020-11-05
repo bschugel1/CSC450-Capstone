@@ -100,9 +100,35 @@ body {
     padding-bottom: .5em;
    
 }
-form-group .checkbox-container {
+
+
+.form-group .checkbox-container {
     padding-bottom: 10em;
 }
+
+.img-responsive {
+    height: auto;
+    width: auto;
+    max-height: 72px;
+    max-width: 250px;
+    line-height: 72px; /* whatever the fixed height of the bar is */
+    vertical-align: middle;
+}
+
+#site-logo {
+    height: auto;
+    width: auto;
+    float: left;
+    padding-left: 2%;
+    padding-right: 2%;
+    margin: 0 auto;
+    padding: 10px 0;
+    padding-right: 10px;
+}
+
+    #site-logo img {
+        object-fit: cover;
+    }
 
 
 

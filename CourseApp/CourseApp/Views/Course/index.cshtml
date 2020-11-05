@@ -1,1 +1,11 @@
-﻿<h1>INDEX</h1>
+﻿@model ICollection<CourseVM>
+
+
+<h1>Courses</h1>
+
+@foreach (var course in Model)
+{
+    <div>
+        <h3>  <a asp-action="Preview" asp-controller="Course" asp-route-id="@course.Id"> @course.Name </a> </h3>      
+    </div>
+}
