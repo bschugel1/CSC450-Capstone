@@ -46,15 +46,12 @@ namespace CourseApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegistrationVM model)
         {
-
             if (!ModelState.IsValid)
-            {
                 return View(model);
-            }
-
+            
             var user = _mapper.Map<UserModel>(model);
-
             var result = await _userManager.CreateAsync(user, model.Password);
+
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
@@ -84,7 +81,8 @@ namespace CourseApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM model, string returnUrl = null)
         {
-           ViewData["ReturnUrl"] = returnUrl;
+            ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
                 var signedUser = await _userManager.FindByEmailAsync(model.Email);
@@ -141,11 +139,6 @@ namespace CourseApp.Controllers
         [HttpGet]
         public async Task<IActionResult> PasswordRecovery(string returnUrl = null)
         {
-
-
-
-
-
             return RedirectToLocal(returnUrl);
         }
 

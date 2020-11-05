@@ -13,11 +13,7 @@ namespace CourseApp.Models
             CreateMap<CourseModel, CourseCreateVM>().ReverseMap();
             CreateMap<CourseModel, CourseEditVM>().ReverseMap();
             CreateMap<CourseModel, CourseVM>().ReverseMap();
-
-            CreateMap<UserModel, AccountVM>()
-                .ForMember(u => u.FirstName, opt => opt.MapFrom(x => x.FirstName))
-                .ForMember(u => u.LastName, opt => opt.MapFrom(x => x.LastName))
-                .ReverseMap();
+            CreateMap<UserModel, AccountVM>().ReverseMap();
         }
 
     }

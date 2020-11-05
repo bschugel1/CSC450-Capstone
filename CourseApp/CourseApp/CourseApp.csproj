@@ -14,6 +14,7 @@
     <Compile Remove="Migrations\20200930191033_AddUserIdentity.cs" />
     <Compile Remove="Migrations\20200930191033_AddUserIdentity.Designer.cs" />
     <Compile Remove="Migrations\CourseContextModelSnapshot.cs" />
+    <Compile Remove="Models\UserProfile.cs" />
   </ItemGroup>
 
   <ItemGroup>
