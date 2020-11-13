@@ -1,5 +1,9 @@
 ﻿@model CourseEditVM
+@using CourseApp.ViewComponents
+@{
 
+
+}
 <h3>Sections</h3>
 <a asp-action="edit" asp-route-showadd="true" asp-route-id="@Model.Id">
     Add Course Section
@@ -9,6 +13,8 @@
     @foreach (var item in Model.Sections.Where(x => x.ParentSectionId == null).OrderBy(x => x.DisplayOrder))
     {
         await renderSection(item, Model.Sections);
+
+
     }
 </ul>
 @if (Model.Sections != default && Model.Sections.Count > 10)
@@ -22,6 +28,9 @@
 
     private async Task renderSection(SectionModel item, List<SectionModel> sections)
     {
+        var showUploadForm = ViewData["ShowUploadForm"] as bool?;
+        var parentSectionId = ViewData["ParentSectionId"] as long?;
+
         <li class="list-group-item">
             <div class="d-flex justify-content-between">
                 <strong>@item.Name</strong>
@@ -50,11 +59,19 @@
                                 </a>
                             </li>
                             <li class="dropdown-item">
-                                <a asp-action="" asp-route-showadd="true" asp-route-id="@Model.Id" asp-route-parentid="@item.Id" title="Add Sub-section">
+                                <a asp-action="edit" asp-route-showupload="true" asp-route-id="@Model.Id" asp-route-parentid="@item.Id" title="Upload File">
                                     Upload Media <i class="fas fa-upload"></i>
                                 </a>
                             </li>
                         </ul>
+                        @if (showUploadForm == true)
+                        {
+                            <div class="course-body">
+                                <vc:upload-course-content-form course-id="@Model.Id" parent-id="@parentSectionId">
+
+                                </vc:upload-course-content-form>
+                            </div>
+                        }
                     </div>
                 }
             </div>

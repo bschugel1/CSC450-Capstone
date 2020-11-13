@@ -72,7 +72,7 @@ namespace CourseApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(long id, bool? showadd, long? parentid)
+        public IActionResult Edit(long id, bool? showadd, bool? showupload, long? parentid)
         {
             var model = _context.Courses.Include(x => x.Sections).FirstOrDefault(x => x.Id == id);
             if (!User.IsCurrentAuthor(model.AuthorId))
@@ -90,6 +90,7 @@ namespace CourseApp.Controllers
             else
             {
                 ViewData["ShowAddForm"] = showadd ?? false;
+                ViewData["ShowUploadForm"] = showupload ?? false;
                 ViewData["ParentSectionId"] = parentid ?? 0;
 
                 return View(_mapper.Map<CourseEditVM>(model));
@@ -99,6 +100,7 @@ namespace CourseApp.Controllers
         [HttpPost]
         public IActionResult Edit(CourseEditVM model)
         {
+
             if (ModelState.IsValid)
             {
                 var entity = _context.Courses.Include(x => x.Sections).FirstOrDefault(x => x.Id == model.Id);
@@ -112,26 +114,6 @@ namespace CourseApp.Controllers
                 entity.CourseCode = model.CourseCode;
                 entity.Subject = model.Subject;
                 entity.Description = model.Description;
-
-                _context.Update(entity);
-                _context.SaveChanges();
-
-                return View(model);
-            }
-            else
-            {
-                return View(model);
-            }
-        }
-
-        [HttpPost]
-        public IActionResult EditContent(CourseEditVM model)
-        {
-            if (ModelState.IsValid)
-            {
-                var entity = _context.Courses.FirstOrDefault(x => x.Id == model.Id).Sections.FirstOrDefault(x => x.Id == model.Id);
-
-                entity.Name = model.Name;
 
                 _context.Update(entity);
                 _context.SaveChanges();

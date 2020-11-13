@@ -19,5 +19,6 @@ namespace CourseApp.Models
         public string Name { get; set; }      
         public int DisplayOrder { get; set; }
 
+        public ICollection<MediaItemModel> Items { get; set; }
     }
 }
