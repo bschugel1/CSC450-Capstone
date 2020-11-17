@@ -1,0 +1,21 @@
+﻿@model FileUploadVM
+
+<div class="container">
+    <div asp-validation-summary="All"></div>
+    <form asp-action="UploadFile" asp-controller="File" enctype="multipart/form-data" name="UploadFile" method="post">
+        <input type="hidden" asp-for="CourseId" />
+        <input type="hidden" Name="Id" value="@Model.Id" />
+        <div>
+            <input name="file" type="radio" value="file" checked>File
+            <input asp-for="@Model.Title">
+            <input asp-for="@Model.FormFile" type="file" class='type'>
+            <span asp-validation-for="@Model.FormFile"></span>
+            <br>
+        </div>
+        <div class="">
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+        </div>
+    </form>
+</div>

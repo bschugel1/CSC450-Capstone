@@ -20,7 +20,7 @@ namespace CourseApp.Models
             CreateMap<CourseModel, CourseVM>().ReverseMap();
 
             CreateMap<SectionModel, SectionCreateVM>().ReverseMap();
-            CreateMap<SectionModel, SectionUploadVM>().ReverseMap();
+            CreateMap<SectionModel, FileUploadVM>().ReverseMap();
 
             CreateMap<UserModel, AccountVM>().ReverseMap();
         }

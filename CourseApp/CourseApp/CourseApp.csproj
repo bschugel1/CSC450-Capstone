@@ -32,6 +32,10 @@
     <Compile Remove="Migrations\20201112190401_AddMediaItemEntity.Designer.cs" />
     <Compile Remove="Migrations\20201112190602_AddMediaItemEntity.cs" />
     <Compile Remove="Migrations\20201112190602_AddMediaItemEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201116081812_AddMinorSectionEntityChanges.cs" />
+    <Compile Remove="Migrations\20201116081812_AddMinorSectionEntityChanges.Designer.cs" />
+    <Compile Remove="Migrations\20201117035942_UpdateFileEntity.cs" />
+    <Compile Remove="Migrations\20201117035942_UpdateFileEntity.Designer.cs" />
     <Compile Remove="Migrations\CourseContextModelSnapshot.cs" />
     <Compile Remove="Models\UserProfile.cs" />
   </ItemGroup>
@@ -47,6 +51,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.7.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.7" />

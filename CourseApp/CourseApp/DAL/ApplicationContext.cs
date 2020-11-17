@@ -22,6 +22,7 @@ namespace CourseApp.DAL
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer("Data Source=courseappdb.db"));
         }
 
+
         public DbSet<CourseModel> Courses { get; set; }
         public DbSet<SectionModel> Sections { get; set; }
         public DbSet<UserCourseModel> UserCourses { get; set; }
@@ -52,6 +53,7 @@ namespace CourseApp.DAL
 
 
             mbSM.HasOne<SectionModel>().WithMany().HasForeignKey(x => x.ParentSectionId);
+                
 
             var mbUCM = modelBuilder.Entity<UserCourseModel>();
             mbUCM.HasKey(sc => new { sc.UserId, sc.CourseId });

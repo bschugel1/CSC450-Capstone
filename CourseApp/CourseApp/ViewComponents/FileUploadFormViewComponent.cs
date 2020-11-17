@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace CourseApp.ViewComponents
 {
-    public class UploadCourseContentFormViewComponent : ViewComponent
+    public class FileUploadFormViewComponent : ViewComponent
     {
-        public UploadCourseContentFormViewComponent()
+        public FileUploadFormViewComponent()
         {
         }
 
-         public async Task<IViewComponentResult> InvokeAsync(long courseId, long? parentId)
+         public async Task<IViewComponentResult> InvokeAsync(long id, long courseId, long? parentId)
         {
-            var model = new SectionUploadVM {
-                Id = 0,
+            var model = new FileUploadVM {
+                Id = id,
                 CourseId = courseId,
                 ParentSectionId = parentId > 0 ? parentId : null
             };

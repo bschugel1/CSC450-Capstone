@@ -20,5 +20,6 @@ namespace CourseApp.ViewModels
         public long AuthorId { get; set; }
 
         public List<SectionModel> Sections { get; set; } 
+
     }
 }
