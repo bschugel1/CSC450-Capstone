@@ -148,16 +148,16 @@ namespace CourseApp.Controllers
                     {
 
                         // Move previous to current
-                        prev.DisplayOrder = model.DisplayOrder;
+                        prev.DisplayOrder = entity.DisplayOrder;
 
                         // Move current entity up previous
                         entity.DisplayOrder = model.DisplayOrder - 1;
 
-
+                        model.DisplayOrder = entity.DisplayOrder;
 
                         _context.Update(prev);
                         _context.Update(entity);
-                        ReorderSections(sections.ToList());
+                      //  ReorderSections(sections.ToList());
                         _context.SaveChanges();
                     }
                     else
@@ -193,12 +193,15 @@ namespace CourseApp.Controllers
                     if (next.DisplayOrder > 0 && entity.DisplayOrder < size)
                     {
                         // Move previous to current
-                        next.DisplayOrder = model.DisplayOrder;
+                        next.DisplayOrder = entity.DisplayOrder;
                         // Move current entity up previous
                         entity.DisplayOrder = model.DisplayOrder + 1;
+
+                        model.DisplayOrder = entity.DisplayOrder;
+
                         _context.Update(next);
                         _context.Update(entity);
-                        ReorderSections(sections.ToList());
+                    //    ReorderSections(sections.ToList());
                         _context.SaveChanges();
 
                     }
