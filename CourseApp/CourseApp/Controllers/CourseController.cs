@@ -88,6 +88,20 @@ namespace CourseApp.Controllers
             _context.SaveChanges();
             return RedirectToAction(nameof(MyCourses));
         }
+
+        [HttpPost]
+        public IActionResult DeleteCourse(long id)
+        {
+            var model = _context.Courses.Where(x => x.AuthorId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            var entity = model.FirstOrDefault(x => x.Id == id);
+
+            if (entity != null) {
+                _context.Remove(entity);
+                _context.SaveChanges();
+            }
+            return RedirectToAction(nameof(MyCourses));
+        }
+
         [HttpGet]
         public IActionResult Error(string id)
         {

@@ -115,6 +115,49 @@ body {
     vertical-align: middle;
 }
 
+
+.container-content {
+    padding: 3em;
+}
+
+.container-section {
+    padding: 3em;
+    border-bottom: inset;
+    border-bottom-color: lightblue;
+}
+
+.container-header {
+    border-bottom: inset;
+    border-bottom-color: lightblue;
+}
+
+
+.container-video {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 35px;
+    height: 0;
+    overflow: hidden;
+}
+.container-file {
+    padding: 1em;
+    border:1px solid; 
+    border-color:lightblue;
+}
+
+.container-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+[aria-expanded="false"] > .expanded,
+[aria-expanded="true"] > .collapsed {
+    display: none;
+}
 #site-logo {
     height: auto;
     width: auto;
