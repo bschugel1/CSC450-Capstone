@@ -30,6 +30,7 @@ namespace CourseApp.Controllers
             _signInManager = signInManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
+
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
@@ -41,6 +42,7 @@ namespace CourseApp.Controllers
 
             return View();
         }
+
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]

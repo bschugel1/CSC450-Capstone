@@ -14,6 +14,8 @@ using SignalRChat.Hubs;
 using System;
 using CourseApp.Content;
 using System.Collections.Generic;
+using CourseApp.Models.Configuration;
+using CourseApp.Services;
 
 namespace CourseApp
 {
@@ -30,6 +32,9 @@ namespace CourseApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<BlobStorageSettings>(Configuration.GetSection("BlobSettings"));
+            services.Configure<FileConfigurations>(Configuration.GetSection("FileConfigurations"));
+            services.AddScoped<IBlobStorageService, BlobStorageService>();
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationContext>(options =>
 
