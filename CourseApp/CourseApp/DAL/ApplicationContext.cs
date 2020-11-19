@@ -28,7 +28,7 @@ namespace CourseApp.DAL
         public DbSet<UserCourseModel> UserCourses { get; set; }
 
         public DbSet<HTMLContentModel> HTMLContents { get; set; }
-        public DbSet<VideoModel> Videos { get; set; }
+        public DbSet<EmbedModel> Videos { get; set; }
         public DbSet<FileModel> Files { get; set; }
         public DbSet<MediaItemModel> MediaItems { get; set; }
 

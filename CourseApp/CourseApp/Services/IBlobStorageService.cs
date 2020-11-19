@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Microsoft.WindowsAzure.Storage.Blob;
+using System.IO;
 
 namespace CourseApp.Services
 {
@@ -7,5 +8,6 @@ namespace CourseApp.Services
         void DeleteBlobData(string fileUrl);
         string UploadFileToBlob(string namePath, byte[] data, string type);
         Stream DownloadFileFromBlob(string namePath, string type);
+        CloudBlobDirectory GetDirectory(string namePath);
     }
 }

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CourseApp.Controllers
@@ -43,45 +44,46 @@ namespace CourseApp.Controllers
 
 
             if (ModelState.IsValid)
-            {                     
-                    if (formFile.Length > 0)
-                    {
+            {
+                if (formFile.Length > 0)
+                {
 
                     if (!_fileOptions.AllowedExtensions.Contains(Path.GetExtension(formFile.FileName)))
                     {
                         return BadRequest("The file provided is not of an acceptable format.");
                     }
-                        var fileName = DateTime.Now.ToString("yyyyMMddHHmmss"); 
-                        var filePath = $"{model.CourseId}/{model.Id}";
-                        var fileNamePath = $"{filePath}/{fileName}.{Path.GetExtension(formFile.FileName)}";
-                        string mimeType = formFile.ContentType;
-                        byte[] fileData = new byte[formFile.Length];
+                    var fileName = DateTime.Now.ToString("yyyyMMddHHmmss");
+                    var filePath = $"{model.CourseId}/{model.Id}";
+                    var fileNamePath = $"{filePath}/{fileName}.{Path.GetExtension(formFile.FileName)}";
+                    string mimeType = formFile.ContentType;
+                    byte[] fileData = new byte[formFile.Length];
 
-                     using(var ms = new MemoryStream())
-                        {
-                            await formFile.CopyToAsync(ms);
-                            fileData = ms.ToArray();
-                        }
+                    using (var ms = new MemoryStream())
+                    {
+                        await formFile.CopyToAsync(ms);
+                        fileData = ms.ToArray();
+                    }
 
                     try
                     {
                         _blobService.UploadFileToBlob(fileNamePath, fileData, mimeType);
 
-                        var entity = new FileModel {                  
+                        var entity = new FileModel
+                        {
                             SectionId = model.Id,
                             Name = model.Title,
                             Uri = fileNamePath,
-                            MimeType = mimeType                            
+                            MimeType = mimeType
                         };
 
                         _context.Add(entity);
-                       await _context.SaveChangesAsync();
+                        await _context.SaveChangesAsync();
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         _logger.LogError(e, $"Failed To Upload File For Course:{model.CourseId} Section:{model.Id}!");
                     }
-                    
+
                 }
             }
             return RedirectToAction("Edit", "Author", new { id = model.CourseId });
@@ -104,14 +106,11 @@ namespace CourseApp.Controllers
 
         }
 
-            [HttpPost]
-            public IActionResult UploadContent(FileUploadVM model, List<IFormFile> files)
-            {
-
-            return View();
-            }
-
-
+      
+           
         }
-}
+
+
+    }
+
 

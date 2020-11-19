@@ -1,0 +1,49 @@
+﻿@model CourseVM
+<ul class="list-unstyled">
+    @foreach (var item in Model.Sections.Where(x => x.ParentSectionId == null).OrderBy(x => x.DisplayOrder))
+    {
+        await renderSection(item, Model.Sections);
+    }
+</ul>
+@functions{
+
+    private async Task renderSection(SectionModel item, List<SectionModel> sections)
+    {
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-xs-3 p-3">
+                        <div class="d-flex justify-content-between">
+                            <strong>@item.Name</strong>
+                        </div>
+                </div>
+            </div>
+            @if (sections.Any(x => x.ParentSectionId == item.Id))
+            {
+                <a class="" data-toggle="collapse" href="#collapse_@item.Id" role="button" aria-expanded="false" aria-controls="collapse_@item.Id">
+                    <span class="collapsed">
+                        <i class="fas fa-caret-square-right" style="font-weight:100"> expand </i>
+                    </span>
+                    <span class="expanded">
+                        <i class="fas fa-caret-square-left" style="font-weight:100"> hide </i>
+                    </span>
+                </a>
+                <ul class="list-group collapse" id="collapse_@item.Id">
+                    @foreach (var subitem in sections.Where(x => x.ParentSectionId == item.Id).OrderBy(x => x.DisplayOrder))
+                    {
+                        await renderSection(subitem, sections);
+                    }
+                </ul>
+            }
+        </li>
+
+        if (!(item == null))
+        {
+            <div class="container-fluid p-3">
+                <vc:section-view-content model="@item">
+
+                </vc:section-view-content>
+            </div>
+        }
+
+    }
+}

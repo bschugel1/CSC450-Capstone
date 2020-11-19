@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CourseApp.Models
 {
-    public class VideoModel : MediaItemModel
+    public class EmbedModel : MediaItemModel
     {
         public string ResourceLink { get; set; }
     }

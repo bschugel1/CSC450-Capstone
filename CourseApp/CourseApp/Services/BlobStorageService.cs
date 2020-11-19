@@ -18,6 +18,10 @@ namespace CourseApp.Services
             _settings = settings.Value;
         }
 
+        public BlobStorageService()
+        {
+        }
+
         public string UploadFileToBlob(string namePath, byte[] data, string type)
         {
             var uploadTask = Task.Run(() => this.UploadFileToBlobAsync(namePath, data, type));
@@ -107,6 +111,19 @@ namespace CourseApp.Services
             }
             CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(namePath);
             return await cloudBlockBlob.OpenReadAsync();
+        }
+
+        public CloudBlobDirectory GetDirectory(string namePath)
+        {
+            CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(_settings.ConnectionString);
+
+            CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+
+            string strContainerName = "mediafiles";
+            CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(strContainerName);
+
+            CloudBlobDirectory directory = cloudBlobContainer.GetDirectoryReference(namePath);
+            return directory;
         }
     }
 }
