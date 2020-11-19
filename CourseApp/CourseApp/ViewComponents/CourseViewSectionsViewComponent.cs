@@ -5,14 +5,16 @@ using CourseApp.DAL;
 using CourseApp.ViewModels;
 using AutoMapper;
 
+
+
 namespace CourseApp.ViewComponents
 {
-    public class CourseEditContentViewComponent : ViewComponent
+    public class CourseViewSectionsViewComponent : ViewComponent
     {
         private readonly ApplicationContext _context;
         private readonly IMapper _mapper;
 
-        public CourseEditContentViewComponent(ApplicationContext context, IMapper mapper)
+        public CourseViewSectionsViewComponent(ApplicationContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -24,11 +26,9 @@ namespace CourseApp.ViewComponents
             var items = await GetItemsAsync(maxPriority, isDone, courseId);
             return View(items);
         }
-        private async Task<CourseEditVM> GetItemsAsync(int maxPriority, bool isDone, long courseId)
+        private async Task<CourseVM> GetItemsAsync(int maxPriority, bool isDone, long courseId)
         {
-
-            return _mapper.Map<CourseEditVM>(_context.Courses.FirstOrDefault(x => x.Id == courseId));
+            return _mapper.Map<CourseVM>(_context.Courses.FirstOrDefault(x => x.Id == courseId));
         }
-        
     }
 }

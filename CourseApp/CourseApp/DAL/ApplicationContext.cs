@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using CourseApp.Content;
 
 namespace CourseApp.DAL
 {
@@ -21,24 +22,38 @@ namespace CourseApp.DAL
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer("Data Source=courseappdb.db"));
         }
 
+
         public DbSet<CourseModel> Courses { get; set; }
         public DbSet<SectionModel> Sections { get; set; }
         public DbSet<UserCourseModel> UserCourses { get; set; }
 
+        public DbSet<HTMLContentModel> HTMLContents { get; set; }
+        public DbSet<EmbedModel> Videos { get; set; }
+        public DbSet<FileModel> Files { get; set; }
+        public DbSet<MediaItemModel> MediaItems { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-          .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-          .AddJsonFile("appsettings.json")
-          .Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("CourseAppDB"));
+            if (!optionsBuilder.IsConfigured)
+            {
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+              .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+              .AddJsonFile("appsettings.json")
+              .Build();
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("CourseAppDB"));
+            }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            var sections = modelBuilder.Entity<SectionModel>();
 
-            sections.HasOne<SectionModel>().WithMany().HasForeignKey(x => x.ParentSectionId);
+            modelBuilder.Entity<MediaItemModel>().HasDiscriminator(x => x.MediaType);
+            
+            var mbSM = modelBuilder.Entity<SectionModel>();
+
+
+            mbSM.HasOne<SectionModel>().WithMany().HasForeignKey(x => x.ParentSectionId);
+                
 
             var mbUCM = modelBuilder.Entity<UserCourseModel>();
             mbUCM.HasKey(sc => new { sc.UserId, sc.CourseId });
@@ -54,6 +69,8 @@ namespace CourseApp.DAL
             .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
+
+
         }
     }
 }

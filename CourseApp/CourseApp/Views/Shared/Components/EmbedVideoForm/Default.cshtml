@@ -1,0 +1,13 @@
+﻿@model EmbedVideoVM
+<form asp-action="UploadEmbed" asp-controller="Embed" method="post">
+    <input type="hidden" asp-for="CourseId" />
+    <input type="hidden" Name="Id" value="@Model.Id" />
+    <div>
+        <input type="text" asp-for="@Model.URI" placeholder="Enter a Youtube URL">
+    </div>
+    <div class="">
+        <div class="d-flex justify-content-start p-1">
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+    </div>
+</form>

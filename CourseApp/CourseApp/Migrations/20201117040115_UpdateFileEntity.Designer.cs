@@ -4,14 +4,16 @@ using CourseApp.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CourseApp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20201117040115_UpdateFileEntity")]
+    partial class UpdateFileEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -320,16 +322,6 @@ namespace CourseApp.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CourseApp.Models.EmbedModel", b =>
-                {
-                    b.HasBaseType("CourseApp.Models.MediaItemModel");
-
-                    b.Property<string>("ResourceLink")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("EmbedModel");
-                });
-
             modelBuilder.Entity("CourseApp.Models.FileModel", b =>
                 {
                     b.HasBaseType("CourseApp.Models.MediaItemModel");
@@ -343,9 +335,6 @@ namespace CourseApp.Migrations
                     b.Property<string>("Uri")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasDiscriminator().HasValue("FileModel");
                 });
 
@@ -357,6 +346,16 @@ namespace CourseApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("HTMLContentModel");
+                });
+
+            modelBuilder.Entity("CourseApp.Models.VideoModel", b =>
+                {
+                    b.HasBaseType("CourseApp.Models.MediaItemModel");
+
+                    b.Property<string>("ResourceLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("VideoModel");
                 });
 
             modelBuilder.Entity("CourseApp.Models.CourseModel", b =>
