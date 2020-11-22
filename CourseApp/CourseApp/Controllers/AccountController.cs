@@ -50,23 +50,32 @@ namespace CourseApp.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
-            
-            var user = _mapper.Map<UserModel>(model);
-            var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded)
+            try
             {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.TryAddModelError(error.Code, error.Description);
-                }
 
-                return View(model);
+                var user = _mapper.Map<UserModel>(model);
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.TryAddModelError(error.Code, error.Description);
+                    }
+
+                    return View(model);
+                }
+            }
+            catch(Exception e){
+
+                _logger.LogError("There was an issue registering the account!", e);
             }
 
-            // await _userManager.AddToRoleAsync(user, "Guest");
+                // await _userManager.AddToRoleAsync(user, "Guest");
 
-            return RedirectToAction(nameof(HomeController.Index), "Home");            
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+          
         }
 
 
