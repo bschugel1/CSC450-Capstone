@@ -75,8 +75,12 @@ namespace CourseApp.Controllers
         [HttpGet]
         public IActionResult Edit(long id, bool? showadd, bool? showupload, string mediatype, long? sectionid, long? parentid, long? selectedSection)
         {
+
             
-            var model = _context.Courses.Include(s => s.Sections).ThenInclude(i => i.Items).ThenInclude(i => i.Section).FirstOrDefault(x => x.Id == id);
+            
+            var model = _context.Courses.Include(s => s.Sections).ThenInclude(i => i.Items).FirstOrDefault(x => x.Id == id);
+
+           
             if (!User.IsCurrentAuthor(model.AuthorId))
             {
                 return RedirectToAction("Index", "Home");
@@ -91,6 +95,10 @@ namespace CourseApp.Controllers
             }
             else
             {
+                if (selectedSection == null)
+                {
+                    selectedSection = 0;
+                }
                 ViewData["SelectedSection"] = selectedSection;
                 ViewData["MediaType"] = mediatype;
                 ViewData["ShowAddForm"] = showadd ?? false;
@@ -262,7 +270,7 @@ namespace CourseApp.Controllers
             var sections = _context.Sections.Where(x => x.CourseId == courseId).ToList();
             var entity = _context.Sections.FirstOrDefault(x => x.Id == id);
             var children = _context.Sections.Where(x => x.ParentSectionId == id);
-
+            var sectionParent = entity.ParentSectionId;
             if (entity != default)
             {
                 RecursiveDelete(entity);
@@ -271,7 +279,7 @@ namespace CourseApp.Controllers
                 ReorderSections(sections);
                 _context.SaveChanges();
             }    
-            return RedirectToAction(nameof(Edit), new { id = courseId });
+            return RedirectToAction(nameof(Edit), new { id = courseId, selectedSection = sectionParent});
         }
 
 
@@ -295,7 +303,7 @@ namespace CourseApp.Controllers
                 _context.Remove(entity);
                 _context.SaveChanges();
             }
-            return RedirectToAction(nameof(Edit), new { id = courseId });
+            return RedirectToAction(nameof(Edit), new { id = courseId, selectedSection = sectionId});
         }
 
         private void RecursiveDelete(SectionModel parent)
