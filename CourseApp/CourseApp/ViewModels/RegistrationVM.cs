@@ -20,6 +20,9 @@ namespace CourseApp.ViewModels
         [DisplayName("Phone Number")]
         public string PhoneNumber { get; set; }
 
+        [DisplayName("Username")]
+        public string PersonUsername { get; set; }
+
         [Required(ErrorMessage = "Password required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
