@@ -2,12 +2,14 @@
 @using CourseApp.ViewComponents
 
 @{
+
+    Layout = "~/Views/Shared/_AuthorLayout.cshtml";
     var showAddForm = ViewData["ShowAddForm"] as bool?;
     var parentSectionId = ViewData["ParentSectionId"] as long?;
+    var selectedSection = ViewData["SelectedSection"] as long?;
 }
-
 <a asp-action="Index" asp-controller="Author"><i class="fas fa-chevron-left"></i> Return to Courses</a>
-<div class="container">
+<div class="container-fluid">
     <br />
     <h3>Course Properties</h3>
     <div class="container">
@@ -67,10 +69,16 @@
 
 }
 
-<vc:course-edit-sections max-priority="3" is-done="false" course-id="@Model.Id">
+<vc:course-edit-sections max-priority="3" is-done="false" course-id="@Model.Id" selected-section="selectedSection">
 
 </vc:course-edit-sections>
 
+@section SectionNav{
+
+    <vc:course-section-nav course-id="@Model.Id">
+
+    </vc:course-section-nav>
+}
 
 @section Scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>

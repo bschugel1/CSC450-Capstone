@@ -1,8 +1,7 @@
 ﻿@model CourseEditVM
 @using CourseApp.ViewComponents
 @{
-
-
+    
 }
 <h3 class="d-inline">Edit Content</h3>
 
@@ -25,12 +24,16 @@
 }
 
 <ul class="list-unstyled">
-    @foreach (var item in Model.Sections.Where(x => x.ParentSectionId == null).OrderBy(x => x.DisplayOrder))
+    @foreach (var item in Model.Sections.Where(x => x.Id == Model.SelectedSection).OrderBy(x => x.DisplayOrder))
     {
-
-        await renderSection(item, Model.Sections);
-
-
+        try
+        {
+            await renderSection(item, Model.Sections);
+        }
+        catch(Exception e)
+        {
+            
+        }
     }
 </ul>
 
@@ -46,7 +49,7 @@
 
     private async Task renderEmbedVideoForm(SectionModel item)
     {
-        <vc:embed-video-form course-id="@item.CourseId" id="@item.Id">
+        <vc:embed-video-form course-id="@item.CourseId" parent-id="@item.ParentSectionId" id="@item.Id">
 
         </vc:embed-video-form>
     }
@@ -93,32 +96,32 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-sm" aria-labelledby="context-toggle-@item.Id">
                                     <li class="dropdown-item">
-                                        <a asp-action="edit" asp-route-showadd="true" asp-route-id="@Model.Id" asp-route-parentid="@item.Id" title="Add Sub-section">
+                                        <a asp-action="edit" asp-route-showadd="true" asp-route-id="@Model.Id" asp-route-selectedsection="@Model.SelectedSection" asp-route-parentid="@item.Id" title="Add Sub-section">
                                             Add Section <i class="fas fa-plus p-1"></i>
                                         </a>
                                     </li>
                                     <li class="dropdown-item">
-                                        <a asp-action="edit" asp-route-showupload="true" asp-route-mediatype="file" asp-route-id="@Model.Id" asp-route-sectionid="@item.Id" title="Upload File">
+                                        <a asp-action="edit" asp-route-showupload="true" asp-route-mediatype="file" asp-route-selectedsection="@Model.SelectedSection" asp-route-id="@Model.Id" asp-route-sectionid="@item.Id" title="Upload File">
                                             Upload File <i class="fas fa-upload p-1"></i>
                                         </a>
                                     </li>
                                     <li class="dropdown-item">
-                                        <a asp-action="edit" asp-route-showupload="true" asp-route-mediatype="embedvideo" asp-route-id="@Model.Id" asp-route-sectionid="@item.Id" title="Embed Video">
+                                        <a asp-action="edit" asp-route-showupload="true" asp-route-mediatype="embedvideo" asp-route-selectedsection="@Model.SelectedSection" asp-route-id="@Model.Id" asp-route-sectionid="@item.Id" title="Embed Video">
                                             Embed Video <i class="fas fa-upload p-1"></i>
                                         </a>
                                     </li>
                                     <li class="dropdown-item">
-                                        <a asp-action="edit" asp-route-showupload="true" asp-route-mediatype="addmarkup" asp-route-id="@Model.Id" asp-route-sectionid="@item.Id" title="Embed Video">
+                                        <a asp-action="edit" asp-route-showupload="true" asp-route-mediatype="addmarkup" asp-route-selectedsection="@Model.SelectedSection" asp-route-id="@Model.Id" asp-route-sectionid="@item.Id" title="Embed Video">
                                             Add Rich Content <i class="fas fa-upload p-1"></i>
                                         </a>
                                     </li>
                                     <li class="dropdown-item">
-                                        <a asp-action="edit" asp-route-showadd="true" asp-route-id="@Model.Id" asp-route-parentid="@item.Id" title="Edit Sub-section">
+                                        <a asp-action="edit" asp-route-showadd="true" asp-route-id="@Model.Id" asp-route-selectedsection="@Model.SelectedSection" asp-route-parentid="@item.Id" title="Edit Sub-section">
                                             Edit Section <i class="fas fa-cog p-1"></i>
                                         </a>
                                     </li>
                                     <li class="dropdown-item d-inline-block">
-                                        <form method="post" asp-action="DeleteSection" asp-controller="Author" asp-route-id="@item.Id" asp-route-courseid="@Model.Id">
+                                        <form method="post" asp-action="DeleteSection" asp-controller="Author" asp-route-selectedsection="@Model.SelectedSection" asp-route-id="@item.Id" asp-route-courseid="@Model.Id">
                                             <button onclick="return confirm('Are you sure you want delete this section?')" type="submit" class="btn btn-danger">
                                                 Delete Section
                                                 <i class="fas fa-times  p-1"></i>

@@ -19,9 +19,10 @@ namespace CourseApp.ViewComponents
         }
 
         public async Task<IViewComponentResult> InvokeAsync(
-        int maxPriority, bool isDone, long courseId)
+        int maxPriority, bool isDone, long courseId, long? selectedSection)
         {
             var items = await GetItemsAsync(maxPriority, isDone, courseId);
+            items.SelectedSection = selectedSection ?? 0;
             return View(items);
         }
         private async Task<CourseEditVM> GetItemsAsync(int maxPriority, bool isDone, long courseId)
