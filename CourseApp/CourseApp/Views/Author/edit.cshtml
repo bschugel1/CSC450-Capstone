@@ -8,11 +8,18 @@
     var parentSectionId = ViewData["ParentSectionId"] as long?;
     var selectedSection = ViewData["SelectedSection"] as long?;
 }
+
 <a asp-action="Index" asp-controller="Author"><i class="fas fa-chevron-left"></i> Return to Courses</a>
 <div class="container-fluid">
     <br />
     <h3>Course Properties</h3>
     <div class="container">
+        <vc:course-view-banner course-id="@Model.Id">
+
+        </vc:course-view-banner>
+        <vc:banner-upload-form course-id="@Model.Id">
+
+        </vc:banner-upload-form>
         <br />
     </div>
     <div asp-validation-summary="All"></div>

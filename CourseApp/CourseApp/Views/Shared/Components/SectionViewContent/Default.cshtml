@@ -31,16 +31,22 @@
             {
                 RenderImage(item);
             }
-            <div class="container-fluid d-inline-block container-file">
-                <strong>@item.Name</strong>
-                <a asp-action="DownloadFile" asp-controller="File" asp-route-id="@item.Id">
-                    <div class="float-right">
-                        <i class="fa fa-download">
-                        </i>
-                    </div>
-                </a>
-            </div>
+            else
+            {
+                <div class="container-fluid d-inline-block container-file">
+                    <strong>@item.Name</strong>
+                    <a asp-action="DownloadFile" asp-controller="File" asp-route-id="@item.Id">
+                        <div class="float-right">
+                            <i class="fa fa-download">
+                            </i>
+                        </div>
+                    </a>
+                </div>
+            }
+
         </li>
+
+
     }
     public async Task RenderVideo(EmbedModel item)
     {
@@ -54,7 +60,7 @@
     public async Task RenderImage(FileModel item)
     {
 
-        <img class="w-50" src="@Url.Action("Image", "Image", new { id = item.Id })" title="@item.Name" />
+        <img class="w-50" src="@Url.Action("GetImage", "Image", new { id = item.Id })" title="@item.Name" />
 
     }
 }

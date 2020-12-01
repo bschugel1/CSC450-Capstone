@@ -49,20 +49,35 @@
         <li class="list-unstyled">
             @if (FileExtensions.IsImage(item.Uri))
             {
-                RenderImage(item);
-            }
+                RenderOptionsDropdown(item);
             <div class="container-fluid d-inline-block container-file">
-                <strong>@item.Name</strong>
+                @{
+                    RenderImage(item);
+
+                }
                 <a asp-action="DownloadFile" asp-controller="File" asp-route-id="@item.Id">
-                    <div class="float-right">
+                    <div class="float-right align-items-center">
                         <i class="fa fa-download">
                         </i>
                     </div>
                 </a>
-                @{
-                    RenderOptionsDropdown(item);
-                }
             </div>
+            }
+            else
+            {
+                <div class="container-fluid d-inline-block container-file">
+                    <strong>@item.Name</strong>
+                    <a asp-action="DownloadFile" asp-controller="File" asp-route-id="@item.Id">
+                        <div class="float-right align-items-center">
+                            <i class="fa fa-download">
+                            </i>
+                        </div>
+                    </a>
+                    @{
+                        RenderOptionsDropdown(item);
+                    }
+                </div>
+            }
         </li>
     }
     public async Task RenderVideo(EmbedModel item)
@@ -82,7 +97,7 @@
     }
     public async Task RenderImage(FileModel item)
     {
-        <img class="w-50" src="@Url.Action("Image", "Image", new { id = item.Id })" title="@item.Name" />
+        <img class="w-50" src="@Url.Action("GetImage", "Image", new { id = item.Id })" title="@item.Name" />
     }
 }
 
