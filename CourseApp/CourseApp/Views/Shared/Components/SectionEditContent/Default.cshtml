@@ -46,11 +46,11 @@
 
     public async Task RenderFile(FileModel item)
     {
-        @if (FileExtensions.IsImage(item.Uri))
-        {
-            RenderImage(item);
-        }
         <li class="list-unstyled">
+            @if (FileExtensions.IsImage(item.Uri))
+            {
+                RenderImage(item);
+            }
             <div class="container-fluid d-inline-block container-file">
                 <strong>@item.Name</strong>
                 <a asp-action="DownloadFile" asp-controller="File" asp-route-id="@item.Id">
@@ -64,31 +64,25 @@
                 }
             </div>
         </li>
-                    }
-                    public async Task RenderVideo(EmbedModel item)
-                    {
-<div class="container-content p-lg-3">
-    @{
-        RenderOptionsDropdown(item);
     }
-    <div class="container-video">
-        <iframe src="@item.ResourceLink" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-        </iframe>
-    </div>
-</div>
+    public async Task RenderVideo(EmbedModel item)
+    {
+        <div class="container-content p-lg-3">
+            @{
+                RenderOptionsDropdown(item);
+            }
+            <div class="container-video">
+                <iframe src="@item.ResourceLink" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                </iframe>
+            </div>
+        </div>
 
 
-        
+
     }
     public async Task RenderImage(FileModel item)
     {
-        IBlobStorageService bss = new BlobStorageService();
-        CloudBlobDirectory directory = bss.GetDirectory(item.Uri);
-        item.Url = directory.Uri.ToString();
-        var url = item.Url;
-        <div class="container-fluid d-inline-block container-file">
-            @item.Url
-        </div>
+        <img class="w-50" src="@Url.Action("Image", "Image", new { id = item.Id })" title="@item.Name" />
     }
 }
 

@@ -18,10 +18,6 @@ namespace CourseApp.Services
             _settings = settings.Value;
         }
 
-        public BlobStorageService()
-        {
-        }
-
         public string UploadFileToBlob(string namePath, byte[] data, string type)
         {
             var uploadTask = Task.Run(() => this.UploadFileToBlobAsync(namePath, data, type));
