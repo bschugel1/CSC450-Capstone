@@ -6,17 +6,14 @@ using System.Collections.Generic;
 using AuthorizeNet.Api.Controllers;
 using AuthorizeNet.Api.Contracts.V1;
 using AuthorizeNet.Api.Controllers.Bases;
+using CourseApp.ViewModels;
 
 namespace CourseApp.Services
 {
     public class ChargeCardTest
     {
-
-
-        public static void Run(String ApiLoginId, String ApiTransactionKey)
+        public static TransactionVM Test(String ApiLoginId, String ApiTransactionKey, TransactionVM model)
         {
-
-
             Console.WriteLine("Charge Credit Card Sample");
             
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
@@ -58,18 +55,18 @@ namespace CourseApp.Services
             {
                 if (response.transactionResponse != null)
                 {
-                    Console.WriteLine("Success, Auth Code : " + response.transactionResponse.authCode);
+                    model.Response = "Success, Auth Code : " + response.transactionResponse.authCode;
                 }
             }
             else
             {
-                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
+                model.Response = "Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text;
                 if (response.transactionResponse != null)
                 {
-                    Console.WriteLine("Transaction Error : " + response.transactionResponse.errors[0].errorCode + " " + response.transactionResponse.errors[0].errorText);
+                    model.Response = "Transaction Error : " + response.transactionResponse.errors[0].errorCode + " " + response.transactionResponse.errors[0].errorText;
                 }
             }
-
+            return model;
         }
 
     }

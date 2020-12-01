@@ -15,5 +15,7 @@ namespace CourseApp.ViewModels
         [Display(Name = "Course Code")]
         public string CourseCode { get; set; }
         public string Description { get; set; }
-    }
+        public bool PaymentRequired { get; set; }
+        public Decimal Price { get; set; }
+     }
 }
