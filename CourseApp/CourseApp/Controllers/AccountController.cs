@@ -77,11 +77,6 @@ namespace CourseApp.Controllers
                 return View();            
         }
 
-        public IActionResult Message()
-        {
-            return View();
-        }
-
         [HttpGet]
         public IActionResult ResetPassword()
         {
@@ -185,9 +180,34 @@ namespace CourseApp.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult PasswordRecovery()
+        public IActionResult ForgotPassword()
         {
             return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM model)
+        {
+            if(ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if(user != null && await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                    var passwordResetLink = Url.Action("ResetPassword", "Account",
+                        new { email = model.Email, token = token }, Request.Scheme);
+
+                    _logger.Log(LogLevel.Warning, passwordResetLink);
+
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                return View("ForgotPasswordConfirmation");
+            }
+
+            return View(model);
         }
 
         [AllowAnonymous]
