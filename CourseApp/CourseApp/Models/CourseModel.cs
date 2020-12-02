@@ -17,6 +17,10 @@ namespace CourseApp.Models
         public string Subject { get; set; }
         public string Description { get; set; }
         public UserModel Author { get; set; }
+        public string URL { get; set; }
+        public bool PaymentRequired { get; set; }
+        public Decimal? Price { get; set; }
+        public string BannerURL { get; set; }
         public string URL { get; }
         public ICollection<SectionModel> Sections { get; set; }
         public ICollection<UserCourseModel> UserCourses { get; set; }

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.EntityFrameworkCore;
 using CourseApp.Helpers;
 using System;
+using CourseApp.Services;
 
 namespace CourseApp.Controllers
 {
@@ -20,11 +21,13 @@ namespace CourseApp.Controllers
     {
         private readonly ApplicationContext _context;
         private readonly IMapper _mapper;
+        private readonly IBlobStorageService _blobService;
 
-        public AuthorController(ApplicationContext context, IMapper mapper)
+        public AuthorController(ApplicationContext context, IMapper mapper, IBlobStorageService blobService)
         {
             _context = context;
             _mapper = mapper;
+            _blobService = blobService;
         }
 
 
@@ -48,6 +51,8 @@ namespace CourseApp.Controllers
                     CourseCode = model.CourseCode,
                     Subject = model.Subject,
                     Description = model.Description,
+                    PaymentRequired = model.PaymentRequired,
+                    Price = model.Price,
                     AuthorId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
                 };
                 _context.Add(entity);
@@ -73,9 +78,14 @@ namespace CourseApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(long id, bool? showadd, bool? showupload, string mediatype, long? sectionid, long? parentid)
+        public IActionResult Edit(long id, bool? showadd, bool? showupload, string mediatype, long? sectionid, long? parentid, long? selectedSection)
         {
-            var model = _context.Courses.Include(s => s.Sections).ThenInclude(i => i.Items).ThenInclude(i => i.Section).FirstOrDefault(x => x.Id == id);
+
+            
+            
+            var model = _context.Courses.Include(s => s.Sections).ThenInclude(i => i.Items).FirstOrDefault(x => x.Id == id);
+
+           
             if (!User.IsCurrentAuthor(model.AuthorId))
             {
                 return RedirectToAction("Index", "Home");
@@ -90,6 +100,11 @@ namespace CourseApp.Controllers
             }
             else
             {
+                if (selectedSection == null)
+                {
+                    selectedSection = 0;
+                }
+                ViewData["SelectedSection"] = selectedSection;
                 ViewData["MediaType"] = mediatype;
                 ViewData["ShowAddForm"] = showadd ?? false;
                 ViewData["ShowUploadForm"] = showupload ?? false;
@@ -157,7 +172,7 @@ namespace CourseApp.Controllers
 
                         _context.Update(prev);
                         _context.Update(entity);
-                      //  ReorderSections(sections.ToList());
+                        //  ReorderSections(sections.ToList());
                         _context.SaveChanges();
                     }
                     else
@@ -177,7 +192,7 @@ namespace CourseApp.Controllers
             var model = _context.Sections.FirstOrDefault(x => x.Id == id);
             if (ModelState.IsValid)
             {
-                
+
                 var sections = _context.Sections.Where(x => x.CourseId == model.CourseId && x.ParentSectionId == model.ParentSectionId);
                 var entity = sections.FirstOrDefault(x => x.Id == model.Id);
 
@@ -201,7 +216,7 @@ namespace CourseApp.Controllers
 
                         _context.Update(next);
                         _context.Update(entity);
-                    //    ReorderSections(sections.ToList());
+                        //    ReorderSections(sections.ToList());
                         _context.SaveChanges();
 
                     }
@@ -224,7 +239,7 @@ namespace CourseApp.Controllers
             if (ModelState.IsValid)
             {
                 if (model.Id > 0)
-                {                    
+                {
                     var entity = _context.Sections.FirstOrDefault(x => x.Id == model.Id);
                     if (entity != default)
                     {
@@ -260,17 +275,28 @@ namespace CourseApp.Controllers
             var sections = _context.Sections.Where(x => x.CourseId == courseId).ToList();
             var entity = _context.Sections.FirstOrDefault(x => x.Id == id);
             var children = _context.Sections.Where(x => x.ParentSectionId == id);
-
+            var sectionParent = entity.ParentSectionId;
             if (entity != default)
             {
                 RecursiveDelete(entity);
                 _context.SaveChanges();
-                 sections = _context.Sections.Where(x => x.CourseId == courseId && x.ParentSectionId == entity.ParentSectionId).ToList();             
+                sections = _context.Sections.Where(x => x.CourseId == courseId && x.ParentSectionId == entity.ParentSectionId).ToList();
                 ReorderSections(sections);
                 _context.SaveChanges();
-            }    
-            return RedirectToAction(nameof(Edit), new { id = courseId });
+            }
+            return RedirectToAction(nameof(Edit), new { id = courseId, selectedSection = sectionParent});
         }
+
+
+        [HttpGet]
+        public IActionResult SelectSection(long id, long courseId)
+        {
+           
+            
+            return RedirectToAction(nameof(Edit), new { Id = courseId, selectedSection = id });
+        }
+
+
         [HttpPost]
         public IActionResult DeleteItem(long id, long courseId, long sectionId)
         {
@@ -279,10 +305,15 @@ namespace CourseApp.Controllers
 
             if (entity != default)
             {
+               if(entity.MediaType == "FileModel")
+                {
+                    var file = (FileModel)entity;
+                    _blobService.DeleteBlobData(file.Uri); 
+                }
                 _context.Remove(entity);
                 _context.SaveChanges();
             }
-            return RedirectToAction(nameof(Edit), new { id = courseId });
+            return RedirectToAction(nameof(Edit), new { id = courseId, selectedSection = sectionId});
         }
 
         private void RecursiveDelete(SectionModel parent)
@@ -304,7 +335,7 @@ namespace CourseApp.Controllers
             var order = 1;
 
             var orderedSections = sections.OrderBy(x => x.DisplayOrder).ToList();
-            foreach(SectionModel section in orderedSections)
+            foreach (SectionModel section in orderedSections)
             {
                 section.DisplayOrder = order;
                 order++;
