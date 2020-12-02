@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace CourseApp.ViewModels
 {
-    public class PasswordRecoveryVM
+    public class ForgotPasswordVM
     {
-        [Required(ErrorMessage = "Email required")]
+        [Required]
         [EmailAddress]
         public string Email { get; set; }
-
-
     }
 }
