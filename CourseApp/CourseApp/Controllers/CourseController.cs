@@ -37,22 +37,36 @@ namespace CourseApp.Controllers
         public IActionResult Preview(long id)
         {
             var model = _context.Courses.Find(id);
-            if (model == default)
+            if (User.FindFirstValue(ClaimTypes.NameIdentifier) == null)
             {
-                return RedirectToAction(nameof(Error), new
-                {
-                    id = "The requested course was not found!"
-                });
+                return View("preview", _mapper.Map<CoursePreviewVM>(model));
             }
             else
             {
-                return View("preview", _mapper.Map<CoursePreviewVM>(model));
+                var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var userCourse = _context.UserCourses.FirstOrDefault(x => x.User.Id == userId && x.CourseId == id);
+                if (model == default)
+                {
+                    return RedirectToAction(nameof(Error), new
+                    {
+                        id = "The requested course was not found!"
+                    });
+                }
+                else
+                {
+                    if (userCourse != null)
+                    {
+                        return RedirectToAction("Course", "Course", new { id = id });
+                    }
+                    return View("preview", _mapper.Map<CoursePreviewVM>(model));
+                }
             }
         }
         [HttpGet]
         public IActionResult Course(long id, long? parentid)
         {
             var model = _context.Courses.Include(x => x.Sections).FirstOrDefault(x => x.Id == id);
+
             if (model == default)
             {
                 return RedirectToAction(nameof(Error), new
@@ -78,14 +92,21 @@ namespace CourseApp.Controllers
         [HttpPost]
         public IActionResult Register(long id)
         {
+            var course = _context.Courses.FirstOrDefault(x => x.Id == id);
+            
             var entity = new UserCourseModel
             {
                 UserId = long.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value),
                 CourseId = id
             };
 
-            _context.Add(entity);
-            _context.SaveChanges();
+            if (_context.UserCourses.Where(x => x.CourseId == id && x.UserId == entity.UserId) == null)
+            {
+
+                _context.Add(entity);
+                _context.SaveChanges();
+
+            }
             return RedirectToAction(nameof(MyCourses));
         }
 

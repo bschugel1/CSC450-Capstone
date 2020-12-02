@@ -29,6 +29,7 @@ namespace CourseApp.ViewComponents
         private async Task<CourseVM> GetItemsAsync(int maxPriority, bool isDone, long courseId)
         {
             return _mapper.Map<CourseVM>(_context.Courses.FirstOrDefault(x => x.Id == courseId));
+
         }
     }
 }

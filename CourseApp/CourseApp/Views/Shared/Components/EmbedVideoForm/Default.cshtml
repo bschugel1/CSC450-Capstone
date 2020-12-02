@@ -2,6 +2,7 @@
 <form asp-action="UploadEmbed" asp-controller="Embed" method="post">
     <input type="hidden" asp-for="CourseId" />
     <input type="hidden" Name="Id" value="@Model.Id" />
+    <input type="hidden" Name="ParentSectionId" value="@Model.ParentSectionId" />
     <div>
         <input type="text" asp-for="@Model.URI" placeholder="Enter a Youtube URL">
     </div>
