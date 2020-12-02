@@ -51,6 +51,8 @@ namespace CourseApp.Controllers
                     CourseCode = model.CourseCode,
                     Subject = model.Subject,
                     Description = model.Description,
+                    PaymentRequired = model.PaymentRequired,
+                    Price = model.Price,
                     AuthorId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
                 };
                 _context.Add(entity);
@@ -170,7 +172,7 @@ namespace CourseApp.Controllers
 
                         _context.Update(prev);
                         _context.Update(entity);
-                      //  ReorderSections(sections.ToList());
+                        //  ReorderSections(sections.ToList());
                         _context.SaveChanges();
                     }
                     else
@@ -190,7 +192,7 @@ namespace CourseApp.Controllers
             var model = _context.Sections.FirstOrDefault(x => x.Id == id);
             if (ModelState.IsValid)
             {
-                
+
                 var sections = _context.Sections.Where(x => x.CourseId == model.CourseId && x.ParentSectionId == model.ParentSectionId);
                 var entity = sections.FirstOrDefault(x => x.Id == model.Id);
 
@@ -214,7 +216,7 @@ namespace CourseApp.Controllers
 
                         _context.Update(next);
                         _context.Update(entity);
-                    //    ReorderSections(sections.ToList());
+                        //    ReorderSections(sections.ToList());
                         _context.SaveChanges();
 
                     }
@@ -237,7 +239,7 @@ namespace CourseApp.Controllers
             if (ModelState.IsValid)
             {
                 if (model.Id > 0)
-                {                    
+                {
                     var entity = _context.Sections.FirstOrDefault(x => x.Id == model.Id);
                     if (entity != default)
                     {
@@ -278,10 +280,10 @@ namespace CourseApp.Controllers
             {
                 RecursiveDelete(entity);
                 _context.SaveChanges();
-                 sections = _context.Sections.Where(x => x.CourseId == courseId && x.ParentSectionId == entity.ParentSectionId).ToList();             
+                sections = _context.Sections.Where(x => x.CourseId == courseId && x.ParentSectionId == entity.ParentSectionId).ToList();
                 ReorderSections(sections);
                 _context.SaveChanges();
-            }    
+            }
             return RedirectToAction(nameof(Edit), new { id = courseId, selectedSection = sectionParent});
         }
 
@@ -333,7 +335,7 @@ namespace CourseApp.Controllers
             var order = 1;
 
             var orderedSections = sections.OrderBy(x => x.DisplayOrder).ToList();
-            foreach(SectionModel section in orderedSections)
+            foreach (SectionModel section in orderedSections)
             {
                 section.DisplayOrder = order;
                 order++;
