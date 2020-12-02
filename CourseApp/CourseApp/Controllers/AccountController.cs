@@ -82,6 +82,47 @@ namespace CourseApp.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult ResetPassword()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                if(user == null)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+                if(!result.Succeeded)
+                {
+                    foreach(var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                    return View();
+                }
+
+                await _signInManager.RefreshSignInAsync(user);
+                return View("ResetPasswordConfirmation");
+            }
+
+            return View(model);
+        }
 
         [AllowAnonymous]
         [HttpPost]
@@ -144,9 +185,9 @@ namespace CourseApp.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> PasswordRecovery(string returnUrl = null)
+        public IActionResult PasswordRecovery()
         {
-            return RedirectToLocal(returnUrl);
+            return View();
         }
 
         [AllowAnonymous]
