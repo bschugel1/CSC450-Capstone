@@ -5,7 +5,7 @@
     <form asp-action="create" name="create" method="post">
         <div class="form-group row">
             <div class="col-sm-3">
-                <label asp-for="Name"></label>
+                <strong><label asp-for="Name"></label></strong>
             </div>
             <div class="col-sm-9">
                 <input asp-for="Name" class="form-control" />
@@ -15,7 +15,7 @@
 
         <div class="form-group row">
             <div class="col-sm-3">
-                <label asp-for="CourseCode"></label>
+                <strong><label asp-for="CourseCode"></label></strong>
             </div>
             <div class="col-sm-9">
                 <input asp-for="CourseCode" class="form-control" />
@@ -25,7 +25,7 @@
 
         <div class="form-group row">
             <div class="col-sm-3">
-                <label asp-for="Subject"></label>
+                <strong><label asp-for="Subject"></label></strong>
             </div>
             <div class="col-sm-9">
                 <input asp-for="Subject" class="form-control" />
@@ -35,12 +35,34 @@
 
         <div class="form-group row">
             <div class="col-sm-3">
-                <label asp-for="Description"></label>
+                <strong><label asp-for="Description"></label></strong>
             </div>
             <div class="col-sm-9">
                 <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description"></span>
             </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <strong><label asp-for="PaymentRequired"></label></strong>
+            </div>
+            <div class="col-sm-5">
+                <input type="checkbox" onchange="document.getElementById('price-control').disabled = !this.checked;" asp-for="PaymentRequired" class="form-check-input" id="paymentrequired">
+                <label class="form-check-label" for="price-control">Paid Course</label>
+                <span asp-validation-for="PaymentRequired"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <strong><label asp-for="Price"></label></strong>
+            </div>
+                <div class="col-sm-3 form-inline">
+                    <span class="col-sm-1 input-group-addon">$</span>
+                    <input asp-for="Price" id="price-control" class="form-control" disabled/>
+                    <span asp-validation-for="Price"></span>
+                </div>
         </div>
 
 
