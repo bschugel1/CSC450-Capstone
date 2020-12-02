@@ -34,8 +34,8 @@ namespace CourseApp.Services
         }
         public async void DeleteBlobData(string fileUrl)
         {
-            Uri uriObj = new Uri(fileUrl);
-            string BlobName = Path.GetFileName(uriObj.LocalPath);
+            Uri relativeUri = new Uri(fileUrl, UriKind.Relative);
+            string BlobName = Path.GetFileName(relativeUri.ToString());
 
             // Parse the storage account access key
             CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(_settings.ConnectionString);
@@ -44,10 +44,9 @@ namespace CourseApp.Services
             // Get reference to blob container
             CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(strContainerName);
 
-            string pathPrefix = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd") + "/";
-            CloudBlobDirectory blobDirectory = cloudBlobContainer.GetDirectoryReference(pathPrefix);
+            CloudBlobDirectory blobDirectory = cloudBlobContainer.GetDirectoryReference("");
             // Get reference to blob
-            CloudBlockBlob blockBlob = blobDirectory.GetBlockBlobReference(BlobName);
+            CloudBlockBlob blockBlob = blobDirectory.GetBlockBlobReference(fileUrl);
 
             //Delete blob from container      
             await blockBlob.DeleteAsync();

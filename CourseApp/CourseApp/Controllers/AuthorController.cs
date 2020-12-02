@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.EntityFrameworkCore;
 using CourseApp.Helpers;
 using System;
+using CourseApp.Services;
 
 namespace CourseApp.Controllers
 {
@@ -20,11 +21,13 @@ namespace CourseApp.Controllers
     {
         private readonly ApplicationContext _context;
         private readonly IMapper _mapper;
+        private readonly IBlobStorageService _blobService;
 
-        public AuthorController(ApplicationContext context, IMapper mapper)
+        public AuthorController(ApplicationContext context, IMapper mapper, IBlobStorageService blobService)
         {
             _context = context;
             _mapper = mapper;
+            _blobService = blobService;
         }
 
 
@@ -300,6 +303,11 @@ namespace CourseApp.Controllers
 
             if (entity != default)
             {
+               if(entity.MediaType == "FileModel")
+                {
+                    var file = (FileModel)entity;
+                    _blobService.DeleteBlobData(file.Uri); 
+                }
                 _context.Remove(entity);
                 _context.SaveChanges();
             }

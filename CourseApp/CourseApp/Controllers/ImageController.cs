@@ -89,6 +89,7 @@ namespace CourseApp.Controllers
 
                         if (entity != default)
                         {
+                            if(entity.BannerURL != null)
                             //Delete the old image from blob
                             _blobService.DeleteBlobData(entity.BannerURL);
 
