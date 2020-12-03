@@ -93,7 +93,10 @@ namespace CourseApp.Controllers
         public IActionResult Register(long id)
         {
             var course = _context.Courses.FirstOrDefault(x => x.Id == id);
-            
+            if (course.PaymentRequired)
+            {
+                return RedirectToAction("Checkout", "Transaction", new { id = course.Id });
+            }
             var entity = new UserCourseModel
             {
                 UserId = long.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value),
