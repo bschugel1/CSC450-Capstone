@@ -25,6 +25,8 @@ namespace CourseApp.Models
             CreateMap<EmbedModel, EmbedVideoVM>().ReverseMap();
 
             CreateMap<UserModel, AccountVM>().ReverseMap();
+
+            CreateMap<TransactionModel, TransactionVM>().ReverseMap();
         }
 
     }

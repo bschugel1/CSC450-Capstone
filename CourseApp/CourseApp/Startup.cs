@@ -17,6 +17,10 @@ using System.Collections.Generic;
 using CourseApp.Models.Configuration;
 using CourseApp.Services;
 using SendGrid.Helpers.Mail;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace CourseApp
 {
@@ -33,8 +37,10 @@ namespace CourseApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-          
+            
             services.Configure<FileConfigurations>(Configuration.GetSection("FileConfigurations"));
+            services.Configure<AuthorizeNetPaymentSettings>(Configuration.GetSection("AuthorizeNetSettings"));
+            services.Configure<BlobStorageSettings>(Configuration.GetSection("BlobSettings"));
             services.AddScoped<IBlobStorageService, BlobStorageService>();
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationContext>(options =>
@@ -58,6 +64,16 @@ namespace CourseApp
             services.AddMvc();                
             services.AddRazorPages();
             services.AddSignalR();
+
+
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IUrlHelper>(x =>
+            {
+                var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
+                var factory = x.GetRequiredService<IUrlHelperFactory>();
+                return factory.GetUrlHelper(actionContext);
+            });
 
             services.Configure<IdentityOptions>(options =>
             {
