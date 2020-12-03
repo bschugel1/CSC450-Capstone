@@ -29,6 +29,9 @@ namespace CourseApp.Migrations
                     b.Property<long>("AuthorId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("BannerURL")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CourseCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -38,7 +41,16 @@ namespace CourseApp.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("PaymentRequired")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("URL")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -131,6 +143,40 @@ namespace CourseApp.Migrations
                     b.ToTable("Section");
                 });
 
+            modelBuilder.Entity("CourseApp.Models.TransactionModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<long>("CourseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Response")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Transaction");
+                });
+
             modelBuilder.Entity("CourseApp.Models.UserCourseModel", b =>
                 {
                     b.Property<long>("UserId")
@@ -188,6 +234,9 @@ namespace CourseApp.Migrations
                         .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonUsername")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
@@ -388,6 +437,21 @@ namespace CourseApp.Migrations
                     b.HasOne("CourseApp.Models.SectionModel", null)
                         .WithMany()
                         .HasForeignKey("ParentSectionId");
+                });
+
+            modelBuilder.Entity("CourseApp.Models.TransactionModel", b =>
+                {
+                    b.HasOne("CourseApp.Models.CourseModel", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CourseApp.Models.UserModel", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CourseApp.Models.UserCourseModel", b =>

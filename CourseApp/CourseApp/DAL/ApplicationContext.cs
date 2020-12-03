@@ -32,6 +32,8 @@ namespace CourseApp.DAL
         public DbSet<FileModel> Files { get; set; }
         public DbSet<MediaItemModel> MediaItems { get; set; }
 
+        public DbSet<TransactionModel> Transactions { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -48,15 +50,30 @@ namespace CourseApp.DAL
 
 
             modelBuilder.Entity<MediaItemModel>().HasDiscriminator(x => x.MediaType);
-            
+
             var mbSM = modelBuilder.Entity<SectionModel>();
 
 
             mbSM.HasOne<SectionModel>().WithMany().HasForeignKey(x => x.ParentSectionId);
-                
+
+
 
             var mbUCM = modelBuilder.Entity<UserCourseModel>();
             mbUCM.HasKey(sc => new { sc.UserId, sc.CourseId });
+
+            var mbTM = modelBuilder.Entity<TransactionModel>();
+
+            mbTM.HasOne(u => u.User).WithMany().OnDelete(DeleteBehavior.Restrict);
+
+            mbTM.HasOne(u => u.Course).WithMany().OnDelete(DeleteBehavior.Restrict);
+
+            mbTM.Property(x => x.Amount).HasColumnType("decimal(18, 2)");
+          
+            
+            var mbCM = modelBuilder.Entity<CourseModel>();
+            mbCM.Property(x => x.Price).HasColumnType("decimal(18, 2)");
+            
+
 
             mbUCM.HasOne(sc => sc.User)
             .WithMany(s => s.UserCourses)
@@ -67,6 +84,7 @@ namespace CourseApp.DAL
             .WithMany(c => c.UserCourses)
             .HasForeignKey(sc => sc.CourseId)
             .OnDelete(DeleteBehavior.Restrict);
+
 
             base.OnModelCreating(modelBuilder);
 

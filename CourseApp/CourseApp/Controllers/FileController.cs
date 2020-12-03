@@ -86,7 +86,7 @@ namespace CourseApp.Controllers
 
                 }
             }
-            return RedirectToAction("Edit", "Author", new { id = model.CourseId });
+            return RedirectToAction("Edit", "Author", new { id = model.CourseId, selectedSection = model.ParentSectionId});
 
         }
 

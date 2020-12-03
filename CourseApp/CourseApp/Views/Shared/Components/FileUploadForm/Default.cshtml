@@ -5,6 +5,8 @@
     <form asp-action="UploadFile" asp-controller="File" enctype="multipart/form-data" name="UploadFile" method="post">
         <input type="hidden" asp-for="CourseId" />
         <input type="hidden" Name="Id" value="@Model.Id" />
+        <input type="hidden" Name="ParentSectionId" value="@Model.ParentSectionId" />
+
         <div>
             <label asp-for="@Model.Title"></label>
             <input asp-for="@Model.Title">
