@@ -167,6 +167,12 @@ namespace CourseApp.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Message()
+        {
+            return View(new MessageVM());
+        }
+
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
