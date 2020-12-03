@@ -1,0 +1,33 @@
+﻿<form method="post" action="https://test.authorize.net/payment/payment" id="formAuthorizeNetPopup" name="formAuthorizeNetPopup" target="iframeAuthorizeNet" style="display:none;">
+    <input type="hidden" id="popupToken" name="token" value="" />
+
+
+</form>
+<input type="hidden"  id="inputtoken" value="@Model.SessionToken" />
+<br />
+<div>
+    <button class="btn btn-success" id="btnOpenAuthorizeNetPopup" onclick="AuthorizeNetPopup.openPopup()">Pay now</button>
+</div>
+<div id="divAuthorizeNetPopup" style="display:none;" class="AuthorizeNetPopupGrayFrameTheme">
+    <div class="AuthorizeNetPopupOuter">
+        <div class="AuthorizeNetPopupTop">
+            <div class="AuthorizeNetPopupClose">
+                <a href="javascript:;" onclick="AuthorizeNetPopup.closePopup();" title="Close"> </a>
+            </div>
+        </div>
+        <div class="AuthorizeNetPopupInner">
+            <iframe name="iframeAuthorizeNet" id="iframeAuthorizeNet" src="~/payment/empty.html" frameborder="0" scrolling="no"></iframe>
+        </div>
+        <div class="AuthorizeNetPopupBottom">
+            <div class="AuthorizeNetPopupLogo" title="Powered by Authorize.Net"></div>
+        </div>
+        <div id="divAuthorizeNetPopupScreen" style="display:none;"></div>
+    </div>
+</div>
+
+@section HeadSection{
+    <link rel="stylesheet" href="~/css/authorize-net.css" />
+}
+@section Scripts{ 
+    <script src="~/js/authorize-payment.js"></script>
+}

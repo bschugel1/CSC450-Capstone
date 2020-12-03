@@ -12,5 +12,7 @@ namespace CourseApp.ViewModels
         public string Subject { get; set; }
         public string CourseCode { get; set; }
         public string Description { get; set; }
+        public bool PaymentRequired { get; set; }
+        public decimal Price { get; set; }
     }
 }

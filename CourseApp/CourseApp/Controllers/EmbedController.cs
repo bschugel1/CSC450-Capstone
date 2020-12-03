@@ -55,7 +55,7 @@ namespace CourseApp.Controllers
                     _context.Add(entity);
                     _context.SaveChanges();
                 }
-                return RedirectToAction("Edit", "Author", new { id = model.CourseId });
+                return RedirectToAction("Edit", "Author", new { id = model.CourseId, selectedSection = model.ParentSectionId });
             }
             catch
             {

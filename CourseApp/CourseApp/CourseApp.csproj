@@ -13,44 +13,21 @@
     <Compile Remove="Migrations\20200930190302_AddUserIdentity.Designer.cs" />
     <Compile Remove="Migrations\20200930191033_AddUserIdentity.cs" />
     <Compile Remove="Migrations\20200930191033_AddUserIdentity.Designer.cs" />
-    <Compile Remove="Migrations\20201029202303_AddSectionEntity.cs" />
-    <Compile Remove="Migrations\20201029202303_AddSectionEntity.Designer.cs" />
-    <Compile Remove="Migrations\20201029232553_AddSectionEntity.cs" />
-    <Compile Remove="Migrations\20201029232553_AddSectionEntity.Designer.cs" />
-    <Compile Remove="Migrations\20201103195706_AddStudentEntity.cs" />
-    <Compile Remove="Migrations\20201103195706_AddStudentEntity.Designer.cs" />
-    <Compile Remove="Migrations\20201104173120_AddUserCourseEntity.cs" />
-    <Compile Remove="Migrations\20201104173120_AddUserCourseEntity.Designer.cs" />
-    <Compile Remove="Migrations\20201104183415_AddUserCourseEntityAndSectionDisplayOrder.cs" />
-    <Compile Remove="Migrations\20201104183415_AddUserCourseEntityAndSectionDisplayOrder.Designer.cs" />
-    <Compile Remove="Migrations\20201104183447_AddUserCourseEntity.cs" />
-    <Compile Remove="Migrations\20201104183447_AddUserCourseEntity.Designer.cs" />
-    <Compile Remove="Migrations\20201104183701_AddUserCourseEntity.cs" />
-    <Compile Remove="Migrations\20201104183701_AddUserCourseEntity.Designer.cs" />
-    <Compile Remove="Migrations\20201112190401_AddMediaItemEntity.cs" />
-    <Compile Remove="Migrations\20201112190401_AddMediaItemEntity.Designer.cs" />
-    <Compile Remove="Migrations\20201112190602_AddMediaItemEntity.cs" />
-    <Compile Remove="Migrations\20201112190602_AddMediaItemEntity.Designer.cs" />
-    <Compile Remove="Migrations\20201116081812_AddMinorSectionEntityChanges.cs" />
-    <Compile Remove="Migrations\20201116081812_AddMinorSectionEntityChanges.Designer.cs" />
-    <Compile Remove="Migrations\20201117035942_UpdateFileEntity.cs" />
-    <Compile Remove="Migrations\20201117035942_UpdateFileEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201130225855_UpdateCourseEntityWithPrice.cs" />
+    <Compile Remove="Migrations\20201130225855_UpdateCourseEntityWithPrice.Designer.cs" />
+    <Compile Remove="Migrations\20201202222450_AddTransactionEntity.cs" />
+    <Compile Remove="Migrations\20201202222450_AddTransactionEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201202231035_AddTransactionEntity.cs" />
+    <Compile Remove="Migrations\20201202231035_AddTransactionEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201203000030_UpdateTransactionEntityStatus.cs" />
+    <Compile Remove="Migrations\20201203000030_UpdateTransactionEntityStatus.Designer.cs" />
     <Compile Remove="Migrations\CourseContextModelSnapshot.cs" />
-    <Compile Remove="Models\UserProfile.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Home\Register.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\content\images\stock\pexels-pixabay-163427.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="AuthorizeNet" Version="2.0.1" />
+    <PackageReference Include="AuthorizeNet.Fork.Aspcore2" Version="1.9.3" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.7.0" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.7" />
@@ -61,12 +38,14 @@
     </PackageReference>
     <PackageReference Include="Microsoft.IdentityModel.Protocols" Version="6.7.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
+    <PackageReference Include="SendGrid" Version="9.21.2" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Content\Media\" />
+    <None Include="wwwroot\payment\iframe-communicator.html" />
   </ItemGroup>
   
 </Project>

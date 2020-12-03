@@ -1,0 +1,34 @@
+﻿@model CourseEditVM
+<div class="container">
+    <a asp-controller="Author" asp-action="SelectSection" asp-route-id="0" asp-route-courseid="@Model.Id">View All</a>
+    <ul class="">
+        @foreach (var section in Model.Sections.Where(x => x.ParentSectionId == null).OrderBy(x => x.DisplayOrder))
+        {
+
+            await renderSection(section);
+
+
+        }
+    </ul>
+</div>
+
+
+@functions{
+
+    private async Task renderSection(SectionModel sect)
+    {
+        {
+            <ul class="list-group-horizontal">
+                <li class="list-group-item-info list-inline-item">
+                    <a asp-controller="Author" asp-action="SelectSection" asp-route-id="@sect.Id" asp-route-courseid="@sect.Course.Id">
+                        @sect.Name
+                    </a>
+                </li>
+                @foreach (var subitem in Model.Sections.Where(x => x.ParentSectionId == sect.Id).OrderBy(x => x.DisplayOrder))
+                {
+                    await renderSection(subitem);
+                }
+            </ul>
+        }
+    }
+}

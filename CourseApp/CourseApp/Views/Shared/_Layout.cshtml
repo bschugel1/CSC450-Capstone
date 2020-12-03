@@ -7,9 +7,12 @@
     <title>@ViewData["Title"] - CourseApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/authorize-net.css" />
+    @RenderSection("HeadSection", false)
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 <body>
+
     <header>
         <div class="container">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -55,7 +58,7 @@
                         else
                         {
                             <li class="nav-item alert-secondary">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Message">Message</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Message">Messaging</a>
                             </li>
                             <li class="nav-item alert-primary">
                                 <div class="dropdown">
@@ -72,19 +75,16 @@
                                 </div>
                             </li>
                         }
-
                     </ul>
                 </div>
             </nav>
         </div>
-
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 container-fluid">
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2020 - CourseApp - <a asp-area="" asp-controller="Home" asp-action="About">About</a>
