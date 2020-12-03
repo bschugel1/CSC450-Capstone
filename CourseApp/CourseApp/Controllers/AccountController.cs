@@ -69,14 +69,6 @@ namespace CourseApp.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");            
         }
 
-
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult Login()
-        {         
-                return View();            
-        }
-
         [HttpGet]
         public IActionResult ResetPassword()
         {
@@ -117,6 +109,13 @@ namespace CourseApp.Controllers
             }
 
             return View(model);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
         }
 
         [AllowAnonymous]
@@ -226,6 +225,44 @@ namespace CourseApp.Controllers
             else
             {
                 return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AccountEditVM model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+
+            if (user == null)
+            {
+                return View("EditFailure");
+            }
+            else
+            {
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.PersonUsername = model.PersonUsername;
+                user.PhoneNumber = model.PhoneNumber;
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("EditConfirmation");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
             }
         }
 
