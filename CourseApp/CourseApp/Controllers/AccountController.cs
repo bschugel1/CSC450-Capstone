@@ -235,15 +235,29 @@ namespace CourseApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit()
         {
-            return View();
+            // Fetch the userprofile
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if(user == null)
+            {
+                return View("EditFailure");
+            }
+            // Construct the viewmodel
+            AccountEditVM model = new AccountEditVM();
+            model.FirstName = user.FirstName;
+            model.LastName = user.LastName;
+            model.PersonUsername = user.PersonUsername;
+            model.PhoneNumber = user.PhoneNumber;
+
+            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(AccountEditVM model)
         {
-            var user = await _userManager.FindByIdAsync(model.Id);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
             if (user == null)
             {
@@ -260,7 +274,7 @@ namespace CourseApp.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("EditConfirmation");
+                    return View("EditConfirmation");
                 }
 
                 foreach (var error in result.Errors)
