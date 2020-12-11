@@ -11,11 +11,11 @@ namespace SignalRChat.Hubs
             await Clients.All.SendAsync("ReceiveMessage", username, message);
         }
 
-        public async Task SendDirectMessage(string user, string message)
+       /* public async Task SendDirectMessage(string user, string message)
         {
             string username = Context.User.Identity.Name;
             await Clients.User(user).SendAsync("ReceiveMessage", username, message);
-        }
+        }*/
 
         public async Task AddToGroup(string groupName)
         {
@@ -27,7 +27,7 @@ namespace SignalRChat.Hubs
         public async Task SendGroupMessage(string groupName, string message)
         {
             string username = Context.User.Identity.Name;
-            await Clients.Group(groupName).SendAsync("ReceiveMessage", username, message);
+            await Clients.Group(groupName).SendAsync("ReceiveMessageGroup", username, groupName, message);
         }
 
 
