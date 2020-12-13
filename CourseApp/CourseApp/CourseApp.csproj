@@ -47,5 +47,10 @@
   <ItemGroup>
     <None Include="wwwroot\payment\iframe-communicator.html" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Shared\Components\NewFolder\" />
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
   
 </Project>

@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using Microsoft.AspNetCore.Authorization;
 using CourseApp.DAL;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,14 +23,16 @@ namespace CourseApp.Controllers
         private readonly UserManager<UserModel> _userManager;
         private readonly SignInManager<UserModel> _signInManager;
         private readonly ILogger _logger;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AccountController(ApplicationContext context, IMapper mapper, UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, ILoggerFactory loggerFactory)
+        public AccountController(ApplicationContext context, IMapper mapper, UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, ILoggerFactory loggerFactory, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [AllowAnonymous]
@@ -248,7 +252,7 @@ namespace CourseApp.Controllers
             AccountEditVM model = new AccountEditVM();
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
-            model.PersonUsername = user.PersonUsername;
+            model.DisplayName = user.DisplayName;
             model.PhoneNumber = user.PhoneNumber;
 
             return View(model);
@@ -258,6 +262,7 @@ namespace CourseApp.Controllers
         public async Task<IActionResult> Edit(AccountEditVM model)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
+            string uniqueFileName = UploadedFile(model);
 
             if (user == null)
             {
@@ -267,8 +272,9 @@ namespace CourseApp.Controllers
             {
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
-                user.PersonUsername = model.PersonUsername;
+                user.DisplayName = model.DisplayName;
                 user.PhoneNumber = model.PhoneNumber;
+                user.ProfileImage = uniqueFileName;
 
                 var result = await _userManager.UpdateAsync(user);
 
@@ -284,6 +290,23 @@ namespace CourseApp.Controllers
 
                 return View(model);
             }
+        }
+
+        private string UploadedFile(AccountEditVM model)
+        {
+            string uniqueFileName = null;
+
+            if (model.ProfileImage != null)
+            {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.ProfileImage.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
 
     }
