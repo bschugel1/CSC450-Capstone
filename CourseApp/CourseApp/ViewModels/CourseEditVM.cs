@@ -20,7 +20,8 @@ namespace CourseApp.ViewModels
         public long AuthorId { get; set; }
         public Decimal Price { get; set; } 
         public long SelectedSection { get; set; }
-        public List<SectionModel> Sections { get; set; } 
+        public List<SectionModel> Sections { get; set; }
+        public List<UserCourseModel> Users { get; set; }
 
     }
 }
