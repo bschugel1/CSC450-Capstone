@@ -20,9 +20,13 @@
                         // name is User's First and Id
                         name = $"{uc.User.FirstName}_{uc.User.Id}";
                     }
-        <li class="list-group-item">@name<a href="#"><i class="fas fa-envelope float-right align-baseline"></i></a></li>
-                 
+                    <li class="list-group-item">@name<a href="#"><i class="fas fa-envelope float-right align-baseline"></i></a></li>
+
                 }
+            }
+            else
+            {
+                <li>There are no users registered for this course</li>
             }
         }
     </ul>
