@@ -1,6 +1,8 @@
 ﻿@model CourseEditVM
 @using CourseApp.ViewComponents
-
+@using System;
+@using System.IO;
+@using Newtonsoft.Json;
 @{
 
     Layout = "~/Views/Shared/_AuthorLayout.cshtml";
@@ -48,8 +50,20 @@
                 <label asp-for="Subject"></label>
             </div>
             <div class="col-sm-9">
-                <input asp-for="Subject" class="form-control" />
-                <span asp-validation-for="Subject"></span>
+                <select asp-for="Subject">
+                    @{
+                        string dir = Directory.GetCurrentDirectory();
+                        var path = System.IO.Path.Combine(dir, "wwwroot/json/course-subjects.json");
+                        var subjectListString = File.ReadAllText(path);
+                        var subjectList = JsonConvert.DeserializeObject<SubjectListVM>(subjectListString);
+
+                    }
+                    @foreach (var subject in subjectList.Subjects)
+                    {
+                        <option value="@subject.Name">@subject.Name</option>
+                    }
+                    }
+                </select>
             </div>
         </div>
         <div class="form-group row">
