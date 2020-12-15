@@ -93,7 +93,7 @@ namespace CourseApp.Controllers
         public IActionResult Register(long id)
         {
             var course = _context.Courses.FirstOrDefault(x => x.Id == id);
-            if (course.PaymentRequired)
+            if (course.PaymentRequired && course.Price > 0.00m)
             {
                 return RedirectToAction("Checkout", "Transaction", new { id = course.Id });
             }
