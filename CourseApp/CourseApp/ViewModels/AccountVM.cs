@@ -19,11 +19,14 @@ namespace CourseApp.ViewModels
         public string Email { get; set; }
 
         [DisplayName("Username")]
-        public string PersonUsername { get; set; }
+        public string DisplayName { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         [Phone]
         [DisplayName("Phone Number")]
         public string PhoneNumber { get; set; }
+
+        [DisplayName("Profile Image")]
+        public string ProfileImage { get; set; }
     }
 }

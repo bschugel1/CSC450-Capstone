@@ -1,13 +1,107 @@
 ﻿<form method="post" action="https://test.authorize.net/payment/payment" id="formAuthorizeNetPopup" name="formAuthorizeNetPopup" target="iframeAuthorizeNet" style="display:none;">
     <input type="hidden" id="popupToken" name="token" value="" />
-
+</form>
+<form method="post" id="responseForm" asp-action="isApproved" asp-controller="Transaction">
+    <input type="hidden" id="transactionResponse" name="response" value="" />
 
 </form>
-<input type="hidden"  id="inputtoken" value="@Model.SessionToken" />
+<input type="hidden" id="inputtoken" value="@Model.SessionToken" />
 <br />
-<div>
-    <button class="btn btn-success" id="btnOpenAuthorizeNetPopup" onclick="AuthorizeNetPopup.openPopup()">Pay now</button>
+<div class="container-content alert-warning p-4">
+
+    <h4>This page is only for testing transaction processing using the AuthorizeNet testing sandbox. Do not enter any personal information! </h4>
+
+    <h5>Provided below are some test card information that can be used to test against the sandbox environment.</h5>
 </div>
+<div class="container p-4">
+    <div class="col-3">
+        <div class="row">
+            <div class="d-inline">
+                <strong>Accepted Cards</strong>
+            </div>
+        </div>
+    </div>
+    <div class="col-3 d-inline">
+        <h6>Visa</h6>
+        <div class="row">
+            <div class="p-2">
+                4007000000027
+            </div>
+            <div class="p-2">
+                4111111111111111
+            </div>
+        </div>
+        <h6>Mastercard</h6>
+        <div class="row">
+            <div class="p-2">
+                5424000000000015
+            </div>
+            <div class="p-2">
+                2223000010309703
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="row">
+            <div class="d-inline">
+                <strong>CVC</strong>
+            </div>
+        </div>
+    </div>
+    <div class="col-3 d-inline">
+        <h6>Accepted</h6>
+        <div class="row">
+            <div class="p-2">
+                900 (matched)
+            </div>
+        </div>
+        <h6>Declined</h6>
+        <div class="row">
+            <div class="p-2">
+                901 (Does not match.)
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="row">
+            <div class="d-inline">
+                <strong>ZIP</strong>
+            </div>
+        </div>
+    </div>
+    <div class="col-3 d-inline">
+        <div class="row">
+            <div>
+                Any 5-digit number (11111)
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="row">
+            <div class="d-inline">
+                <strong>Phone Number</strong>
+            </div>
+        </div>
+    </div>
+    <div class="col-3 d-inline">
+        <div class="row">
+            <div>
+                Any 10-digit number (1234567890)
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-content p-3">
+    <strong class="text-secondary pb-lg-3">To access this course you first need to pay $@Model.Amount.</strong>
+    <br />
+    <div class="container p-4">
+        <button class="btn btn-success" id="btnOpenAuthorizeNetPopup" onclick="AuthorizeNetPopup.openPopup()">Pay now</button>
+    </div>
+</div>
+
+
+
+
 <div id="divAuthorizeNetPopup" style="display:none;" class="AuthorizeNetPopupGrayFrameTheme">
     <div class="AuthorizeNetPopupOuter">
         <div class="AuthorizeNetPopupTop">
@@ -28,6 +122,6 @@
 @section HeadSection{
     <link rel="stylesheet" href="~/css/authorize-net.css" />
 }
-@section Scripts{ 
+@section Scripts{
     <script src="~/js/authorize-payment.js"></script>
 }

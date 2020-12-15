@@ -290,9 +290,7 @@ namespace CourseApp.Controllers
 
         [HttpGet]
         public IActionResult SelectSection(long id, long courseId)
-        {
-           
-            
+        {                  
             return RedirectToAction(nameof(Edit), new { Id = courseId, selectedSection = id });
         }
 
