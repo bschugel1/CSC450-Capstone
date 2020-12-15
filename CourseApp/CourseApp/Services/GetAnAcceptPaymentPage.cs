@@ -23,10 +23,10 @@ namespace CourseApp.Services
             {
                 name = settings.ApiLoginId,
                 ItemElementName = ItemChoiceType.transactionKey,
-                Item = settings.TransactionKey
+                Item = settings.TransactionKey                
             };
 
-            settingType[] options = new settingType[4];
+            settingType[] options = new settingType[5];
 
             options[0] = new settingType();
             options[0].settingName = settingNameEnum.hostedPaymentButtonOptions.ToString();
@@ -44,15 +44,30 @@ namespace CourseApp.Services
             options[3].settingName = settingNameEnum.hostedPaymentIFrameCommunicatorUrl.ToString();
             options[3].settingValue = $"{{\"url\":\"{_urlHelper.AbsoluteContent(settings.IframeURL)}\"  }}";
 
+            options[4] = new settingType();
+            options[4].settingName = settingNameEnum.hostedPaymentReturnOptions.ToString();
+            options[4].settingValue = "{\"showReceipt\": false}";
+
             var transactionRequest = new transactionRequestType
             {
                 transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),    // authorize capture only
                 amount = model.Amount,
-                order = new orderType
+                refTransId = model.Id.ToString(),
+                customer = new customerDataType
                 {
-                    invoiceNumber = $"INV-{model.Id}",
-                    description = $"{model.Course.Name}"
-                }
+                    id = model.Id.ToString()
+                },               
+                lineItems = new List<lineItemType>
+                {
+                      new lineItemType
+                    {
+                        name = new string(model.Course.Name.Take(31).ToArray()),
+                        itemId = model.CourseId.ToString(),
+                        unitPrice = model.Course.Price ?? 0m,
+                        description = new string(model.Course.Name.Take(254).ToArray()),
+                        quantity = 1m
+                    }
+                }.ToArray()
             };
 
             var request = new getHostedPaymentPageRequest();

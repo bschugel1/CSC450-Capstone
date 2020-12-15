@@ -7,7 +7,6 @@
     AuthorizeNetPopup.closePopup = function () {
         document.getElementById("divAuthorizeNetPopupScreen").style.display = "none";
         document.getElementById("divAuthorizeNetPopup").style.display = "none";
-        document.getElementById("iframeAuthorizeNet").src = "empty.html";
         document.getElementById("btnOpenAuthorizeNetPopup").disabled = false;
         if (AuthorizeNetPopup.options.onPopupClosed) AuthorizeNetPopup.options.onPopupClosed();
     };
@@ -41,8 +40,9 @@
                 break;
             case "transactResponse":
                 var response = params["response"];
-                document.getElementById("token").value = response;
+                document.getElementById("transactionResponse").value = response;
                 AuthorizeNetPopup.closePopup();
+                document.getElementById("responseForm").submit();
                 break;
             case "resizeWindow":
                 var w = parseInt(params["width"]);

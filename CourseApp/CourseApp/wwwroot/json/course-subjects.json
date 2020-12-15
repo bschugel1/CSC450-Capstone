@@ -1,0 +1,70 @@
+{
+  "subjects": [
+    {
+      "name": "Accounting"
+    },
+    {
+      "name": "Art & Design"
+    },
+    {
+      "name": "Biology"
+    },
+    {
+      "name": "Business Administration"
+    },
+    {
+      "name": "Chemistry"
+    },
+    {
+      "name": "Communication"
+    },
+    {
+      "name": "Computer Information Systems"
+    },
+    {
+      "name": "Computer Science"
+    },
+    {
+      "name": "Criminal Justice"
+    },
+    {
+      "name": "Culinary Arts"
+    },
+    {
+      "name": "Economics"
+    },
+    {
+      "name": "Engineering"
+    },
+    {
+      "name": "Graphic Arts"
+    },
+    {
+      "name": "Health"
+    },
+    {
+      "name": "Literature"
+    },
+    {
+      "name": "Mathematics"
+    },
+    {
+      "name": "Marketing"
+    },
+    {
+      "name": "Medicine"
+    },
+    {
+      "name": "Music"
+    },
+    {
+      "name": "Photography"
+    },
+    {
+      "name": "Psychology"
+    },
+    {
+      "name": "Web Development"
+    }
+  ]
+}

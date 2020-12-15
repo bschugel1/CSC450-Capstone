@@ -37,7 +37,7 @@ namespace CourseApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
             services.Configure<FileConfigurations>(Configuration.GetSection("FileConfigurations"));
             services.Configure<AuthorizeNetPaymentSettings>(Configuration.GetSection("AuthorizeNetSettings"));
             services.Configure<BlobStorageSettings>(Configuration.GetSection("BlobSettings"));
@@ -61,7 +61,7 @@ namespace CourseApp
             })
              .AddEntityFrameworkStores<ApplicationContext>();
 
-            services.AddMvc();                
+            services.AddMvc();
             services.AddRazorPages();
             services.AddSignalR();
 

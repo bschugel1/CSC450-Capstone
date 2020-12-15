@@ -12,7 +12,9 @@ namespace CourseApp.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public string PersonUsername { get; set; }
+        public string DisplayName { get; set; }
+
+        public string ProfileImage { get; set; }
 
         public ICollection<UserCourseModel> UserCourses { get; set; }
 

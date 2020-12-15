@@ -12,5 +12,6 @@ namespace CourseApp.ViewModels
         public long CourseId { get; set; }
         public string Response { get; set; }
         public string SessionToken { get; set; }
+        public decimal Amount { get; set; }
     }
 }
