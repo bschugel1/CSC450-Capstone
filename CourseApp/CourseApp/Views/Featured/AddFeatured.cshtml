@@ -1,0 +1,18 @@
+﻿@model ICollection<CourseVM>
+
+
+<h1>Courses</h1>
+
+@foreach (var course in Model)
+{
+    <div>
+        <form method="post" asp-action="AddFeatured" asp-controller="Featured" asp-route-id="@course.Id">
+            <div class="container">
+                <h3 class="d-inline">@course.Name</h3>
+                <div class="d-inline col-sm-3">
+                    <button class="" type="submit">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+}

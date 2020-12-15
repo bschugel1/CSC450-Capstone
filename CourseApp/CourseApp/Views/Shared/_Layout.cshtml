@@ -36,7 +36,7 @@
                                 Courses
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-header" asp-controller="Course" asp-action="Index">Featured Courses</a>
+                                <a class="dropdown-header" asp-controller="Featured" asp-action="Index">Featured Courses</a>
                                 <a class="dropdown-header" asp-controller="Course" asp-action="Index">All Courses</a>
                                 @if (User.Identity.IsAuthenticated)
                                 {
