@@ -17,7 +17,7 @@ namespace CourseApp.ViewModels
         public string Description { get; set; }
         [Display(Name = "Payment Requirement")]
         public bool PaymentRequired { get; set; }
-        [Range(1, 100, ErrorMessage = "Price must be between $1 and $100")]
+        [Range(0, 100, ErrorMessage = "Price must be between $1 and $100")]
         public Decimal Price { get; set; }
      }
 }

@@ -2,6 +2,14 @@
 @using System;
 @using System.IO;
 @using Newtonsoft.Json;
+
+@{
+
+    var currentPrice = ViewData["currentPrice"] as decimal?;
+
+
+    currentPrice = Model.Price;
+}
 <div class="container">
     <div asp-validation-summary="All"></div>
     <form asp-action="create" name="create" method="post">
@@ -29,7 +37,7 @@
             </div>
             <div class="col-sm-9">
                 <div class="input-group">
-                    <select asp-for="Subject" >
+                    <select asp-for="Subject">
                         @{
                             string dir = Directory.GetCurrentDirectory();
                             var path = System.IO.Path.Combine(dir, "wwwroot/json/course-subjects.json");
@@ -38,9 +46,9 @@
 
                         }
                         @foreach (var subject in subjectList.Subjects)
-                            {
-                                <option value="@subject.Name">@subject.Name</option>
-                            }
+                        {
+                            <option value="@subject.Name">@subject.Name</option>
+                        }
                         }
                     </select>
                 </div>
@@ -60,7 +68,7 @@
                 <strong><label asp-for="PaymentRequired"></label></strong>
             </div>
             <div class="col-sm-5">
-                <input type="checkbox" onchange="document.getElementById('price-control').disabled = !this.checked;" asp-for="PaymentRequired" class="form-check-input" id="paymentrequired">
+                <input type="checkbox"  onchange="onChecked()" asp-for="PaymentRequired" class="form-check-input" id="paymentrequired">
                 <label class="form-check-label" for="price-control">Paid Course</label>
                 <span asp-validation-for="PaymentRequired"></span>
             </div>
@@ -71,7 +79,7 @@
             </div>
             <div class="col-sm-3 form-inline">
                 <span class="col-sm-1 input-group-addon">$</span>
-                <input asp-for="Price" id="price-control" class="form-control" disabled />
+                <input asp-for="Price" id="price-control" onchange="onPriceChange()" class="form-control" disabled />
                 <span asp-validation-for="Price"></span>
             </div>
         </div>
@@ -80,12 +88,21 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
+            <div class="alert-info" id="alert" style="display:block">
+                <p>This course will be registered as a free course. This cannot be changed later!</p>
+            </div>
     </form>
 </div>
+
+@{
+
+
+}
 
 @section Scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/js/form-validation.js"></script>
     <script type="text/javascript" src="~/json/course-subjects.json"></script>
     <script src="~/js/subject-field-dropdown.js"></script>
+    <script src="~/js/price-field-change.js"></script>
 }
