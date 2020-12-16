@@ -34,7 +34,7 @@ connection.on("ReceiveMessageBlank", function (message) { //Used to Recieve a me
 document.getElementById("sendButton").addEventListener("click", function (event) {
     var user = "";
     var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
+    connection.invoke("SendMessage", user, message).catch(function (err) {  //Invokes SendMessage in ChatHub.cs
         return console.error(err.toString());
     });
     event.preventDefault();
@@ -43,20 +43,12 @@ document.getElementById("sendButton").addEventListener("click", function (event)
 document.getElementById("groupSendButton").addEventListener("click", function (event) {
     var group = document.getElementById("groupMessageGroup").value;
     var message = document.getElementById("groupMessageInput").value;
-    connection.invoke("SendGroupMessage", group, message).catch(function (err) {
+    connection.invoke("SendGroupMessage", group, message).catch(function (err) {  //Invokes SendGroupMessage in ChatHub.cs
         return console.error(err.toString());
     });
     event.preventDefault();
 });
 
-/*document.getElementById("directSendButton").addEventListener("click", function (event) {
-    var recipient = document.getElementById("directMessageRecipient").value;
-    var message = document.getElementById("directMessageInput").value;
-    connection.invoke("SendDirectMessage", recipient, message).catch(function (err) {
-        return console.error(err.toString());
-    });
-    event.preventDefault();
-});*/
 
 
 document.getElementById("groupAddButton").addEventListener("click", function (event) {
