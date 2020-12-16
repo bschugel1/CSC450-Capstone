@@ -119,6 +119,13 @@ namespace CourseApp.Controllers
             var model = _context.Courses.Where(x => x.AuthorId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             var entity = model.FirstOrDefault(x => x.Id == id);
 
+            var usercourses = _context.UserCourses.Where(x => x.CourseId == id).ToList();
+
+            foreach(var uc in usercourses)
+            {
+                _context.Remove(uc);
+            }
+
             if (entity != null) {
                 _context.Remove(entity);
                 _context.SaveChanges();
