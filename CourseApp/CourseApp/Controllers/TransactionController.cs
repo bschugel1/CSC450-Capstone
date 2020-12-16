@@ -95,7 +95,6 @@ namespace CourseApp.Controllers
             }
             return RedirectToAction("Error", "Transaction");           
         }
-
         [HttpGet]
         public IActionResult Checkout(long id)
         {

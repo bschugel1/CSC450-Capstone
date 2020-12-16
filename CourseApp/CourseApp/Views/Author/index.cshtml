@@ -1,7 +1,13 @@
 ﻿@model ICollection<CourseVM>
 
+<div>
+    <div class="md-form my-0 container p-2 m-2">
+        <input id="searchField" onkeyup="searchList()" type="text" placeholder="Search" aria-label="Search">
+    </div>
+</div>
 
 <h1>Authored Courses</h1>
+
 @if (Model.Count < 1)
 {
     <div>
@@ -13,28 +19,34 @@
 }
 else
 {
-    @foreach (var course in Model)
-    {
-        <div class="p-3">          
-                <h3 class="d-inline">@course.Name</h3>
-                <div class="d-inline p-2">
-                    <a asp-action="Edit" asp-controller="Author" asp-route-id="@course.Id">
-                        <div class="btn btn-outline-primary">
-                            <i class="fas fa-edit"></i>
-                        </div>
-                    </a>
+    <ul class="list-unstyled" id="list">
+        @foreach (var course in Model)
+        {
+            <li>
+                <div class="p-3">
+                    <h3 class="d-inline"><a href="#">@course.Name</a></h3>
+                    <div class="d-inline p-2">
+                        <a asp-action="Edit" asp-controller="Author" asp-route-id="@course.Id">
+                            <div class="btn btn-outline-primary">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                        </a>
 
-                    <form class="d-inline" method="post" asp-action="DeleteCourse" asp-controller="Course" asp-route-id="@course.Id">
-                        <button onclick="return confirm('Are you sure you want delete this course?')" type="submit" class="btn btn-outline-danger">
-                            <i class="fas fa-times">
-                            </i>
-                        </button>
-                    </form>
+                        <form class="d-inline" method="post" asp-action="DeleteCourse" asp-controller="Course" asp-route-id="@course.Id">
+                            <button onclick="return confirm('Are you sure you want delete this course?')" type="submit" class="btn btn-outline-danger">
+                                <i class="fas fa-times">
+                                </i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-        </div>
-    }
+            </li>
+        }
+    </ul>
 }
 
 <div class="container p-xl-4">
     <a asp-action="create" asp-controller="Author" class="btn btn-primary">Register New Course</a>
 </div>
+
+<script src="~/js/search-list.js"></script>

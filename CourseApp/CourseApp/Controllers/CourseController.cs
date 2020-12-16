@@ -26,7 +26,9 @@ namespace CourseApp.Controllers
             _mapper = mapper;
         }
 
-        [AllowAnonymous]
+      
+
+    [AllowAnonymous]
         public IActionResult Index()
         {
             var model = _context.Courses.ToList();
@@ -80,6 +82,15 @@ namespace CourseApp.Controllers
                 return View(_mapper.Map<CourseVM>(model));
             }
         }
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult Search(string search)
+        {
+           
+            var model = _context.Courses.Where(x => x.Name.Contains(search)).ToList();
+            return View(_mapper.Map<ICollection<CourseVM>>(model));
+        }
+
 
         [HttpGet]
         public IActionResult MyCourses(long id)
@@ -93,7 +104,7 @@ namespace CourseApp.Controllers
         public IActionResult Register(long id)
         {
             var course = _context.Courses.FirstOrDefault(x => x.Id == id);
-            if (course.PaymentRequired)
+            if (course.PaymentRequired && course.Price > 0.00m)
             {
                 return RedirectToAction("Checkout", "Transaction", new { id = course.Id });
             }
@@ -118,6 +129,13 @@ namespace CourseApp.Controllers
         {
             var model = _context.Courses.Where(x => x.AuthorId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             var entity = model.FirstOrDefault(x => x.Id == id);
+
+            var usercourses = _context.UserCourses.Where(x => x.CourseId == id).ToList();
+
+            foreach(var uc in usercourses)
+            {
+                _context.Remove(uc);
+            }
 
             if (entity != null) {
                 _context.Remove(entity);

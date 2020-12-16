@@ -30,12 +30,9 @@ namespace CourseApp.Controllers
             _blobService = blobService;
         }
 
-
         public IActionResult Index()
         {
-
             var model = _context.Courses.Where(x => x.AuthorId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
             return View(_mapper.Map<ICollection<CourseVM>>(model));
         }
 

@@ -26,7 +26,7 @@ namespace CourseApp.DAL
         public DbSet<CourseModel> Courses { get; set; }
         public DbSet<SectionModel> Sections { get; set; }
         public DbSet<UserCourseModel> UserCourses { get; set; }
-
+        public DbSet<FeaturedCourseModel> FeaturedCourses { get; set; }
         public DbSet<HTMLContentModel> HTMLContents { get; set; }
         public DbSet<EmbedModel> Videos { get; set; }
         public DbSet<FileModel> Files { get; set; }
@@ -50,6 +50,7 @@ namespace CourseApp.DAL
 
 
             modelBuilder.Entity<MediaItemModel>().HasDiscriminator(x => x.MediaType);
+           
 
             var mbSM = modelBuilder.Entity<SectionModel>();
 
