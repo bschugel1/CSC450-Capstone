@@ -26,7 +26,9 @@ namespace CourseApp.Controllers
             _mapper = mapper;
         }
 
-        [AllowAnonymous]
+      
+
+    [AllowAnonymous]
         public IActionResult Index()
         {
             var model = _context.Courses.ToList();
@@ -80,6 +82,15 @@ namespace CourseApp.Controllers
                 return View(_mapper.Map<CourseVM>(model));
             }
         }
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult Search(string search)
+        {
+           
+            var model = _context.Courses.Where(x => x.Name.Contains(search)).ToList();
+            return View(_mapper.Map<ICollection<CourseVM>>(model));
+        }
+
 
         [HttpGet]
         public IActionResult MyCourses(long id)
