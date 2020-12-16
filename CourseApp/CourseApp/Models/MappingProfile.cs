@@ -18,14 +18,12 @@ namespace CourseApp.Models
             CreateMap<CourseModel, CourseEditVM>().ReverseMap();
             CreateMap<CourseModel, CoursePreviewVM>().ReverseMap();
             CreateMap<CourseModel, CourseVM>().ReverseMap();
+            CreateMap<FeaturedCourseModel, FeaturedCourseVM>().ReverseMap();
             CreateMap<UserModel, AccountEditVM>().ReverseMap();
             CreateMap<SectionModel, SectionCreateVM>().ReverseMap();
             CreateMap<SectionModel, FileUploadVM>().ReverseMap();
-
             CreateMap<EmbedModel, EmbedVideoVM>().ReverseMap();
-
             CreateMap<UserModel, AccountVM>().ReverseMap();
-
             CreateMap<TransactionModel, TransactionVM>().ReverseMap();
         }
 
