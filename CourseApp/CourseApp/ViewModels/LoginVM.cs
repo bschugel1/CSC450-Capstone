@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-
 namespace CourseApp.ViewModels
 {
     public class LoginVM

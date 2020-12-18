@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CourseApp.ViewModels;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.AspNetCore.Authorization;
 
 namespace CourseApp.Controllers
@@ -15,17 +14,19 @@ namespace CourseApp.Controllers
         {
             _logger = logger;
         }
+
         [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
+
         [AllowAnonymous]
         public IActionResult About()
         {
             return View();
         }
-       
+
         public IActionResult Register()
         {
             return View();
@@ -36,7 +37,6 @@ namespace CourseApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
 
         public IActionResult OnGetPartial() =>
          new PartialViewResult

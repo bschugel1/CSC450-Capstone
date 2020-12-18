@@ -5,7 +5,6 @@
 </head>
 <h1>
 </h1>
-
 <div>
     <div class="course-header">
         <div class="course-container">
@@ -13,29 +12,19 @@
             <span>@Model.Subject</span>
         </div>
     </div>
-
     <div class="course-body">
 
         <div class="course-container">
             <p>@Model.Description</p>
-
         </div>
     </div>
-
-    <div class="container p-5">
-        <vc:course-view-banner course-id="@Model.Id">
-
-        </vc:course-view-banner>
-    </div>
 </div>
-
+<div class="container p-3"><img class="d-block w-100 p-5" style="max-height: 500px;" src="@Url.Action("GetBannerImage", "Image", new { id = Model.Id })" /></div>
 @if (Model.PaymentRequired)
 {
-
     <div>
         <p>This is a payed course. You must purchase access to this course for:</p> <strong>$@Model.Price USD</strong>
     </div>
-
     <div class="container p-xl-4">
         <form asp-action="Register" asp-controller="Course">
             <input type="hidden" name="Id" value="@Model.Id" />

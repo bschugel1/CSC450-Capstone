@@ -1,5 +1,9 @@
 ﻿@model CourseVM
 
 <div class="banner">
-    <img class="d-block w-100 p-1" src="@Url.Action("GetBannerImage", "Image", new { id = Model.Id })"/>
-</div> 
+    <img id="banner" class="d-block w-100 p-1" style="max-height: 300px;" src="@Url.Action("GetBannerImage", "Image", new { id = Model.Id })" />
+</div>
+
+<script src="/lib/jquery.plugin.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script src="~/js/course-banner-error.js"></script>

@@ -20,8 +20,12 @@
                         // name is User's First and Id
                         name = $"{uc.User.FirstName}_{uc.User.Id}";
                     }
-                    <li class="list-group-item"> <a href="#">@name<i class="fas fa-envelope float-right align-baseline"></i></a></li>
-
+                    <li class="list-group-item">
+                        <a href="#">
+                            <img class="w-25 pr-2" src="@Url.Action("GetAvatarImage", "Image", new { id = uc.UserId })" />
+                                @name<i class="fas fa-envelope float-right align-baseline"></i>
+                        </a>
+                    </li>
                 }
             }
             else
