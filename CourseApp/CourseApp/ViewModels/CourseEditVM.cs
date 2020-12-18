@@ -9,7 +9,6 @@ namespace CourseApp.ViewModels
     {
         [Required]
         public Int64 Id { get; set; }
-
         [Required]
         public string Name { get; set; }
         [Required]

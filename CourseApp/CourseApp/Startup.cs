@@ -1,6 +1,4 @@
-using AutoMapper;
-using CourseApp.Models;
-using CourseApp.DAL;
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -8,19 +6,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using SignalRChat.Hubs;
-using System;
-using CourseApp.Content;
-using System.Collections.Generic;
-using CourseApp.Models.Configuration;
 using CourseApp.Services;
-using SendGrid.Helpers.Mail;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
+using AutoMapper;
+using SignalRChat.Hubs;
+using CourseApp.Configuration;
+using CourseApp.Models;
+using CourseApp.DAL;
 
 namespace CourseApp
 {
@@ -90,16 +85,6 @@ namespace CourseApp
 
             });
 
-            //services.AddControllers(config =>
-            //{               
-            //    var policy = new AuthorizationPolicyBuilder()
-            //                     .RequireAuthenticatedUser()
-            //                     .Build();
-            //    config.Filters.Add(new AuthorizeFilter(policy));
-            //});
-
-
-
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
@@ -110,9 +95,7 @@ namespace CourseApp
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
-
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

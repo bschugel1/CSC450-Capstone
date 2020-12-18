@@ -1,0 +1,21 @@
+﻿@model FileUploadVM
+
+<div class="container">
+    <h6>Avatar Image</h6>
+    <div asp-validation-summary="All"></div>
+    <form asp-action="UploadAvatarImage" asp-controller="Image" enctype="multipart/form-data" name="UploadAvatar" method="post">
+        <input type="hidden" asp-for="CourseId" />
+        <input type="hidden" Name="Id" value="@Model.Id" />
+        <div>
+            <input asp-for="@Model.FormFile" type="file" class='type'>
+            <span asp-validation-for="@Model.FormFile"></span>
+            <br>
+        </div>
+        <br />
+        <div class="">
+            <div class="d-flex justify-content-start">
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+        </div>
+    </form>
+</div>

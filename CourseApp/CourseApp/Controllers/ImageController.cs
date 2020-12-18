@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CourseApp.DAL;
-using CourseApp.Models;
-using CourseApp.Models.Configuration;
+using CourseApp.Configuration;
+using CourseApp.Helpers;
 using CourseApp.Services;
 using CourseApp.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.WindowsAzure.Storage.Blob;
+using System.Security.Claims;
 
 namespace CourseApp.Controllers
 {
@@ -59,6 +58,17 @@ namespace CourseApp.Controllers
             }
             return BadRequest();
         }
+        [HttpGet]
+        public IActionResult GetAvatarImage(long id)
+        {
+            var entity = _context.Users.FirstOrDefault(x => x.Id == id);
+            if (entity != default && entity.ProfileImage != default)
+            {
+                var stream = _blobService.DownloadFileFromBlob(entity.ProfileImage, "content/image");
+                return File(stream, "content/image");
+            }
+            return BadRequest();
+        }
         [HttpPost]
         public async Task<IActionResult> UploadBannerImage(FileUploadVM model, long id)
         {
@@ -89,9 +99,9 @@ namespace CourseApp.Controllers
 
                         if (entity != default)
                         {
-                            if(entity.BannerURL != null)
-                            //Delete the old image from blob
-                            _blobService.DeleteBlobData(entity.BannerURL);
+                            if (entity.BannerURL != null)
+                                //Delete the old image from blob
+                                _blobService.DeleteBlobData(entity.BannerURL);
 
                             //Set new image URL
                             entity.BannerURL = fileNamePath;
@@ -108,6 +118,58 @@ namespace CourseApp.Controllers
                 }
             }
             return RedirectToAction("Edit", "Author", new { id = model.CourseId, selectedSection = model.ParentSectionId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadAvatarImage(FileUploadVM model)
+        {
+            IFormFile formFile = Request.Form.Files.FirstOrDefault();
+            if (ModelState.IsValid)
+            {
+                if (formFile.Length > 0)
+                {
+                    if (!FileExtensions.IsImageType(formFile.ContentType))
+                    {
+                        return BadRequest("The file provided is not of an acceptable format.");
+                    }
+                    var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    var fileName = DateTime.Now.ToString("yyyyMMddHHmmss");
+                    var filePath = $"{userId}";
+                    var fileNamePath = $"{filePath}/{fileName}.{Path.GetExtension(formFile.FileName)}";
+                    string mimeType = formFile.ContentType;
+                    byte[] fileData = new byte[formFile.Length];
+
+                    using (var ms = new MemoryStream())
+                    {
+                        await formFile.CopyToAsync(ms);
+                        fileData = ms.ToArray();
+                    }
+                    try
+                    {
+                        _blobService.UploadFileToBlob(fileNamePath, fileData, mimeType);
+                        var entity = _context.Users.FirstOrDefault(x => x.Id == userId);
+
+                        if (entity != default)
+                        {
+                            if (entity.ProfileImage != null)
+                                //Delete the old image from blob
+                                _blobService.DeleteBlobData(entity.ProfileImage);
+
+                            //Set new image URL
+                            entity.ProfileImage = fileNamePath;
+
+                            //Update Entity and Save
+                            _context.Update(entity);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, $"Failed To Upload File For Course:{model.CourseId} Section:{model.Id}!");
+                    }
+                }
+            }
+            return RedirectToAction("Index", "Account");
         }
     }
 }

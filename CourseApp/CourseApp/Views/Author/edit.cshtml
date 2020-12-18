@@ -16,12 +16,8 @@
     <br />
     <h3>Course Properties</h3>
     <div class="container">
-        <vc:course-view-banner course-id="@Model.Id">
-
-        </vc:course-view-banner>
-        <vc:banner-upload-form course-id="@Model.Id">
-
-        </vc:banner-upload-form>
+        <vc:course-view-banner course-id="@Model.Id"></vc:course-view-banner>
+        <vc:banner-upload-form course-id="@Model.Id"></vc:banner-upload-form>
         <br />
     </div>
     <div asp-validation-summary="All"></div>
@@ -56,12 +52,10 @@
                         var path = System.IO.Path.Combine(dir, "wwwroot/json/course-subjects.json");
                         var subjectListString = File.ReadAllText(path);
                         var subjectList = JsonConvert.DeserializeObject<SubjectListVM>(subjectListString);
-
                     }
                     @foreach (var subject in subjectList.Subjects)
                     {
                         <option value="@subject.Name">@subject.Name</option>
-                    }
                     }
                 </select>
             </div>
@@ -84,28 +78,17 @@
 </div>
 @if (showAddForm == true)
 {
-    <vc:add-course-section-form course-id="@Model.Id" parent-id="@parentSectionId">
-
-    </vc:add-course-section-form>
-
+    <vc:add-course-section-form course-id="@Model.Id" parent-id="@parentSectionId"></vc:add-course-section-form>
 }
 
-<vc:course-edit-sections max-priority="3" is-done="false" course-id="@Model.Id" selected-section="selectedSection">
-
-</vc:course-edit-sections>
+<vc:course-edit-sections max-priority="3" is-done="false" course-id="@Model.Id" selected-section="selectedSection"></vc:course-edit-sections>
 
 @section SectionNav{
-
-    <vc:course-section-nav course-id="@Model.Id">
-
-    </vc:course-section-nav>
+    <vc:course-section-nav course-id="@Model.Id"></vc:course-section-nav>
 }
 
 @section RegisteredUsers{
-
-    <vc:course-registered-users course-id="@Model.Id">
-
-    </vc:course-registered-users>
+    <vc:course-registered-users course-id="@Model.Id"></vc:course-registered-users>
 }
 
 @section Scripts {

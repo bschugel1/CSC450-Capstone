@@ -6,11 +6,9 @@
         <input type="hidden" asp-for="CourseId" />
         <input type="hidden" Name="Id" value="@Model.Id" />
         <input type="hidden" Name="ParentSectionId" value="@Model.ParentSectionId" />
-
         <div>
             <label asp-for="@Model.Title"></label>
             <input asp-for="@Model.Title">
-
             <input asp-for="@Model.FormFile" type="file" class='type'>
             <span asp-validation-for="@Model.FormFile"></span>
             <br>

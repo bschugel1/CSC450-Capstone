@@ -1,9 +1,12 @@
 ﻿@model AccountVM
-
+@using System.Security.Claims;
+@using Microsoft.AspNetCore.Identity;
 @{
     ViewData["Title"] = "Account Profile";
 }
-
+@{
+    var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+}
 <head>
     <link rel="stylesheet" href="~/css/course-content.css" />
 </head>
@@ -12,16 +15,11 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8 justify-content-center">
-
             <h2>Account Details</h2>
-
             <br /><br />
-
-            <img src="~/images/@Model.ProfileImage"
-                 class="rounded-circle"
-                 width="150"
-                 asp-append-version="true" />
-
+            <div class="row pb-4">
+                <img class="d-block w-50 p-1" src="@Url.Action("GetAvatarImage", "Image", new { id = userId })" />
+            </div>
             <div class="row">
                 <div class="col-md-6">
                     <label>Full Name</label>

@@ -4,14 +4,10 @@
     <ul class="">
         @foreach (var section in Model.Sections.Where(x => x.ParentSectionId == null).OrderBy(x => x.DisplayOrder))
         {
-
             await renderSection(section);
-
-
         }
     </ul>
 </div>
-
 
 @functions{
 

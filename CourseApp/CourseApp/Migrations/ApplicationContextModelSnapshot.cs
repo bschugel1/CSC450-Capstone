@@ -60,6 +60,32 @@ namespace CourseApp.Migrations
                     b.ToTable("Course");
                 });
 
+            modelBuilder.Entity("CourseApp.Models.FeaturedCourseModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("CourseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Feature")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("FeaturedCourses");
+                });
+
             modelBuilder.Entity("CourseApp.Models.MediaItemModel", b =>
                 {
                     b.Property<long>("Id")
@@ -416,6 +442,15 @@ namespace CourseApp.Migrations
                     b.HasOne("CourseApp.Models.UserModel", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CourseApp.Models.FeaturedCourseModel", b =>
+                {
+                    b.HasOne("CourseApp.Models.CourseModel", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

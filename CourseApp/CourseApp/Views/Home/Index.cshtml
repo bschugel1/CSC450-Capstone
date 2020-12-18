@@ -2,14 +2,18 @@
     ViewData["Title"] = "Home Page";
 }
 
-
 <div class="text-center">
     <h2 class="display-4">Welcome to Course App </h2>
-
 </div>
-
-@await Html.PartialAsync("~/Views/Shared/_CarouselPartial.cshtml")
-
-
+<div class="container p-5">
+    <vc:course-banner-carousel featured="Get started with some free courses"></vc:course-banner-carousel>
+</div>
+<div class="container pt-5"><h4>Featured Courses</h4></div>
+<div class="container p-5">
+    <vc:course-banner-carousel featured="Top IT Courses This Month"></vc:course-banner-carousel>
+</div>
+<div class="container p-5">
+    <vc:course-banner-carousel featured="Sharpen up on your Math skills"></vc:course-banner-carousel>
+</div>
 
 

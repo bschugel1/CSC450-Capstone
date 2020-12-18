@@ -1,6 +1,5 @@
 ﻿
-using CourseApp.Models.Configuration;
-using Microsoft.Extensions.Configuration;
+using CourseApp.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -25,6 +24,7 @@ namespace CourseApp.Services
             string fileUrl = uploadTask.Result;
             return fileUrl;
         }
+
         public Stream DownloadFileFromBlob(string namePath, string type)
         {
             var downloadTask = Task.Run(() => this.DownloadFileFromBlobAsync(namePath, type));
@@ -32,6 +32,7 @@ namespace CourseApp.Services
             var fileStream = downloadTask.Result;
             return fileStream;
         }
+
         public async void DeleteBlobData(string fileUrl)
         {
             Uri relativeUri = new Uri(fileUrl, UriKind.Relative);
@@ -40,25 +41,14 @@ namespace CourseApp.Services
             // Parse the storage account access key
             CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(_settings.ConnectionString);
             CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-            string strContainerName = "mediafiles";
+            string strContainerName = _settings.BlobStorageContainer;
             // Get reference to blob container
             CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(strContainerName);
-
             CloudBlobDirectory blobDirectory = cloudBlobContainer.GetDirectoryReference("");
             // Get reference to blob
             CloudBlockBlob blockBlob = blobDirectory.GetBlockBlobReference(fileUrl);
-
             //Delete blob from container      
             await blockBlob.DeleteAsync();
-        }
-
-
-        private string GenerateFileName(string fileName)
-        {
-            string strFileName = string.Empty;
-            string[] strName = fileName.Split('.');
-            strFileName = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd") + "/" + DateTime.Now.ToUniversalTime().ToString("yyyyMMdd\\THHmmssfff") + "." + strName[strName.Length - 1];
-            return strFileName;
         }
 
         private async Task<string> UploadFileToBlobAsync(string fileNamePath, byte[] fileData, string fileMimeType)
@@ -70,10 +60,8 @@ namespace CourseApp.Services
 
             CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(_settings.ConnectionString);
             CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-
-            string strContainerName = "mediafiles";
+            string strContainerName = _settings.BlobStorageContainer;
             CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(strContainerName);
-
 
             if (await cloudBlobContainer.CreateIfNotExistsAsync())
             {
@@ -82,6 +70,7 @@ namespace CourseApp.Services
                     PublicAccess = BlobContainerPublicAccessType.Blob
                 });
             }
+
             CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileNamePath);
             cloudBlockBlob.Properties.ContentType = fileMimeType;
             await cloudBlockBlob.UploadFromByteArrayAsync(fileData, 0, fileData.Length);
@@ -91,10 +80,9 @@ namespace CourseApp.Services
         private async Task<Stream> DownloadFileFromBlobAsync(string namePath, string type)
         {
             CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(_settings.ConnectionString);
-
             CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-
-            string strContainerName = "mediafiles";
+            // Blob container for mediafiles
+            string strContainerName = _settings.BlobStorageContainer;
             CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(strContainerName);
 
             if (await cloudBlobContainer.CreateIfNotExistsAsync())
@@ -104,6 +92,7 @@ namespace CourseApp.Services
                     PublicAccess = BlobContainerPublicAccessType.Blob
                 });
             }
+
             CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(namePath);
             return await cloudBlockBlob.OpenReadAsync();
         }
@@ -111,12 +100,9 @@ namespace CourseApp.Services
         public CloudBlobDirectory GetDirectory(string namePath)
         {
             CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(_settings.ConnectionString);
-
             CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-
-            string strContainerName = "mediafiles";
+            string strContainerName = _settings.BlobStorageContainer;
             CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(strContainerName);
-
             CloudBlobDirectory directory = cloudBlobContainer.GetDirectoryReference(namePath);
             return directory;
         }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CourseApp.DAL;
 using CourseApp.Models;
-using CourseApp.Models.Configuration;
+using CourseApp.Configuration;
 using CourseApp.Services;
 using CourseApp.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -9,11 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CourseApp.Controllers
@@ -35,19 +32,16 @@ namespace CourseApp.Controllers
             _fileOptions = fileOptions.Value;
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadFile(FileUploadVM model)
         {
             IFormFile formFile = Request.Form.Files.FirstOrDefault();
 
-
             if (ModelState.IsValid)
             {
                 if (formFile.Length > 0)
                 {
-
                     if (!_fileOptions.AllowedExtensions.Contains(Path.GetExtension(formFile.FileName)))
                     {
                         return BadRequest("The file provided is not of an acceptable format.");
@@ -83,11 +77,9 @@ namespace CourseApp.Controllers
                     {
                         _logger.LogError(e, $"Failed To Upload File For Course:{model.CourseId} Section:{model.Id}!");
                     }
-
                 }
             }
-            return RedirectToAction("Edit", "Author", new { id = model.CourseId, selectedSection = model.ParentSectionId});
-
+            return RedirectToAction("Edit", "Author", new { id = model.CourseId, selectedSection = model.ParentSectionId });
         }
 
         [HttpGet]
@@ -101,16 +93,9 @@ namespace CourseApp.Controllers
             }
 
             var stream = _blobService.DownloadFileFromBlob(entity.Uri, entity.MimeType);
-
             return File(stream, entity.MimeType, $"{entity.Name}.{Path.GetExtension(entity.Uri)}");
-
         }
-
-      
-           
-        }
-
-
     }
+}
 
 
