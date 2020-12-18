@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 <body>
-
     <header>
         <div class="container">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -43,10 +42,8 @@
                                 }
                             </div>
                         </li>
-
                     </ul>
                     <ul class="navbar-nav">
-
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item alert-primary">
@@ -80,7 +77,7 @@
     </header>
     <div class="row">
         <div class="col-3">
-        @RenderSection("SectionNav")
+            @RenderSection("SectionNav")
         </div>
         <div class="col-6">
             <div class="container">
@@ -102,7 +99,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
 
     @RenderSection("Scripts", required: false)
 </body>

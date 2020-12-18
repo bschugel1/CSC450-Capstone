@@ -1,12 +1,13 @@
 ﻿@model SectionVM
+
 @using CourseApp.Services;
 @using Microsoft.WindowsAzure.Storage.Blob;
+
 @foreach (var item in Model.Items)
 {
-
     await RenderItem(item);
-
 }
+
 @functions{
     public async Task RenderOptionsDropdown(MediaItemModel item)
     {
@@ -15,7 +16,6 @@
                 <i class="fas fa-ellipsis-v">
                 </i>
             </button>
-
             <ul class="dropdown-menu dropdown-menu-sm" aria-labelledby="context-toggle-@item.Id">
                 <li class="dropdown-item d-inline-block">
                     <form method="post" asp-action="DeleteItem" asp-controller="Author" asp-route-id="@item.Id" asp-route-courseid="@item.Section.CourseId" asp-route-sectionid="@item.SectionId">
@@ -28,18 +28,19 @@
             </ul>
         </div>
     }
+
     public async Task RenderItem(MediaItemModel item)
     {
         switch (item.MediaType)
         {
             case "FileModel":
                 FileModel file = (FileModel)item;
-                RenderFile(file);
+               await RenderFile(file);
                 break;
 
             case "EmbedModel":
                 EmbedModel embed = (EmbedModel)item;
-                RenderVideo(embed);
+               await RenderVideo(embed);
                 break;
         }
     }
@@ -49,11 +50,10 @@
         <li class="list-unstyled">
             @if (FileExtensions.IsImage(item.Uri))
             {
-                RenderOptionsDropdown(item);
+               await RenderOptionsDropdown(item);
             <div class="container-fluid d-inline-block container-file">
                 @{
-                    RenderImage(item);
-
+                    await RenderImage(item);
                 }
                 <a asp-action="DownloadFile" asp-controller="File" asp-route-id="@item.Id">
                     <div class="float-right align-items-center">
@@ -74,27 +74,26 @@
                         </div>
                     </a>
                     @{
-                        RenderOptionsDropdown(item);
+                       await RenderOptionsDropdown(item);
                     }
                 </div>
             }
         </li>
     }
+
     public async Task RenderVideo(EmbedModel item)
     {
         <div class="container-content p-lg-3">
             @{
-                RenderOptionsDropdown(item);
+               await RenderOptionsDropdown(item);
             }
             <div class="container-video">
                 <iframe src="@item.ResourceLink" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                 </iframe>
             </div>
         </div>
-
-
-
     }
+
     public async Task RenderImage(FileModel item)
     {
         <img class="w-50" src="@Url.Action("GetImage", "Image", new { id = item.Id })" title="@item.Name" />

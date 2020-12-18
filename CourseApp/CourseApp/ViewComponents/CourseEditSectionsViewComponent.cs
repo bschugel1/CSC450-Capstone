@@ -18,8 +18,7 @@ namespace CourseApp.ViewComponents
             _mapper = mapper;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(
-        int maxPriority, bool isDone, long courseId, long? selectedSection)
+        public async Task<IViewComponentResult> InvokeAsync(int maxPriority, bool isDone, long courseId, long? selectedSection)
         {
             var items = await GetItemsAsync(maxPriority, isDone, courseId);
             items.SelectedSection = selectedSection ?? 0;
@@ -27,7 +26,6 @@ namespace CourseApp.ViewComponents
         }
         private async Task<CourseEditVM> GetItemsAsync(int maxPriority, bool isDone, long courseId)
         {
-
             return _mapper.Map<CourseEditVM>(_context.Courses.FirstOrDefault(x => x.Id == courseId));
         }
         

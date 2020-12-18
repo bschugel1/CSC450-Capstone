@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CourseApp.DAL;
 using CourseApp.Models;
-using CourseApp.Models.Configuration;
+using CourseApp.Configuration;
 using CourseApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

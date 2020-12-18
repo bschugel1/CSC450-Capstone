@@ -13,7 +13,6 @@ namespace CourseApp.ViewComponents
 {
     public class CourseSectionNavViewComponent : ViewComponent
     {
-
         private readonly ApplicationContext _context;
         private readonly IMapper _mapper;
 
@@ -31,7 +30,6 @@ namespace CourseApp.ViewComponents
                 Id = entity.Id,
                 Sections = entity.Sections.ToList()               
             };
-
             return View(model);
         }
     }

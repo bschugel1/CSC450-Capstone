@@ -1,196 +1,176 @@
 ﻿@model CourseEditVM
+
 @using CourseApp.ViewComponents
+
 @{
 
 }
+
 <h3 class="d-inline">Edit Content</h3>
-
-
 <div class="container-fluid p-2">
     <a class="btn btn-primary" asp-action="edit" asp-route-showadd="true" asp-route-id="@Model.Id">
         Add Course Section
     </a>
 </div>
-
-
 <div class="container">
     <br />
 </div>
+
 @if (Model.Sections != default && Model.Sections.Count > 10)
 {
-<div class="container">
-    <button class="btn btn-group" type="submit">Add Course Section</button>
-</div>
+    <div class="container">
+        <button class="btn btn-group" type="submit">Add Course Section</button>
+    </div>
 }
 
 <ul class="list-unstyled">
-    @if(Model.SelectedSection == 0){
-    @foreach (var item in Model.Sections.Where(x => x.ParentSectionId == null).OrderBy(x => x.DisplayOrder))
-    try{
-    await renderSection(item, Model.Sections);
-    }
-    catch(Exception e){
+    @if (Model.SelectedSection == 0)
+    {
+        @foreach (var item in Model.Sections.Where(x => x.ParentSectionId == null).OrderBy(x => x.DisplayOrder))
+            try
+            {
+                await renderSection(item, Model.Sections);
+            }
+            catch
+            {
 
+            }
     }
-    }
+
     @foreach (var item in Model.Sections.Where(x => x.Id == Model.SelectedSection).OrderBy(x => x.DisplayOrder))
     {
         try
         {
             await renderSection(item, Model.Sections);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
 
         }
     }
 </ul>
 
-
 @functions{
 
     private async Task renderFileUploadForm(SectionModel item)
     {
-    <vc:file-upload-form parent-id="@item.ParentSectionId" course-id="@item.CourseId" id="@item.Id">
-
-    </vc:file-upload-form>
+        <vc:file-upload-form parent-id="@item.ParentSectionId" course-id="@item.CourseId" id="@item.Id"></vc:file-upload-form>
     }
 
     private async Task renderEmbedVideoForm(SectionModel item)
     {
-    <vc:embed-video-form course-id="@item.CourseId" parent-id="@item.ParentSectionId" id="@item.Id">
-
-    </vc:embed-video-form>
+        <vc:embed-video-form course-id="@item.CourseId" parent-id="@item.ParentSectionId" id="@item.Id"></vc:embed-video-form>
     }
 
-    private void renderHtmlMarkupForm(SectionModel item)
-    {
-
-    }
     private async Task renderSection(SectionModel item, List<SectionModel> sections)
     {
         var showUploadForm = ViewData["ShowUploadForm"] as bool?;
         var mediatype = ViewData["MediaType"] as string;
         var sectionId = ViewData["SectionId"] as long?;
 
-    <li class="list-group-item">
-        <div class="p-2">
-            <div class="row">
-                <div class="col-xs-1 p-1">
-                    <div class="row container-fluid">
-                        <div class="col-xs-6">
-                            <form method="post" asp-action="MoveUp" asp-route-id="@item.Id" asp-route-displayorder="@item.DisplayOrder">
-                                <button type="submit" class="btn" title="Move Section Up">
-                                    <i class="d-inline fas fa-angle-up text-primary"></i>
-                                </button>
-                            </form>
-
-                            <form method="post" asp-action="MoveDown" asp-route-id="@item.Id" asp-route-displayorder="@item.DisplayOrder">
-                                <button type="submit" class="btn" title="Move Section Down">
-                                    <i class="d-inline fas fa-angle-down text-primary"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-between col-xl-11 align-items-center">
-
-                    <strong>@item.Name : @item.DisplayOrder</strong>
-                    @if (User.IsCurrentAuthor(Model.AuthorId))
-                        {
-                    <div class="justify-content-end">
-                        <button type="button" class="btn btn-link" id="context-toggle-@item.Id" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v">
-                            </i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-sm" aria-labelledby="context-toggle-@item.Id">
-                            <li class="dropdown-item">
-                                <a asp-action="edit" asp-route-showadd="true" asp-route-id="@Model.Id" asp-route-selectedsection="@Model.SelectedSection" asp-route-parentid="@item.Id" title="Add Sub-section">
-                                    Add Section <i class="fas fa-plus p-1"></i>
-                                </a>
-                            </li>
-                            <li class="dropdown-item">
-                                <a asp-action="edit" asp-route-showupload="true" asp-route-mediatype="file" asp-route-selectedsection="@Model.SelectedSection" asp-route-id="@Model.Id" asp-route-sectionid="@item.Id" title="Upload File">
-                                    Upload File <i class="fas fa-upload p-1"></i>
-                                </a>
-                            </li>
-                            <li class="dropdown-item">
-                                <a asp-action="edit" asp-route-showupload="true" asp-route-mediatype="embedvideo" asp-route-selectedsection="@Model.SelectedSection" asp-route-id="@Model.Id" asp-route-sectionid="@item.Id" title="Embed Video">
-                                    Embed Video <i class="fas fa-upload p-1"></i>
-                                </a>
-                            </li>
-                            <li class="dropdown-item">
-                                <a asp-action="edit" asp-route-showupload="true" asp-route-mediatype="addmarkup" asp-route-selectedsection="@Model.SelectedSection" asp-route-id="@Model.Id" asp-route-sectionid="@item.Id" title="Embed Video">
-                                    Add Rich Content <i class="fas fa-upload p-1"></i>
-                                </a>
-                            </li>
-                            <li class="dropdown-item">
-                                <a asp-action="edit" asp-route-showadd="true" asp-route-id="@Model.Id" asp-route-selectedsection="@Model.SelectedSection" asp-route-parentid="@item.Id" title="Edit Sub-section">
-                                    Edit Section <i class="fas fa-cog p-1"></i>
-                                </a>
-                            </li>
-                            <li class="dropdown-item d-inline-block">
-                                <form method="post" asp-action="DeleteSection" asp-controller="Author" asp-route-selectedsection="@Model.SelectedSection" asp-route-id="@item.Id" asp-route-courseid="@Model.Id">
-                                    <button onclick="return confirm('Are you sure you want delete this section?')" type="submit" class="btn btn-danger">
-                                        Delete Section
-                                        <i class="fas fa-times  p-1"></i>
+        <li class="list-group-item">
+            <div class="p-2">
+                <div class="row">
+                    <div class="col-xs-1 p-1">
+                        <div class="row container-fluid">
+                            <div class="col-xs-6">
+                                <form method="post" asp-action="MoveUp" asp-route-id="@item.Id" asp-route-displayorder="@item.DisplayOrder">
+                                    <button type="submit" class="btn" title="Move Section Up">
+                                        <i class="d-inline fas fa-angle-up text-primary"></i>
                                     </button>
                                 </form>
-                            </li>
-                        </ul>
-                    </div>
 
+                                <form method="post" asp-action="MoveDown" asp-route-id="@item.Id" asp-route-displayorder="@item.DisplayOrder">
+                                    <button type="submit" class="btn" title="Move Section Down">
+                                        <i class="d-inline fas fa-angle-down text-primary"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between col-xl-11 align-items-center">
+                        <strong>@item.Name : @item.DisplayOrder</strong>
+
+                        @if (User.IsCurrentAuthor(Model.AuthorId))
+                        {
+                            <div class="justify-content-end">
+                                <button type="button" class="btn btn-link" id="context-toggle-@item.Id" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v">
+                                    </i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-sm" aria-labelledby="context-toggle-@item.Id">
+                                    <li class="dropdown-item">
+                                        <a asp-action="edit" asp-route-showadd="true" asp-route-id="@Model.Id" asp-route-selectedsection="@Model.SelectedSection" asp-route-parentid="@item.Id" title="Add Sub-section">
+                                            Add Section <i class="fas fa-plus p-1"></i>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <a asp-action="edit" asp-route-showupload="true" asp-route-mediatype="file" asp-route-selectedsection="@Model.SelectedSection" asp-route-id="@Model.Id" asp-route-sectionid="@item.Id" title="Upload File">
+                                            Upload File <i class="fas fa-upload p-1"></i>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <a asp-action="edit" asp-route-showupload="true" asp-route-mediatype="embedvideo" asp-route-selectedsection="@Model.SelectedSection" asp-route-id="@Model.Id" asp-route-sectionid="@item.Id" title="Embed Video">
+                                            Embed Video <i class="fas fa-upload p-1"></i>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <a asp-action="edit" asp-route-showadd="true" asp-route-id="@Model.Id" asp-route-selectedsection="@Model.SelectedSection" asp-route-parentid="@item.Id" title="Edit Sub-section">
+                                            Edit Section <i class="fas fa-cog p-1"></i>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-item d-inline-block">
+                                        <form method="post" asp-action="DeleteSection" asp-controller="Author" asp-route-selectedsection="@Model.SelectedSection" asp-route-id="@item.Id" asp-route-courseid="@Model.Id">
+                                            <button onclick="return confirm('Are you sure you want delete this section?')" type="submit" class="btn btn-danger">
+                                                Delete Section
+                                                <i class="fas fa-times  p-1"></i>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         }
+                    </div>
                 </div>
             </div>
-        </div>
-        @if (item.Id == sectionId && showUploadForm == true)
+            @if (item.Id == sectionId && showUploadForm == true)
             {
                 switch (mediatype)
                 {
                     case "file":
-                        renderFileUploadForm(item);
+                        await renderFileUploadForm(item);
                         break;
 
                     case "embedvideo":
-                        renderEmbedVideoForm(item);
-                        break;
-                    case "addmarkup":
-                        renderHtmlMarkupForm(item);
+                        await renderEmbedVideoForm(item);
                         break;
                 }
             }
-        @if (sections.Any(x => x.ParentSectionId == item.Id))
+            @if (sections.Any(x => x.ParentSectionId == item.Id))
             {
-        <a class="" data-toggle="collapse" href="#collapse_@item.Id" role="button" aria-expanded="false" aria-controls="collapse_@item.Id">
-            <span class="collapsed">
-                <i class="fas fa-caret-square-right" style="font-weight:100"> expand </i>
-            </span>
-            <span class="expanded">
-                <i class="fas fa-caret-square-left" style="font-weight:100"> hide </i>
-            </span>
-        </a>
-        <ul class="list-group collapse" id="collapse_@item.Id">
-            @foreach (var subitem in sections.Where(x => x.ParentSectionId == item.Id).OrderBy(x => x.DisplayOrder))
+                <a class="" data-toggle="collapse" href="#collapse_@item.Id" role="button" aria-expanded="false" aria-controls="collapse_@item.Id">
+                    <span class="collapsed">
+                        <i class="fas fa-caret-square-right" style="font-weight:100"> expand </i>
+                    </span>
+                    <span class="expanded">
+                        <i class="fas fa-caret-square-left" style="font-weight:100"> hide </i>
+                    </span>
+                </a>
+                <ul class="list-group collapse" id="collapse_@item.Id">
+                    @foreach (var subitem in sections.Where(x => x.ParentSectionId == item.Id).OrderBy(x => x.DisplayOrder))
                     {
                         await renderSection(subitem, sections);
                     }
-
-
-        </ul>
+                </ul>
             }
-    </li>
+        </li>
         if (!(item == null))
         {
-    <div class="container-fluid p-2">
-        <ul class="list-group">
-            <vc:section-edit-content model="@item">
-
-            </vc:section-edit-content>
-        </ul>
-    </div>
+            <div class="container-fluid p-2">
+                <ul class="list-group">
+                    <vc:section-edit-content model="@item"></vc:section-edit-content>
+                </ul>
+            </div>
         }
-
     }
-
 }

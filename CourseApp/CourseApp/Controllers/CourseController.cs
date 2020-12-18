@@ -3,13 +3,10 @@ using CourseApp.Models;
 using CourseApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Linq;
 using AutoMapper;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseApp.Controllers
@@ -26,9 +23,7 @@ namespace CourseApp.Controllers
             _mapper = mapper;
         }
 
-      
-
-    [AllowAnonymous]
+        [AllowAnonymous]
         public IActionResult Index()
         {
             var model = _context.Courses.ToList();
@@ -64,6 +59,7 @@ namespace CourseApp.Controllers
                 }
             }
         }
+
         [HttpGet]
         public IActionResult Course(long id, long? parentid)
         {
@@ -82,15 +78,14 @@ namespace CourseApp.Controllers
                 return View(_mapper.Map<CourseVM>(model));
             }
         }
+
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Search(string search)
         {
-           
             var model = _context.Courses.Where(x => x.Name.Contains(search)).ToList();
             return View(_mapper.Map<ICollection<CourseVM>>(model));
         }
-
 
         [HttpGet]
         public IActionResult MyCourses(long id)
@@ -116,10 +111,8 @@ namespace CourseApp.Controllers
 
             if (_context.UserCourses.Where(x => x.CourseId == id && x.UserId == entity.UserId) != null)
             {
-
                 _context.Add(entity);
                 _context.SaveChanges();
-
             }
             return RedirectToAction(nameof(MyCourses));
         }
@@ -129,15 +122,15 @@ namespace CourseApp.Controllers
         {
             var model = _context.Courses.Where(x => x.AuthorId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             var entity = model.FirstOrDefault(x => x.Id == id);
-
             var usercourses = _context.UserCourses.Where(x => x.CourseId == id).ToList();
 
-            foreach(var uc in usercourses)
+            foreach (var uc in usercourses)
             {
                 _context.Remove(uc);
             }
 
-            if (entity != null) {
+            if (entity != null)
+            {
                 _context.Remove(entity);
                 _context.SaveChanges();
             }

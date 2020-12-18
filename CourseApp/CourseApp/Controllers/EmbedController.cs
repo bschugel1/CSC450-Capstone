@@ -5,11 +5,8 @@ using CourseApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace CourseApp.Controllers
 {
@@ -30,7 +27,9 @@ namespace CourseApp.Controllers
         public IActionResult UploadEmbed(EmbedVideoVM model)
         {
             var uri = model.URI;
+            // Allows support for varying types of Youtube URL and embed links
             string[] validAuthorities = { "https:\\/\\/www.youtube.com", "youtube.com", "www.youtube.com", "youtu.be", "www.youtu.be" };
+            // Matches for Youtube Id URI
             var YoutubeRegex = "(?:.+?)?(?:\\/v\\/|watch\\/|\\?v=|\\&v=|youtu\\.be\\/|\\/v=|^youtu\\.be\\/)([a-zA-Z0-9_-]{11})+";
             Regex regexExtractId = new Regex(YoutubeRegex, RegexOptions.Compiled);
             try
@@ -50,7 +49,7 @@ namespace CourseApp.Controllers
                     var entity = new EmbedModel
                     {
                         SectionId = model.Id,
-                        ResourceLink = model.URI                        
+                        ResourceLink = model.URI
                     };
                     _context.Add(entity);
                     _context.SaveChanges();
@@ -60,9 +59,8 @@ namespace CourseApp.Controllers
             catch
             {
                 return View();
-
             }
         }
     }
 }
-    
+

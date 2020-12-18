@@ -2,10 +2,7 @@
 using CourseApp.DAL;
 using CourseApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CourseApp.ViewComponents
@@ -28,7 +25,6 @@ namespace CourseApp.ViewComponents
         private async Task<CourseVM> GetItemsAsync(long courseId)
         {
             return _mapper.Map<CourseVM>(_context.Courses.FirstOrDefault(x => x.Id == courseId));
-
         }
     }
 }

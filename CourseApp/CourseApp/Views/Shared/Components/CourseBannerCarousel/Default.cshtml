@@ -1,21 +1,19 @@
 ﻿@model ICollection<FeaturedCourseVM>
+
 @using CourseApp.ViewComponents
 @using System;
 
-
 @{
-
     var title = Model.First().Feature;
     var titleTrimmed = String.Concat(title.Where(c => !Char.IsWhiteSpace(c)));
 }
+
 <div class="container-fluid">
     <h1 class="text-primary">@title</h1>
     <style>
-
         .carousel .carousel-item {
             height: 450px;
         }
-
         /* Make the image fully responsive */
         .carousel-inner {
             width: 100%;
@@ -33,7 +31,6 @@
         <div id="@titleTrimmed" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">
-
                 @{
                     var count = 1;
                 }
@@ -48,14 +45,11 @@
             </ol>
             @if (Model.Count > 0)
             {
-
                 var isFirst = true;
-
                 <div class="carousel-inner">
                     @foreach (var c in Model)
                     {
                         <!-- Wrapper for slides -->
-
                         @if (isFirst == true)
                         {
                             <div class="carousel-item active">
