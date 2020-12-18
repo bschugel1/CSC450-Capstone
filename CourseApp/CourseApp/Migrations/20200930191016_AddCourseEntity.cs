@@ -24,7 +24,6 @@ namespace CourseApp.Migrations
                     table.PrimaryKey("PK_Course", x => x.Id);
                 });
         }
-
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
