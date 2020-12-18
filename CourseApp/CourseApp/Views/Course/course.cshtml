@@ -8,8 +8,9 @@
 <head>
     <link rel="stylesheet" href="~/css/course-content.css" />
 </head>
-<h1>
-</h1>
+<div class="container-fluid">
+    <vc:course-view-banner course-id="Model.Id"></vc:course-view-banner>
+</div>
 <div class="container-fluid pb-5">
     <div class="container p-3">
         <div class="course-header">
@@ -22,9 +23,6 @@
             <div class="course-container">
                 <p>@Model.Description</p>
             </div>
-        </div>
-        <div class="container-fluid">
-            <vc:course-view-banner course-id="Model.Id"></vc:course-view-banner>
         </div>
     </div>
     <vc:course-view-sections max-priority="3" is-done="false" course-id="@Model.Id"></vc:course-view-sections>
