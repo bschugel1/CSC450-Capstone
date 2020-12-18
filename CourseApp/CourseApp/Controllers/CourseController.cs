@@ -114,7 +114,7 @@ namespace CourseApp.Controllers
                 CourseId = id
             };
 
-            if (_context.UserCourses.Where(x => x.CourseId == id && x.UserId == entity.UserId) == null)
+            if (_context.UserCourses.Where(x => x.CourseId == id && x.UserId == entity.UserId) != null)
             {
 
                 _context.Add(entity);
