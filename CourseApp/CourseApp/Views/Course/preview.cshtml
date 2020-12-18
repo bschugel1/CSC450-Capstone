@@ -18,11 +18,8 @@
             <p>@Model.Description</p>
         </div>
     </div>
-    <div class="container p-5">
-        <vc:course-view-banner course-id="@Model.Id"></vc:course-view-banner>
-    </div>
 </div>
-
+<div class="container p-3"><img class="d-block w-100 p-5" style="max-height: 500px;" src="@Url.Action("GetBannerImage", "Image", new { id = Model.Id })" /></div>
 @if (Model.PaymentRequired)
 {
     <div>
