@@ -6,6 +6,6 @@ namespace CourseApp.Models
     [Table("Role")]
     public class RoleModel : IdentityRole<long>
     {
-
+ 
     }
 }

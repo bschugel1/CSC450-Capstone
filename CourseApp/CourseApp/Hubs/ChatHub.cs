@@ -11,7 +11,6 @@ namespace SignalRChat.Hubs
             await Clients.All.SendAsync("ReceiveMessage", username, message);
         }
 
-
         public async Task AddToGroup(string groupName)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);  //Adds current connection id to the group indicated
@@ -24,7 +23,6 @@ namespace SignalRChat.Hubs
             string username = Context.User.Identity.Name;   //Retrieves current users username
             await Clients.Group(groupName).SendAsync("ReceiveMessageGroup", username, groupName, message);   //Sends message to specified group
         }
-
 
         public async Task RemoveFromGroup(string groupName)
         {

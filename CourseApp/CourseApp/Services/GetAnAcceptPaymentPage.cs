@@ -1,13 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AuthorizeNet.Api.Contracts.V1;
 using AuthorizeNet.Api.Controllers;
 using AuthorizeNet.Api.Controllers.Bases;
 using CourseApp.Models;
-using CourseApp.Models.Configuration;
+using CourseApp.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using CourseApp.Helpers;
 

@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
 using CourseApp.DAL;
-using CourseApp.Models;
 using CourseApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CourseApp.ViewComponents
@@ -32,7 +28,6 @@ namespace CourseApp.ViewComponents
                 Id = entity.Id,
                 Users = userCourses.ToList()
             };
-
             return View(model);
         }
     }

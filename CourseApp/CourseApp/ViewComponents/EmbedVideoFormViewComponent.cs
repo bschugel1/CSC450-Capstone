@@ -1,9 +1,5 @@
 ﻿using CourseApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CourseApp.ViewComponents
@@ -14,7 +10,6 @@ namespace CourseApp.ViewComponents
         {
             var model = new EmbedVideoVM
             {
-
                 Id = id,
                 CourseId = courseId,
                 ParentSectionId  = parentId

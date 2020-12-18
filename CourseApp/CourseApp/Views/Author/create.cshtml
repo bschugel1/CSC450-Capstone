@@ -4,12 +4,10 @@
 @using Newtonsoft.Json;
 
 @{
-
     var currentPrice = ViewData["currentPrice"] as decimal?;
-
-
     currentPrice = Model.Price;
 }
+
 <div class="container">
     <div asp-validation-summary="All"></div>
     <form asp-action="create" name="create" method="post">
@@ -43,13 +41,11 @@
                             var path = System.IO.Path.Combine(dir, "wwwroot/json/course-subjects.json");
                             var subjectListString = File.ReadAllText(path);
                             var subjectList = JsonConvert.DeserializeObject<SubjectListVM>(subjectListString);
-
                         }
                         @foreach (var subject in subjectList.Subjects)
                         {
                             <option value="@subject.Name">@subject.Name</option>
-                        }
-                        }
+                        }                        
                     </select>
                 </div>
             </div>
@@ -68,7 +64,7 @@
                 <strong><label asp-for="PaymentRequired"></label></strong>
             </div>
             <div class="col-sm-5">
-                <input type="checkbox"  onchange="onChecked()" asp-for="PaymentRequired" class="form-check-input" id="paymentrequired">
+                <input type="checkbox" onchange="onChecked()" asp-for="PaymentRequired" class="form-check-input" id="paymentrequired">
                 <label class="form-check-label" for="price-control">Paid Course</label>
                 <span asp-validation-for="PaymentRequired"></span>
             </div>
@@ -88,16 +84,11 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
-            <div class="alert-info" id="alert" style="display:block">
-                <p>This course will be registered as a free course. This cannot be changed later!</p>
-            </div>
+        <div class="alert-info" id="alert" style="display:block">
+            <p>This course will be registered as a free course. This cannot be changed later!</p>
+        </div>
     </form>
 </div>
-
-@{
-
-
-}
 
 @section Scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>

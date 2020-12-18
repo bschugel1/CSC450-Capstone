@@ -11,8 +11,6 @@ using CourseApp.DAL;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace CourseApp.Controllers
 {
     [Authorize]
@@ -43,7 +41,6 @@ namespace CourseApp.Controllers
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
-
             return View();
         }
 
@@ -54,7 +51,7 @@ namespace CourseApp.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
-            
+
             var user = _mapper.Map<UserModel>(model);
             var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -64,13 +61,9 @@ namespace CourseApp.Controllers
                 {
                     ModelState.TryAddModelError(error.Code, error.Description);
                 }
-
                 return View(model);
             }
-
-            // await _userManager.AddToRoleAsync(user, "Guest");
-
-            return RedirectToAction(nameof(HomeController.Index), "Home");            
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpGet]
@@ -80,7 +73,6 @@ namespace CourseApp.Controllers
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
-
             return View();
         }
 
@@ -91,27 +83,25 @@ namespace CourseApp.Controllers
             {
                 var user = await _userManager.GetUserAsync(User);
 
-                if(user == null)
+                if (user == null)
                 {
                     return RedirectToAction("Login");
                 }
 
                 var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
 
-                if(!result.Succeeded)
+                if (!result.Succeeded)
                 {
-                    foreach(var error in result.Errors)
+                    foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
 
                     return View();
                 }
-
                 await _signInManager.RefreshSignInAsync(user);
                 return View("ResetPasswordConfirmation");
             }
-
             return View(model);
         }
 
@@ -139,16 +129,16 @@ namespace CourseApp.Controllers
                     return View(model);
                 }
                 var result = await _signInManager.PasswordSignInAsync(signedUser.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-              
+
                 if (result.Succeeded)
                 {
-                   _logger.LogInformation(1, "User logged in.");
+                    _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
-                }           
+                }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    
+
                     return View(model);
                 }
             }
@@ -160,7 +150,7 @@ namespace CourseApp.Controllers
         {
             await _signInManager.SignOutAsync();
 
-            if(returnUrl == null)
+            if (returnUrl == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -198,10 +188,10 @@ namespace CourseApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordVM model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                if(user != null && await _userManager.IsEmailConfirmedAsync(user))
+                if (user != null && await _userManager.IsEmailConfirmedAsync(user))
                 {
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
@@ -225,7 +215,6 @@ namespace CourseApp.Controllers
             return View();
         }
 
-
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -244,7 +233,7 @@ namespace CourseApp.Controllers
             // Fetch the userprofile
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            if(user == null)
+            if (user == null)
             {
                 return View("EditFailure");
             }
@@ -262,6 +251,7 @@ namespace CourseApp.Controllers
         public async Task<IActionResult> Edit(AccountEditVM model)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
+
             string uniqueFileName = UploadedFile(model);
 
             if (user == null)
@@ -308,6 +298,5 @@ namespace CourseApp.Controllers
             }
             return uniqueFileName;
         }
-
     }
 }
